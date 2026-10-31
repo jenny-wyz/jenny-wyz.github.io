@@ -54,6 +54,7 @@
     {
       "added": "2026-09-01",
       "author": "Agatha Christie",
+      "body": "- And then there were none\n\n- Death on the nile\n\n- Murder on the orient express\n\n- the murder of roger ackroyd\n\n- the abc murders\n\n- five little pigs\n\n- evil under the sun\n\n- a murder is announced\n\n- the murder on the links\n\n- the big four\n\n- peril at the house\n\n- death in the clouds\n\n- the mysterious affair at styles\n\n- three act tragedy\n\n- after the funeral\n\n- elephants can remember\n\n- appointment with death\n\n- hercule poirot’s christmas\n\n- hickory dickory dock\n\n- …",
       "categories": [
         "Fiction"
       ],
@@ -606,6 +607,7 @@
     {
       "added": "2026-09-01",
       "author": "Arthur Conan Doyle",
+      "body": "- …",
       "categories": [
         "Fiction"
       ],
@@ -785,7 +787,13 @@
       "completed": null,
       "id": "21def088fb8b81d0a14bd837260e2376",
       "lang": "en",
-      "notes": [],
+      "notes": [
+        {
+          "created": "2025-06-25",
+          "text": "Favorite Quote:\n\n> “…”",
+          "title": "Notes & Thoughts"
+        }
+      ],
       "rating": null,
       "review": "",
       "started": null,
@@ -1043,7 +1051,13 @@
       "completed": null,
       "id": "3ceef088fb8b80abbbfedf4e0f981163",
       "lang": "en",
-      "notes": [],
+      "notes": [
+        {
+          "created": "2025-06-25",
+          "text": "some parts are so poignant it stings\n\nbut so depressing and hopeless\n\nlowkey pollutes my brain",
+          "title": "Notes & Thoughts"
+        }
+      ],
       "rating": null,
       "review": "",
       "started": "2026-08-30",
@@ -1328,6 +1342,7 @@
     {
       "added": "2026-09-01",
       "author": "沈石溪",
+      "body": "- 狼王梦\n\n- 残狼灰满\n\n- 双面猎犬\n\n- 混血豺王\n\n- 雪豹悲歌\n\n- 最后一头战象\n\n- 雄狮去流浪\n\n- 红飘带狮王\n\n- 黑天鹅紫水晶\n\n- 野犬女皇\n\n- 一只猎雕的遭遇\n\n- …",
       "categories": [
         "Fiction"
       ],
