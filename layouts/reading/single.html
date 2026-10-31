@@ -1,0 +1,54 @@
+{{ define "main" }}
+  {{/*
+    A page in content/reading/ that writes about one book. Set `book: <id>`
+    in its front matter (the id from data/books.json) and the book's cover,
+    author, status and dates appear above the text automatically.
+  */}}
+  {{ .Scratch.Set "scope" "single" }}
+  {{ $css := resources.Get "css/reading.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+  {{ $book := dict }}
+  {{ with .Params.book }}
+    {{ $id := lower . }}
+    {{ range partial "reading/books.html" $ }}
+      {{ if eq (lower .id) $id }}{{ $book = . }}{{ end }}
+    {{ end }}
+  {{ end }}
+  <article class="rd">
+    <header id="single_header" class="mt-5 max-w-prose">
+      {{ if .Params.showBreadcrumbs | default (site.Params.article.showBreadcrumbs | default false) }}
+        {{ partial "breadcrumbs.html" . }}
+      {{ end }}
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title | emojify }}</h1>
+      <div class="mt-1 mb-6 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+        {{ partial "article-meta/basic.html" (dict "context" . "scope" "single") }}
+      </div>
+    </header>
+    {{ with $book }}
+      <div class="rd-book-head max-w-prose">
+        {{ partial "reading/cover.html" (dict "book" . "size" "lg") }}
+        <div style="min-width:0">
+          <p class="rd-panel-title">{{ .title }}</p>
+          {{ with .author }}<p class="rd-panel-author">{{ . }}</p>{{ end }}
+          <span class="rd-status rd-s-{{ .status | urlize }}"><span class="rd-dot"></span>{{ .status }}</span>
+          {{ with .rating }}<div class="rd-stars rd-stars-lg" style="margin-top:.4rem">{{ strings.Repeat . "★" }}{{ strings.Repeat (sub 5 .) "☆" }}</div>{{ end }}
+          <dl class="rd-meta">
+            {{ with .categories }}<dt>Category</dt><dd><span class="rd-cats">{{ range . }}<span class="rd-cat">{{ . }}</span>{{ end }}</span></dd>{{ end }}
+            {{ with .started }}<dt>Started</dt><dd>{{ dateFormat "January 2006" . }}</dd>{{ end }}
+            {{ with .completed }}<dt>Finished</dt><dd>{{ dateFormat "January 2006" . }}</dd>{{ end }}
+          </dl>
+          {{ with .review }}<p class="rd-review">{{ . }}</p>{{ end }}
+        </div>
+      </div>
+    {{ end }}
+    <section class="flex flex-col max-w-full mt-0 prose dark:prose-invert">
+      <div class="article-content max-w-prose mb-20">
+        {{ .Content }}
+      </div>
+    </section>
+    <footer class="pt-8 max-w-prose print:hidden">
+      <a href="{{ .Parent.RelPermalink }}{{ with $book }}?book={{ .id }}{{ end }}" class="rd-link">&larr; Back to the shelf</a>
+      {{ partial "article-pagination.html" . }}
+    </footer>
+  </article>
+{{ end }}

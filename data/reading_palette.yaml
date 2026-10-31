@@ -1,0 +1,18 @@
+# Hue (0-360) used for a book's typographic spine when it has no cover image.
+# The first category of the book that appears here decides; unknown categories
+# get a hue derived from the book id. Edit freely; the site rebuilds the spines.
+categories:
+  Classic Literature: 345
+  Fiction: 22
+  Philosophy: 262
+  History: 38
+  Self-improvement: 152
+  Spirituality: 188
+  Sociology: 212
+  Psychology: 285
+  Personal Essays: 322
+  Memoir: 12
+  Science: 200
+  Business & Money: 62
+  Poetry: 305
+default: 230

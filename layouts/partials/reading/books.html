@@ -1,0 +1,39 @@
+{{- /*
+  Returns the book list from data/books.json, enriched for rendering:
+    cover  : URL of a resized cover image, when covers are enabled and a file exists
+    page   : URL of a content page in the reading section that writes about this book
+             (a page with `book: <id>` in its front matter)
+  Call with the section page as context: partial "reading/books.html" .
+*/ -}}
+{{- $showCovers := site.Params.reading.covers | default false -}}
+{{- $pagesByBook := dict -}}
+{{- with site.GetPage "reading" -}}
+  {{- range .RegularPagesRecursive -}}
+    {{- $p := . -}}
+    {{- with .Params.book -}}
+      {{- $pagesByBook = merge $pagesByBook (dict (lower .) $p.RelPermalink) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $books := slice -}}
+{{- range hugo.Data.books.books -}}
+  {{- $b := . -}}
+  {{- $cover := "" -}}
+  {{- if $showCovers -}}
+    {{- with resources.Get (printf "covers/%s.jpg" $b.id) -}}
+      {{- $cover = (.Fit "320x480 q85").RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $page := index $pagesByBook (lower $b.id) | default "" -}}
+  {{- /* spine colour: hue from the first known category, tone from the id */ -}}
+  {{- $palette := hugo.Data.reading_palette -}}
+  {{- $hue := -1 -}}
+  {{- range $b.categories -}}
+    {{- if and (lt $hue 0) (isset $palette.categories .) -}}{{- $hue = index $palette.categories . -}}{{- end -}}
+  {{- end -}}
+  {{- $hash := hash.FNV32a $b.id -}}
+  {{- if lt $hue 0 -}}{{- $hue = mod $hash 360 -}}{{- end -}}
+  {{- $tone := mod (div $hash 7) 5 -}}
+  {{- $books = $books | append (merge $b (dict "cover" $cover "page" $page "hue" $hue "tone" $tone)) -}}
+{{- end -}}
+{{- return $books -}}

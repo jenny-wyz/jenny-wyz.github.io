@@ -27,6 +27,15 @@ smartTOC = true
 
 fingerprintAlgorithm = "sha512"
 
+[reading]
+  # The Reading section is driven by data/books.json (synced from Notion by
+  # scripts/sync_books.py). Covers live in assets/covers/<id>.jpg when
+  # scripts/fetch_covers.py has found them. Set covers = false to show the
+  # typographic spines for every book even if cover files exist.
+  covers = true
+  # Books per page in the Shelf and List views before "Show more" appears.
+  pageSize = 48
+
 [header]
   layout = "fixed-fill-blur" # valid options: basic, fixed, fixed-fill, fixed-gradient, fixed-fill-blur, floating
 

@@ -1,0 +1,101 @@
+# Nightly sync of the Reading section from Notion.
+#
+# Reads "Jernier's List" and "Jernier's Notes" and rewrites data/books.json.
+# When anything changed, commits the data (and any new covers) and starts the
+# Pages deploy workflow so the site updates.
+#
+# One-time setup in the repository:
+#   Settings > Secrets and variables > Actions
+#     Secret   NOTION_TOKEN  = the integration token from notion.so/profile/integrations
+#     Variable COVERS        = "true" to fetch covers from Open Library, "false" to skip
+#   (the Notion integration must be given access to the "Jernier reads" page)
+#
+# Run it by hand from the Actions tab ("Run workflow"); the "covers" input there
+# overrides the COVERS variable for that one run.
+name: Sync reading list from Notion
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # daily, 03:17 UTC (04:17 / 05:17 Zurich)
+  workflow_dispatch:
+    inputs:
+      covers:
+        description: "Fetch covers from Open Library (true/false; default: COVERS variable)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: "sync-books"
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run tests
+        run: |
+          python3 -I scripts/test_sync_books.py
+          python3 -I scripts/test_fetch_covers.py
+
+      - name: Sync books from Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          if [ -z "$NOTION_TOKEN" ]; then
+            echo "::error::NOTION_TOKEN secret is not set (Settings > Secrets and variables > Actions)"
+            exit 1
+          fi
+          python3 scripts/sync_books.py --verbose
+
+      - name: Decide whether to fetch covers
+        id: covers
+        env:
+          INPUT: ${{ github.event.inputs.covers }}
+          VAR: ${{ vars.COVERS }}
+        run: |
+          v="${INPUT:-$VAR}"
+          v="$(echo "${v:-true}" | tr '[:upper:]' '[:lower:]')"
+          echo "enabled=$([ "$v" = "true" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          echo "covers: $v"
+
+      - name: Fetch covers
+        if: steps.covers.outputs.enabled == 'true'
+        run: |
+          pip install --quiet pillow
+          python3 scripts/fetch_covers.py --verbose
+
+      - name: Commit and push changes
+        id: commit
+        run: |
+          git add -A -- data assets/covers
+          if git diff --cached --quiet; then
+            echo "No changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          n=$(python3 -c "import json;print(len(json.load(open('data/books.json'))['books']))")
+          git commit -m "Sync reading list from Notion ($n books)"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy the site
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run hugo.yaml --ref main

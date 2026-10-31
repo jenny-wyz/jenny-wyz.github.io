@@ -24,7 +24,7 @@
           {{- end }}{{ end }}
           <span class="text-xl font-bold text-neutral-800 dark:text-neutral-100">{{ $name }}</span>
           <span class="ms-auto rounded-full px-2 py-0.5 text-xs font-medium" style="background: rgba({{ $accent }}, 0.18); color: rgb({{ $accent }});">
-            {{ len .RegularPagesRecursive }}
+            {{ if eq $key "reading" }}{{ len hugo.Data.books.books }}{{ else }}{{ len .RegularPagesRecursive }}{{ end }}
           </span>
         </div>
         {{- with $theme }}{{ with .tagline }}

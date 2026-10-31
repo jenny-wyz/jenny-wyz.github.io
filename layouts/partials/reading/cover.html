@@ -1,0 +1,18 @@
+{{- /*
+  Renders a book cover: the image when one exists, otherwise a typographic spine.
+  Args: book (enriched book dict), size ("sm" | "md" | "lg")
+  The JavaScript in assets/js/reading.js produces the same markup for its views,
+  so keep the two in step.
+*/ -}}
+{{- $b := .book -}}
+{{- $size := .size | default "md" -}}
+<span class="rd-cover rd-cover-{{ $size }}" style="--hue: {{ $b.hue }}; --tone: {{ $b.tone }}">
+  {{- if $b.cover -}}
+    <img src="{{ $b.cover }}" alt="" loading="lazy" decoding="async">
+  {{- else -}}
+    <span class="rd-spine{{ if eq $b.lang "zh" }} rd-spine-zh{{ end }}{{ if $b.collection }} rd-spine-collection{{ end }}">
+      <span class="rd-spine-title">{{ $b.title }}</span>
+      {{- with $b.author }}<span class="rd-spine-author">{{ . }}</span>{{ end -}}
+    </span>
+  {{- end -}}
+</span>

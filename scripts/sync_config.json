@@ -1,0 +1,32 @@
+{
+  "_comment": "Notion sources for the Reading section. IDs are not secrets; the integration token is (NOTION_TOKEN env var / GitHub secret).",
+  "books": {
+    "database_id": "21def088fb8b81638847d5df725945c7",
+    "data_source_id": "21def088-fb8b-81f5-a168-000b39e6b4f2"
+  },
+  "notes": {
+    "database_id": "21def088fb8b819ba0a6f49cf341136a",
+    "data_source_id": "21def088-fb8b-8172-a661-000b1054fb63"
+  },
+  "properties": {
+    "_comment": "Property names as they appear in Notion. Change here if you rename a column.",
+    "books": {
+      "title": "Title",
+      "author": "Author",
+      "status": "Status",
+      "rating": "Rating",
+      "categories": "Category",
+      "started": "Date Started",
+      "completed": "Date completed",
+      "review": "Review",
+      "private": "Private"
+    },
+    "notes": {
+      "title": "Name",
+      "book": "Name of book",
+      "text": "Thoughts & Notes"
+    }
+  },
+  "output": "data/books.json",
+  "fetch_page_bodies": true
+}

@@ -11,7 +11,7 @@ Everything is a Markdown file under `content/`:
 | Journal | `content/journal/` | name files `YYYY-MM-DD-title.md` to keep them sorted |
 | Memoir | `content/memoir/` | chapters carry `series: ["Memoir"]` and a `series_order` |
 | Brain dump | `content/braindump/` | |
-| Reading list | `content/reading/` | one page per book; author, year, status in front matter |
+| Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |
 | Recipes | `content/recipes/` | |
 | Notes | `content/notes/<subject>/` | subjects are subfolders: music, tech, literature, philosophy, history, biology |
 
@@ -30,6 +30,27 @@ draft: true          # remove this line to publish
 `hugo new journal/2026-11-01-a-title.md` creates a file from the template in `archetypes/`.
 
 Pages may contain Chinese, German or any other language; nothing else needs changing.
+
+## Reading section (synced from Notion)
+
+The Reading page is not made of Markdown files. It is an interactive shelf built from `data/books.json`, which `scripts/sync_books.py` generates from the Notion databases **Jernier's List** and **Jernier's Notes**. Keep logging books in Notion; the site follows.
+
+How it runs: `.github/workflows/sync-books.yaml` executes every night (03:17 UTC) and on demand from the Actions tab. It writes `data/books.json`, optionally fetches covers, commits only when something changed, and then triggers the Pages deploy.
+
+One-time setup:
+
+1. Create an integration at https://www.notion.so/profile/integrations (type: internal, read content capability is enough). Copy its token.
+2. In Notion, open the **Jernier reads** page, click `...` (top right) > **Connections** > add the integration. This gives it access to both databases on that page.
+3. In this repo: **Settings > Secrets and variables > Actions**. Add a secret `NOTION_TOKEN` with the token, and (optional) a variable `COVERS` set to `true` or `false`.
+4. Run the workflow once by hand from the **Actions** tab to confirm it works.
+
+Covers: `scripts/fetch_covers.py` looks each book up on Open Library and stores a small JPEG in `assets/covers/<id>.jpg`, with a cache in `data/covers.json` so each book is looked up once. Books without a confident match (most Chinese titles, and collections) get a typographic spine colored by category (`data/reading_palette.yaml`). Two switches: the `COVERS` variable decides whether covers are fetched; `params.reading.covers` in `config/_default/params.toml` decides whether they are shown.
+
+Safety: the sync never empties the site. If Notion is unreachable or returns far fewer books than before, the script exits with an error and the old data stays. Add a checkbox column named **Private** to the Notion list and tick it on any book you want kept off the site.
+
+Writing about a book at length: create a page in `content/reading/` with `book: <id>` in the front matter (the id is the `?book=` value in the URL when the book's panel is open on the shelf). The page gets the book's cover and metadata header, and the shelf links to it.
+
+Local run of the sync (needs the token): `NOTION_TOKEN=... python3 scripts/sync_books.py`. Tests: `python3 -I scripts/test_sync_books.py`.
 
 ## Previewing locally
 

@@ -1,0 +1,1536 @@
+{
+  "books": [
+    {
+      "added": "2026-09-01",
+      "author": "George Orwell",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8092a2f7d3a9a3783f63",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "1984"
+    },
+    {
+      "added": "2026-09-28",
+      "author": "Stephen Hawking",
+      "categories": [
+        "Science"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3e9ef088fb8b801199d2dc104f354ad2",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "A Brief History of Time"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Edgar Allan Poe",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b80d19a0cff608bb11fb3",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "A Cask of Amontillado"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Agatha Christie",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": true,
+      "completed": null,
+      "id": "3ceef088fb8b80f0a27ccb0479f70fdf",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Agatha Christie"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "George Orwell",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8038a2a7c5fe14921b75",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Animal Farm"
+    },
+    {
+      "added": "2026-10-14",
+      "author": "Martin Heidegger",
+      "categories": [],
+      "collection": false,
+      "completed": null,
+      "id": "3f9ef088fb8b808cb2c3eabc3fe2634e",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Reading",
+      "title": "Being and Time"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Atul Gawande",
+      "categories": [
+        "Sociology",
+        "Spirituality"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b801ab814d2ae8ac4ed20",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Being Mortal"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Aldous Huxley",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8079a145f25d54623390",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Brave New World"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Jack London",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b802eb192f412ee1ecc28",
+      "lang": "en",
+      "notes": [],
+      "rating": 5,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Call of the Wild"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Pete Walker",
+      "categories": [
+        "Psychology",
+        "Self-improvement"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80c792b5ce7874e0aa69",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Paused",
+      "title": "Complex PTSD"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Dostoevsky",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b81aea413ddcea0266cac",
+      "lang": "en",
+      "notes": [],
+      "rating": 5,
+      "review": "Great",
+      "started": null,
+      "status": "Completed",
+      "title": "Crime and Punishment"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Oscar Wilde",
+      "categories": [
+        "Personal Essays"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b80a58f1ddcd7d47289be",
+      "lang": "en",
+      "notes": [],
+      "rating": 3,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "De Profundis"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "James Joyce",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80a6b315f4c4cb6214aa",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Reading",
+      "title": "Dubliners"
+    },
+    {
+      "added": "2026-09-10",
+      "author": "Daniel Goleman",
+      "categories": [
+        "Self-improvement"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3d7ef088fb8b80838f1af302843f628c",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Reading",
+      "title": "Emotional Intelligence"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Irvin D. Yalom",
+      "categories": [
+        "Psychology"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80ebad37ed2b7cda005c",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Paused",
+      "title": "Existential Psychotherapy"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Goethe",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8086b49ec4e1efe0fd63",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Faust"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Mary Shelley",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b801385b9e275fb1c8ce9",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Frankenstein"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Jonathan Swift",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80d0aa20ebc32fe022c7",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Gulliver’s Travels"
+    },
+    {
+      "added": "2026-09-28",
+      "author": "Douglas Hofstadter",
+      "categories": [
+        "Science"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3e9ef088fb8b8058802cc243dedaeaf7",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Gödel, Escher, Bach"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "William Shakespeare",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80eb9b75fb8fd722842a",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Hamlet"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b8004b63be55f91931fdd",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Holy Bible"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Charlotte Brontë",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80eaa4ebe0fe7cecfc99",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Jane Eyre"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Hermann Hesse",
+      "categories": [
+        "Fiction",
+        "Memoir"
+      ],
+      "collection": false,
+      "completed": "2026-08-30",
+      "id": "3ceef088fb8b80bf841fe7b72625454a",
+      "lang": "en",
+      "notes": [
+        {
+          "created": "2025-06-25",
+          "text": "tremendous passion for life\n\na book like a vibrant oil painting\n\nesp the way he describes colours\n\nlike on mdma\n\nraw unfiltered senses and desires",
+          "title": "Notes & Thoughts"
+        }
+      ],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Klingsor’s Last Summer"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "William Shakespeare",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80bd9ad2d5c1aab93420",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Macbeth"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Marcus Aurelius",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b80d0976edf0cec06b48c",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Meditations"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Franz Kafka",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8089af4af5aefb109eea",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Metamorphosis"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Herman Melville",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80b3a72bd27982530117",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Moby Dick"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Hermann Hesse",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b817696b1d2a8a5f39fd0",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Narcissus and Goldmund"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Marshall Rosenberg",
+      "categories": [
+        "Self-improvement"
+      ],
+      "collection": false,
+      "completed": "2026-06-12",
+      "id": "21def088fb8b81bd8cd7f4b8403627f0",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Nonviolent Communication"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Dostoevsky",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b8197bc5cfe7f6a59ac9e",
+      "lang": "en",
+      "notes": [],
+      "rating": 5,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Notes from Underground"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "William Somerset Maugham",
+      "categories": [
+        "Classic Literature",
+        "Memoir"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80c28330f4cdf6453528",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": "2026-09-01",
+      "status": "Reading",
+      "title": "Of Human Bondage"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Charles Dickens",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b80c39ffbd4b08cc2f790",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Oliver Twist"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Gabriel García Márquez",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b805ba5dddf6c5ac1bff1",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "One Hundred Years of Solitude"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Plato",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b80c8ad05faf0e65cb5ee",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Republic"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "William Shakespeare",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b807b8563c95cbb9093b5",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Romeo and Juliet"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Arthur Conan Doyle",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": true,
+      "completed": null,
+      "id": "3ceef088fb8b805baf5ed974c2446321",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Sherlock Holmes"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Hermann Hesse",
+      "categories": [
+        "Fiction",
+        "Spirituality"
+      ],
+      "collection": false,
+      "completed": "2025-04-23",
+      "id": "21def088fb8b81769353de32a64801b2",
+      "lang": "en",
+      "notes": [],
+      "rating": 5,
+      "review": "Very inspiring",
+      "started": null,
+      "status": "Completed",
+      "title": "Siddhartha"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Jostein Gaarder",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80528f55fc83a7c80c2c",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Sophie’s World"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Hermann Hesse",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b800684fef965dbc9a3c8",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Steppenwolf"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Rabindranath Tagore",
+      "categories": [
+        "Poetry"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80b5afe9f2aacfba15c6",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Stray Birds"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Mark Twain",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b80fdbb5ae73dfcb8f8cc",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Adventures of Tom Sawyer"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Eric Jorgenson",
+      "categories": [
+        "Business & Money",
+        "Self-improvement"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80988503d2af4ceaf3fe",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Paused",
+      "title": "The Almanack of Naval Ravikant"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Dostoevsky",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b81929e4ada4643a0cee9",
+      "lang": "en",
+      "notes": [],
+      "rating": 5,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Brothers Karamazov"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Karl Marx, Freidrich Engels",
+      "categories": [
+        "Sociology"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8085b8e1cefe065d4f54",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Communist Manifesto"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Tolstoy",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b81368f53fdbcc82da2a8",
+      "lang": "en",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Death of Ivan Ilych"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Dostoevsky",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b81d0a14bd837260e2376",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "The Devil"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Dostoevsky",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b807eb61ed257bd00fefc",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Gambler"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "F. Scott Fitzgerald",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b805da9d2c2bbda507abb",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Great Gatsby"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Margaret Atwood",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8034a53cdc19c9636051",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Handmaid’s Tale"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Dostoevsky",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b8194a972caba32071106",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Paused",
+      "title": "The Idiot"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Raymond Chandler",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80b2824bcb71d6a778b1",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Long Goodbye"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "William Shakespeare",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b805faa68ec0dcbce523d",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Merchant of Venice"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "William Somerset Maugham",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": "2025-06-24",
+      "id": "21def088fb8b8106a76ecce7a3839bdd",
+      "lang": "en",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Moon and Sixpence"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Albert Camus",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b805c8c8cd7b9e49e1506",
+      "lang": "en",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Myth of Sisyphus"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Oscar Wilde",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b806bb5f4c03256a262fc",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Nightingale and the Rose"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Ernest Hemingway",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8058aaf8feb0653316e8",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Old Man and the Sea"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Albert Camus",
+      "categories": [
+        "Fiction",
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b80929d82d624a0176139",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Outsider"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Albert Camus",
+      "categories": [
+        "Fiction",
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b8091b69dd79e9e19978b",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "The Plague"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Oscar Wilde",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b8036a243c82b1ecd102f",
+      "lang": "en",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Portrait of Dorian Gray"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Eckhart Tolle",
+      "categories": [
+        "Self-improvement",
+        "Spirituality"
+      ],
+      "collection": false,
+      "completed": "2026-06-12",
+      "id": "21def088fb8b801fb4f4fc5b50ffb5f8",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Power of Now"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Simone de Beauvoir",
+      "categories": [
+        "Sociology"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80abbbfedf4e0f981163",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": "2026-08-30",
+      "status": "Paused",
+      "title": "The Second Sex"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Goethe",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b802abfa4da30900d39a0",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "The Sorrows of Young Werther"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Nietzsche",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": "2026-09-02",
+      "id": "3ceef088fb8b80d2b7fcf4fa3217b8b0",
+      "lang": "en",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Thus Spoke Zarathustra"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Harper Lee",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b800bb170d32aa8d2d646",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "To Kill a Mockingbird"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "James Joyce",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b803ba30dc37f40de9caa",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Ulysses"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Henry David Thoreau",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80c5a64fd3b8d6922daf",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "Walden"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Irvin D. Yalom",
+      "categories": [
+        "Fiction",
+        "Psychology"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b800187defaea2bbcc8f1",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Reading",
+      "title": "When Nietzsche Wept"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Jack London",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80dd8f56c05439c871a0",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "White Fang"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "Dostoevsky",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b80f58a66edc25f48c382",
+      "lang": "en",
+      "notes": [],
+      "rating": 1,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "White Nights"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "刘慈欣",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b80c3bed4cfaf49dd30c4",
+      "lang": "zh",
+      "notes": [],
+      "rating": 5,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "三体"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "太宰治",
+      "categories": [
+        "Fiction",
+        "Memoir"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b8053a1decf0d09a29730",
+      "lang": "zh",
+      "notes": [],
+      "rating": 2,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "人间失格"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "上野千鹤子",
+      "categories": [
+        "Sociology"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b809fbd8fd705370f6d1c",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "厌女"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "东野圭吾",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8040885af7c264f8d5df",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "嫌疑人X的献身"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "东野圭吾",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8084b501dd1f2ac433cd",
+      "lang": "zh",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "恶意"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "史铁生",
+      "categories": [
+        "Personal Essays"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b80108dfbf0554bcbb7a8",
+      "lang": "zh",
+      "notes": [],
+      "rating": 5,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "我与地坛"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "当年明月",
+      "categories": [
+        "Fiction",
+        "History"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b807bbcb2f915bb668d43",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "明朝那些事"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "东野圭吾",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b807eb148fa9858806e93",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "梦幻花"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "沈石溪",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": true,
+      "completed": null,
+      "id": "3ceef088fb8b80be9b9bf3450041e364",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "沈石溪"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "余华",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b80fe9be4e419fdf20e72",
+      "lang": "zh",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "活着"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "海子",
+      "categories": [
+        "Poetry"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b801f92c8fd9250f5bca2",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "海子的诗"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "鲁迅",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80a198e1f0600bf40bd3",
+      "lang": "zh",
+      "notes": [],
+      "rating": 5,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "狂人日记"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "艾琳·亨特",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80a591e2f5c5f4ab9c46",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "猫武士 - 系列"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "东野圭吾",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8038b012e3aa6e407c36",
+      "lang": "zh",
+      "notes": [],
+      "rating": 3,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "白夜行"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "叶真中显",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b80f389e6e1ef3b5d8c76",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "绝叫"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "苏轼",
+      "categories": [
+        "Poetry"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b806a9236fb086236b36b",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Paused",
+      "title": "苏轼诗集"
+    },
+    {
+      "added": "2025-06-25",
+      "author": "岸见一郎",
+      "categories": [
+        "Self-improvement",
+        "Spirituality"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b81b1be51d34898e5d283",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Paused",
+      "title": "被讨厌的勇气"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "东野圭吾",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b807986c9cb368667e17e",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "解忧杂货店"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "老子",
+      "categories": [
+        "Philosophy",
+        "Sociology",
+        "Spirituality"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b80918863c18cd1d4e2f1",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "道德经"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "周树人",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b80649b1bc9e448948ace",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "阿Q正传"
+    }
+  ]
+}
