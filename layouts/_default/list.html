@@ -1,0 +1,81 @@
+{{ define "main" }}
+  {{/*
+    Site override of Blowfish's list template.
+    Difference from the theme: if a section has subsections (like Notes with
+    its subjects), they are shown first as a card grid, and the article list
+    below then includes entries from all of them, newest first.
+  */}}
+  {{ .Scratch.Set "scope" "list" }}
+
+  <header>
+    {{ if .Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}
+      {{ partial "breadcrumbs.html" . }}
+    {{ end }}
+    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      {{ .Title | emojify }}
+    </h1>
+    <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
+    </div>
+  </header>
+
+  <section class="mt-0 prose flex max-w-full flex-col dark:prose-invert lg:flex-row mb-6">
+    <div class="min-w-0 min-h-0 max-w-prose w-full">
+      {{ .Content }}
+    </div>
+  </section>
+
+  {{ $subs := .Sections }}
+  {{ $pages := .RegularPages }}
+  {{ if gt (len $subs) 0 }}
+    {{ $pages = .RegularPagesRecursive }}
+    <section class="not-prose mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {{ range $subs.ByTitle }}
+        <a href="{{ .RelPermalink }}"
+           class="flex flex-col gap-1 rounded-xl border p-4 no-underline transition-transform hover:-translate-y-0.5"
+           style="border-color: rgba(var(--color-primary-500), 0.35); background: linear-gradient(135deg, rgba(var(--color-primary-500), 0.16), rgba(var(--color-primary-500), 0.04));">
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold text-neutral-800 dark:text-neutral-100">{{ .Title }}</span>
+            <span class="ms-auto rounded-full px-2 py-0.5 text-xs font-medium"
+                  style="background: rgba(var(--color-primary-500), 0.18); color: rgb(var(--color-primary-400));">
+              {{ len .RegularPagesRecursive }}
+            </span>
+          </div>
+          {{ with .Description }}
+            <p class="text-sm text-neutral-600 dark:text-neutral-300">{{ . }}</p>
+          {{ end }}
+        </a>
+      {{ end }}
+    </section>
+  {{ end }}
+
+  {{ if gt (len $pages) 0 }}
+    {{ $groupByYear := .Params.groupByYear | default (site.Params.list.groupByYear | default false) }}
+    {{ $orderByWeight := .Params.orderByWeight | default (site.Params.list.orderByWeight | default false) }}
+    <section class="space-y-10 w-full">
+      {{ if $orderByWeight }}
+        {{ range (.Paginate ($pages.ByWeight)).Pages }}
+          {{ partial "article-link/simple.html" . }}
+        {{ end }}
+      {{ else }}
+        {{ range (.Paginate ($pages.GroupByDate "2006")).PageGroups }}
+          {{ if $groupByYear }}
+            <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
+              {{ .Key }}
+            </h2>
+          {{ end }}
+          {{ range .Pages }}
+            {{ partial "article-link/simple.html" . }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    </section>
+  {{ else if eq (len $subs) 0 }}
+    <section class="mt-10 prose dark:prose-invert">
+      <p class="py-8 border-t">
+        <em>{{ i18n "list.no_articles" | emojify }}</em>
+      </p>
+    </section>
+  {{ end }}
+  {{ partial "pagination.html" . }}
+{{ end }}

@@ -1,0 +1,22 @@
+locale = "en"
+label = "English"
+weight = 1
+title = "Jenny"
+
+[params]
+  displayName = "EN"
+  isoCode = "en"
+  rtl = false
+  dateFormat = "2 January 2006"
+  description = "Jenny's life capsule: journal, memoir, ideas, reading, recipes and notes."
+  copyright = "Jenny. All rights reserved."
+
+[params.author]
+  name = "Jenny"
+  image = "img/author.jpg"
+  imageQuality = 96
+  headline = "my life capsule"
+  bio = ""
+  links = [
+    { github = "https://github.com/jenny-wyz" },
+  ]

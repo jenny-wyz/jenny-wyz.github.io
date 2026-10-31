@@ -1,0 +1,36 @@
+{{- /*
+  Grid of section cards for the home page. One card per top-level section,
+  ordered like the main menu, each tinted with its own theme from
+  data/sections.yaml.
+*/ -}}
+<div class="not-prose grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 my-8">
+  {{- range site.Menus.main }}
+    {{- $name := .Name -}}
+    {{- with .Page }}
+      {{- $key := .Section -}}
+      {{- $theme := index hugo.Data.sections $key -}}
+      {{- $accent := "14, 142, 233" -}}
+      {{- with $theme }}
+        {{- with .primary }}
+          {{- $accent = index . "500" -}}
+        {{- end }}
+      {{- end }}
+      <a href="{{ .RelPermalink }}"
+         class="section-card group flex flex-col gap-2 rounded-xl border p-5 text-left no-underline transition-transform hover:-translate-y-0.5"
+         style="border-color: rgba({{ $accent }}, 0.35); background: linear-gradient(135deg, rgba({{ $accent }}, 0.16), rgba({{ $accent }}, 0.04));">
+        <div class="flex items-center gap-3">
+          {{- with $theme }}{{ with .icon }}
+          <span class="section-icon h-7 w-7 shrink-0" style="color: rgb({{ $accent }});">{{ partial "icon.html" . }}</span>
+          {{- end }}{{ end }}
+          <span class="text-xl font-bold text-neutral-800 dark:text-neutral-100">{{ $name }}</span>
+          <span class="ms-auto rounded-full px-2 py-0.5 text-xs font-medium" style="background: rgba({{ $accent }}, 0.18); color: rgb({{ $accent }});">
+            {{ len .RegularPagesRecursive }}
+          </span>
+        </div>
+        {{- with $theme }}{{ with .tagline }}
+        <p class="text-sm text-neutral-600 dark:text-neutral-300">{{ . }}</p>
+        {{- end }}{{ end }}
+      </a>
+    {{- end }}
+  {{- end }}
+</div>

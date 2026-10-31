@@ -1,0 +1,31 @@
+{{- /*
+  Per-section color themes.
+  Looks up the current page's top-level section in data/sections.yaml and
+  emits CSS variables that override the site scheme for this page only.
+  A page can pick a different theme with `colors: <key>` in its front matter.
+*/ -}}
+{{- $key := .Params.colors | default .Section -}}
+{{- $theme := index hugo.Data.sections $key -}}
+{{- if $theme }}
+  <style>
+    :root {
+      {{- with $theme.primary }}
+        {{- range $shade, $rgb := . }}
+      --color-primary-{{ $shade }}: {{ $rgb }};
+        {{- end }}
+      {{- end }}
+      {{- with $theme.light_bg }}
+      --color-neutral: {{ . }};
+      {{- end }}
+      {{- with $theme.dark_bg }}
+      --color-neutral-800: {{ . }};
+      {{- end }}
+      {{- with $theme.dark_deep }}
+      --color-neutral-900: {{ . }};
+      {{- end }}
+      {{- with $theme.dark_edge }}
+      --color-neutral-700: {{ . }};
+      {{- end }}
+    }
+  </style>
+{{- end }}

@@ -1,0 +1,96 @@
+# -- Theme Options --
+# Docs: https://blowfish.page/docs/configuration/#theme-parameters
+
+# "capsule" is this site's own color scheme, defined in assets/css/schemes/capsule.css
+# (deep navy background, soft blue accents). Each section then overrides the
+# accent colors; see data/sections.yaml and layouts/partials/extend-head-uncached.html.
+colorScheme = "capsule"
+defaultAppearance = "dark" # valid options: light or dark
+autoSwitchAppearance = false # keep dark unless the visitor flips the switch in the footer
+
+enableA11y = false
+enableSearch = true
+enableCodeCopy = true
+enableStructuredBreadcrumbs = false
+
+replyByEmail = false
+
+# Sections whose entries count as "articles" for recent lists and search.
+mainSections = ["journal", "memoir", "braindump", "reading", "recipes", "notes"]
+
+disableImageOptimization = false
+disableImageOptimizationMD = false
+disableTextInHeader = false
+
+highlightCurrentMenuArea = true
+smartTOC = true
+
+fingerprintAlgorithm = "sha512"
+
+[header]
+  layout = "fixed-fill-blur" # valid options: basic, fixed, fixed-fill, fixed-gradient, fixed-fill-blur, floating
+
+[footer]
+  showMenu = true
+  showCopyright = true
+  showThemeAttribution = true
+  showAppearanceSwitcher = true
+  showScrollToTop = true
+
+[homepage]
+  layout = "profile" # valid options: page, profile, hero, card, background, landing, custom
+  showRecent = true
+  showRecentItems = 5
+  showMoreLink = false
+  cardView = false
+
+[article]
+  showDate = true
+  showDateUpdated = true
+  showAuthor = false
+  showHero = false
+  showBreadcrumbs = true
+  showDraftLabel = true
+  showEdit = false
+  showHeadingAnchors = true
+  showPagination = true
+  invertPagination = false
+  showReadingTime = true
+  showReadingProgress = false
+  showTableOfContents = true
+  showRelatedContent = true
+  relatedContentLimit = 3
+  showTaxonomies = true
+  showCategories = true
+  showTags = true
+  showCategoriesInSecondaryColor = true
+  showWordCount = false
+  showZenMode = true
+
+[list]
+  showHero = false
+  showBreadcrumbs = true
+  showSummary = true
+  showTableOfContents = false
+  showCards = false
+  orderByWeight = false
+  groupByYear = true
+  cardView = false
+  constrainItemsWidth = false
+
+[sitemap]
+  excludedKinds = ["taxonomy", "term"]
+
+[taxonomy]
+  showTermCount = true
+  showHero = false
+  showBreadcrumbs = true
+  showTableOfContents = false
+  cardView = false
+
+[term]
+  showHero = false
+  showBreadcrumbs = true
+  showTableOfContents = false
+  groupByYear = true
+  cardView = false

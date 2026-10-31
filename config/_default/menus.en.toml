@@ -1,0 +1,51 @@
+# -- Main Menu --
+# Shown in the header. Order is by weight, lowest first.
+# To add a new section later: create content/<name>/_index.md, add an
+# entry here, and (optionally) give it colors in data/sections.yaml.
+
+[[main]]
+  name = "Journal"
+  pageRef = "journal"
+  weight = 10
+
+[[main]]
+  name = "Memoir"
+  pageRef = "memoir"
+  weight = 20
+
+[[main]]
+  name = "Brain dump"
+  pageRef = "braindump"
+  weight = 30
+
+[[main]]
+  name = "Reading"
+  pageRef = "reading"
+  weight = 40
+
+[[main]]
+  name = "Recipes"
+  pageRef = "recipes"
+  weight = 50
+
+[[main]]
+  name = "Notes"
+  pageRef = "notes"
+  weight = 60
+
+# -- Footer Menu --
+
+[[footer]]
+  name = "Categories"
+  pageRef = "categories"
+  weight = 10
+
+[[footer]]
+  name = "Tags"
+  pageRef = "tags"
+  weight = 20
+
+[[footer]]
+  name = "Series"
+  pageRef = "series"
+  weight = 30

@@ -1,0 +1,40 @@
+/* Capsule scheme: the site's default.
+   Deep navy neutrals so dark mode reads as dark blue rather than gray,
+   soft sky-blue primary, warm sand secondary for contrast.
+   Each section overrides parts of this; see data/sections.yaml. */
+:root {
+  --color-neutral: 255, 255, 255;
+  /* Navy-tinted grays. 800 is the dark-mode page background, 900 the deeper panels. */
+  --color-neutral-50: 246, 248, 252;
+  --color-neutral-100: 236, 240, 248;
+  --color-neutral-200: 216, 223, 238;
+  --color-neutral-300: 185, 196, 220;
+  --color-neutral-400: 136, 150, 184;
+  --color-neutral-500: 96, 110, 146;
+  --color-neutral-600: 66, 79, 112;
+  --color-neutral-700: 40, 52, 84;
+  --color-neutral-800: 16, 26, 52;
+  --color-neutral-900: 8, 15, 36;
+  /* Sky blue */
+  --color-primary-50: 240, 247, 255;
+  --color-primary-100: 224, 239, 254;
+  --color-primary-200: 186, 223, 253;
+  --color-primary-300: 125, 198, 252;
+  --color-primary-400: 56, 168, 248;
+  --color-primary-500: 14, 142, 233;
+  --color-primary-600: 2, 113, 199;
+  --color-primary-700: 3, 90, 161;
+  --color-primary-800: 7, 76, 133;
+  --color-primary-900: 12, 64, 110;
+  /* Warm sand */
+  --color-secondary-50: 255, 250, 240;
+  --color-secondary-100: 254, 243, 219;
+  --color-secondary-200: 253, 228, 180;
+  --color-secondary-300: 251, 208, 132;
+  --color-secondary-400: 248, 180, 76;
+  --color-secondary-500: 243, 154, 36;
+  --color-secondary-600: 214, 120, 20;
+  --color-secondary-700: 178, 91, 18;
+  --color-secondary-800: 143, 72, 22;
+  --color-secondary-900: 117, 60, 21;
+}

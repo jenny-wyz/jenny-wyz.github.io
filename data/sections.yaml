@@ -1,0 +1,130 @@
+# Per-section color themes.
+#
+# Every top-level section can have its own look. The key is the folder name
+# under content/. Anything not listed here uses the site default (the
+# "capsule" scheme in assets/css/schemes/capsule.css).
+#
+# Fields (all optional, RGB triplets as "r, g, b"):
+#   primary:   50..900 ramp for links, buttons, highlights
+#   dark_bg:   page background in dark mode        (overrides neutral-800)
+#   dark_deep: panels and code blocks in dark mode (overrides neutral-900)
+#   dark_edge: borders and cards in dark mode      (overrides neutral-700)
+#   light_bg:  page background in light mode       (overrides neutral)
+#   icon:      Font Awesome icon name shown on the home page card
+#   tagline:   short line shown on the home page card
+#
+# A single page can also pick any theme with `colors: <key>` in its front matter.
+
+journal:
+  tagline: "day by day"
+  icon: "pen-nib"
+  primary:
+    50: "245, 243, 255"
+    100: "237, 233, 254"
+    200: "221, 214, 254"
+    300: "196, 181, 253"
+    400: "167, 139, 250"
+    500: "139, 92, 246"
+    600: "124, 58, 237"
+    700: "109, 40, 217"
+    800: "91, 33, 182"
+    900: "76, 29, 149"
+  dark_bg: "24, 20, 52"
+  dark_deep: "14, 11, 34"
+  dark_edge: "48, 42, 90"
+  light_bg: "251, 250, 255"
+
+memoir:
+  tagline: "the long version"
+  icon: "book-open"
+  primary:
+    50: "255, 251, 235"
+    100: "254, 243, 199"
+    200: "253, 230, 138"
+    300: "252, 211, 77"
+    400: "251, 191, 36"
+    500: "245, 158, 11"
+    600: "217, 119, 6"
+    700: "180, 83, 9"
+    800: "146, 64, 14"
+    900: "120, 53, 15"
+  dark_bg: "38, 28, 24"
+  dark_deep: "26, 18, 15"
+  dark_edge: "68, 52, 44"
+  light_bg: "255, 252, 247"
+
+braindump:
+  tagline: "unsorted thoughts"
+  icon: "lightbulb"
+  primary:
+    50: "236, 253, 245"
+    100: "209, 250, 229"
+    200: "167, 243, 208"
+    300: "110, 231, 183"
+    400: "52, 211, 153"
+    500: "16, 185, 129"
+    600: "5, 150, 105"
+    700: "4, 120, 87"
+    800: "6, 95, 70"
+    900: "6, 78, 59"
+  dark_bg: "16, 32, 30"
+  dark_deep: "9, 22, 20"
+  dark_edge: "36, 62, 58"
+  light_bg: "247, 254, 251"
+
+reading:
+  tagline: "books and what they left behind"
+  icon: "book"
+  primary:
+    50: "255, 241, 242"
+    100: "255, 228, 230"
+    200: "254, 205, 211"
+    300: "253, 164, 175"
+    400: "251, 113, 133"
+    500: "244, 63, 94"
+    600: "225, 29, 72"
+    700: "190, 18, 60"
+    800: "159, 18, 57"
+    900: "136, 19, 55"
+  dark_bg: "40, 18, 28"
+  dark_deep: "28, 10, 18"
+  dark_edge: "74, 40, 54"
+  light_bg: "255, 249, 250"
+
+recipes:
+  tagline: "things worth cooking twice"
+  icon: "utensils"
+  primary:
+    50: "255, 247, 237"
+    100: "255, 237, 213"
+    200: "254, 215, 170"
+    300: "253, 186, 116"
+    400: "251, 146, 60"
+    500: "249, 115, 22"
+    600: "234, 88, 12"
+    700: "194, 65, 12"
+    800: "154, 52, 18"
+    900: "124, 45, 18"
+  dark_bg: "40, 26, 16"
+  dark_deep: "28, 17, 9"
+  dark_edge: "74, 52, 36"
+  light_bg: "255, 251, 246"
+
+notes:
+  tagline: "music, tech, literature, philosophy, history, biology..."
+  icon: "note-sticky"
+  primary:
+    50: "240, 253, 250"
+    100: "204, 251, 241"
+    200: "153, 246, 228"
+    300: "94, 234, 212"
+    400: "45, 212, 191"
+    500: "20, 184, 166"
+    600: "13, 148, 136"
+    700: "15, 118, 110"
+    800: "17, 94, 89"
+    900: "19, 78, 74"
+  dark_bg: "14, 34, 38"
+  dark_deep: "8, 24, 27"
+  dark_edge: "34, 66, 72"
+  light_bg: "246, 253, 253"
