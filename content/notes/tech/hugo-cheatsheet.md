@@ -21,4 +21,4 @@ categories: ["tech"]
 
 ## Front matter fields used here
 
-`title`, `date`, `summary`, `tags`, `categories`, `series` and `series_order` (memoir), `draft: true` (hide a page), `colors: <section>` (borrow another section's color theme for one page).
+`title`, `date`, `summary`, `tags`, `categories`, `series` and `series_order` (essays), `draft: true` (hide a page), `colors: <section>` (borrow another section's color theme for one page).

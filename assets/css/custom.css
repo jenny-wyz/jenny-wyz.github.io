@@ -1,0 +1,12 @@
+/* Site-wide tweaks on top of Blowfish. */
+
+/* Header: the home icon (assets/img/home.svg) replaces the site title. */
+.logo svg {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: rgb(var(--color-neutral-700));
+  transition: color 0.15s ease;
+}
+.dark .logo svg { color: rgb(var(--color-neutral-300)); }
+.logo:hover svg, a:focus-visible > .logo svg { color: rgb(var(--color-primary-600)); }
+.dark .logo:hover svg, .dark a:focus-visible > .logo svg { color: rgb(var(--color-primary-400)); }

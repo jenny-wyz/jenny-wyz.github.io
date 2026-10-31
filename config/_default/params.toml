@@ -16,11 +16,14 @@ enableStructuredBreadcrumbs = false
 replyByEmail = false
 
 # Sections whose entries count as "articles" for recent lists and search.
-mainSections = ["journal", "memoir", "braindump", "reading", "recipes", "notes"]
+mainSections = ["journal", "essays", "braindump", "reading", "recipes", "notes"]
 
 disableImageOptimization = false
 disableImageOptimizationMD = false
-disableTextInHeader = false
+# Header, top left: show the home icon (assets/img/home.svg) instead of the site title.
+# Set logo = "" and disableTextInHeader = false to go back to the text.
+logo = "img/home.svg"
+disableTextInHeader = true
 
 highlightCurrentMenuArea = true
 smartTOC = true

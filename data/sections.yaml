@@ -34,7 +34,7 @@ journal:
   dark_edge: "48, 42, 90"
   light_bg: "251, 250, 255"
 
-memoir:
+essays:
   tagline: "the long version"
   icon: "book-open"
   primary:

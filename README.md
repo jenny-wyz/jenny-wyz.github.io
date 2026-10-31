@@ -9,7 +9,7 @@ Everything is a Markdown file under `content/`:
 | Section | Folder | Notes |
 |---|---|---|
 | Journal | `content/journal/` | name files `YYYY-MM-DD-title.md` to keep them sorted |
-| Memoir | `content/memoir/` | chapters carry `series: ["Memoir"]` and a `series_order` |
+| Essays | `content/essays/` | pieces carry `series: ["Essays"]` and a `series_order` |
 | Brain dump | `content/braindump/` | |
 | Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |
 | Recipes | `content/recipes/` | |

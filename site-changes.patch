@@ -1,0 +1,269 @@
+From 64fdbc95a6b137df83b3152dcdb23a28fb595635 Mon Sep 17 00:00:00 2001
+From: claude <claude@local>
+Date: Sat, 31 Oct 2026 17:25:30 +0000
+Subject: [PATCH] Home icon in header, rename Memoir to Essays, drop captions
+ under shelf covers
+
+---
+ CLAUDE.md                              |  4 ++--
+ README.md                              |  2 +-
+ archetypes/{memoir.md => essays.md}    |  2 +-
+ assets/css/custom.css                  | 12 ++++++++++++
+ assets/css/reading.css                 |  2 --
+ assets/img/home.svg                    |  1 +
+ assets/js/reading.js                   |  6 +++---
+ config/_default/languages.en.toml      |  2 +-
+ config/_default/menus.en.toml          |  4 ++--
+ config/_default/params.toml            |  7 +++++--
+ content/_index.md                      |  2 +-
+ content/essays/_index.md               |  7 +++++++
+ content/{memoir => essays}/prologue.md |  4 ++--
+ content/memoir/_index.md               |  6 ------
+ content/notes/tech/hugo-cheatsheet.md  |  2 +-
+ data/sections.yaml                     |  2 +-
+ 16 files changed, 40 insertions(+), 25 deletions(-)
+ rename archetypes/{memoir.md => essays.md} (85%)
+ create mode 100644 assets/css/custom.css
+ create mode 100644 assets/img/home.svg
+ create mode 100644 content/essays/_index.md
+ rename content/{memoir => essays}/prologue.md (51%)
+ delete mode 100644 content/memoir/_index.md
+
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 013d9cf..b1d83a4 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -6,7 +6,7 @@ Context for Claude when working on this repository. Read this and `README.md` be
+ 
+ Jenny's personal "life capsule" website, published at https://jenny-wyz.github.io/ from this repo (`jenny-wyz/jenny-wyz.github.io`). Built with Hugo (extended) and the Blowfish theme (git submodule in `themes/blowfish`, v3.8.0). Deployed by GitHub Actions (`.github/workflows/hugo.yaml`) on every push to `main`.
+ 
+-Sections: Journal, Memoir (a series of chapters), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (subfolders: music, tech, literature, philosophy, history, biology; more may be added). More top-level sections may come later.
++Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (subfolders: music, tech, literature, philosophy, history, biology; more may be added). More top-level sections may come later.
+ 
+ ## Owner and preferences
+ 
+@@ -28,7 +28,7 @@ Sections: Journal, Memoir (a series of chapters), Brain dump, Reading (data-driv
+   - `shortcodes/sections.html`: home page section cards.
+   - `reading/list.html`, `reading/single.html`, `partials/reading/*`: the Reading app.
+ - `assets/css/reading.css`, `assets/js/reading.js`: Reading section styles and client-side app (no dependencies).
+-- `archetypes/`: templates for `hugo new` (default, notes, memoir, reading).
++- `archetypes/`: templates for `hugo new` (default, notes, essays, reading).
+ 
+ ## Reading section (most complex part)
+ 
+diff --git a/README.md b/README.md
+index 4363e4e..1d20e70 100644
+--- a/README.md
++++ b/README.md
+@@ -9,7 +9,7 @@ Everything is a Markdown file under `content/`:
+ | Section | Folder | Notes |
+ |---|---|---|
+ | Journal | `content/journal/` | name files `YYYY-MM-DD-title.md` to keep them sorted |
+-| Memoir | `content/memoir/` | chapters carry `series: ["Memoir"]` and a `series_order` |
++| Essays | `content/essays/` | pieces carry `series: ["Essays"]` and a `series_order` |
+ | Brain dump | `content/braindump/` | |
+ | Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |
+ | Recipes | `content/recipes/` | |
+diff --git a/archetypes/memoir.md b/archetypes/essays.md
+similarity index 85%
+rename from archetypes/memoir.md
+rename to archetypes/essays.md
+index 7130022..e8b9da0 100644
+--- a/archetypes/memoir.md
++++ b/archetypes/essays.md
+@@ -3,7 +3,7 @@ title: "{{ replace .Name "-" " " | title }}"
+ date: {{ .Date }}
+ draft: true
+ summary: ""
+-series: ["Memoir"]
++series: ["Essays"]
+ series_order: 
+ ---
+ 
+diff --git a/assets/css/custom.css b/assets/css/custom.css
+new file mode 100644
+index 0000000..eac2238
+--- /dev/null
++++ b/assets/css/custom.css
+@@ -0,0 +1,12 @@
++/* Site-wide tweaks on top of Blowfish. */
++
++/* Header: the home icon (assets/img/home.svg) replaces the site title. */
++.logo svg {
++  height: 1.5rem;
++  width: 1.5rem;
++  color: rgb(var(--color-neutral-700));
++  transition: color 0.15s ease;
++}
++.dark .logo svg { color: rgb(var(--color-neutral-300)); }
++.logo:hover svg, a:focus-visible > .logo svg { color: rgb(var(--color-primary-600)); }
++.dark .logo:hover svg, .dark a:focus-visible > .logo svg { color: rgb(var(--color-primary-400)); }
+diff --git a/assets/css/reading.css b/assets/css/reading.css
+index 60f819a..cbc19b9 100644
+--- a/assets/css/reading.css
++++ b/assets/css/reading.css
+@@ -105,8 +105,6 @@
+ .rd-card:hover .rd-cover, .rd-card:focus-visible .rd-cover { transform: translateY(-4px); box-shadow: 0 2px 4px rgb(0 0 0 / .15), 0 18px 30px -16px rgb(0 0 0 / .5); }
+ .rd-card:focus-visible { outline: none; }
+ .rd-card:focus-visible .rd-cover { outline: 2px solid rgb(var(--rd-accent)); outline-offset: 3px; }
+-.rd-card .rd-title { font-size: 0.86rem; font-weight: 600; line-height: 1.3; color: rgb(var(--rd-ink)); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+-.rd-card .rd-author { font-size: 0.76rem; color: rgb(var(--rd-ink-soft)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+ .rd-card-meta { display: flex; align-items: center; gap: 0.4rem; min-height: 1rem; }
+ .rd-stars { color: rgb(var(--rd-star)); font-size: 0.7rem; letter-spacing: 0.05em; line-height: 1; }
+ .rd-stars.rd-stars-lg { font-size: 1rem; }
+diff --git a/assets/img/home.svg b/assets/img/home.svg
+new file mode 100644
+index 0000000..f2b0b95
+--- /dev/null
++++ b/assets/img/home.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 11.2 12 4l8.5 7.2"/><path d="M5.5 9.8V20h4.8v-5.4h3.4V20h4.8V9.8"/></svg>
+diff --git a/assets/js/reading.js b/assets/js/reading.js
+index b318425..ff12731 100644
+--- a/assets/js/reading.js
++++ b/assets/js/reading.js
+@@ -205,9 +205,9 @@
+     if (!list.length) return '<div class="rd-empty">No books match. Try clearing a filter.</div>';
+     var html = '<div class="rd-grid">';
+     list.slice(0, shown).forEach(function (b) {
+-      html += '<button type="button" class="rd-card" data-book="' + esc(b.id) + '">' + cover(b, 'md') +
+-        '<span class="rd-title">' + esc(b.title) + '</span>' +
+-        (b.author ? '<span class="rd-author">' + esc(b.author) + '</span>' : '') +
++      // The cover (image or typographic spine) already shows title and author,
++      // so the card only adds the rating/status line. The name stays for screen readers.
++      html += '<button type="button" class="rd-card" data-book="' + esc(b.id) + '" aria-label="' + esc(b.title + (b.author ? ', ' + b.author : '')) + '">' + cover(b, 'md') +
+         '<span class="rd-card-meta">' + (b.rating ? stars(b.rating) : (b.status !== 'Completed' ? statusTag(b.status) : '')) + '</span>' +
+         '</button>';
+     });
+diff --git a/config/_default/languages.en.toml b/config/_default/languages.en.toml
+index 611bd49..d7f4cc7 100644
+--- a/config/_default/languages.en.toml
++++ b/config/_default/languages.en.toml
+@@ -8,7 +8,7 @@ title = "Jenny"
+   isoCode = "en"
+   rtl = false
+   dateFormat = "2 January 2006"
+-  description = "Jenny's life capsule: journal, memoir, ideas, reading, recipes and notes."
++  description = "Jenny's life capsule: journal, essays, ideas, reading, recipes and notes."
+   copyright = "Jenny. All rights reserved."
+ 
+ [params.author]
+diff --git a/config/_default/menus.en.toml b/config/_default/menus.en.toml
+index 554b32b..4e0e558 100644
+--- a/config/_default/menus.en.toml
++++ b/config/_default/menus.en.toml
+@@ -9,8 +9,8 @@
+   weight = 10
+ 
+ [[main]]
+-  name = "Memoir"
+-  pageRef = "memoir"
++  name = "Essays"
++  pageRef = "essays"
+   weight = 20
+ 
+ [[main]]
+diff --git a/config/_default/params.toml b/config/_default/params.toml
+index 959279e..4ca23b1 100644
+--- a/config/_default/params.toml
++++ b/config/_default/params.toml
+@@ -16,11 +16,14 @@ enableStructuredBreadcrumbs = false
+ replyByEmail = false
+ 
+ # Sections whose entries count as "articles" for recent lists and search.
+-mainSections = ["journal", "memoir", "braindump", "reading", "recipes", "notes"]
++mainSections = ["journal", "essays", "braindump", "reading", "recipes", "notes"]
+ 
+ disableImageOptimization = false
+ disableImageOptimizationMD = false
+-disableTextInHeader = false
++# Header, top left: show the home icon (assets/img/home.svg) instead of the site title.
++# Set logo = "" and disableTextInHeader = false to go back to the text.
++logo = "img/home.svg"
++disableTextInHeader = true
+ 
+ highlightCurrentMenuArea = true
+ smartTOC = true
+diff --git a/content/_index.md b/content/_index.md
+index 14ce1cb..dca5fa5 100644
+--- a/content/_index.md
++++ b/content/_index.md
+@@ -1,6 +1,6 @@
+ ---
+ title: "Jenny"
+-description: "Jenny's life capsule: journal, memoir, ideas, reading, recipes and notes."
++description: "Jenny's life capsule: journal, essays, ideas, reading, recipes and notes."
+ ---
+ 
+ Welcome back! Pick a room:
+diff --git a/content/essays/_index.md b/content/essays/_index.md
+new file mode 100644
+index 0000000..7b2c8f3
+--- /dev/null
++++ b/content/essays/_index.md
+@@ -0,0 +1,7 @@
++---
++title: "Essays"
++description: "The long version: longer pieces about places, people and years."
++aliases: ["/memoir/"]
++---
++
++The long version: longer pieces about places, people and years.
+diff --git a/content/memoir/prologue.md b/content/essays/prologue.md
+similarity index 51%
+rename from content/memoir/prologue.md
+rename to content/essays/prologue.md
+index 4a41045..6275991 100644
+--- a/content/memoir/prologue.md
++++ b/content/essays/prologue.md
+@@ -2,10 +2,10 @@
+ title: "Prologue"
+ date: 2026-10-31
+ summary: "Where the long version starts."
+-series: ["Memoir"]
++series: ["Essays"]
+ series_order: 1
+ ---
+ 
+-A sample memoir chapter. The memoir section is meant for longer pieces, so it is set up as a *series*: each chapter has `series: ["Memoir"]` and a `series_order` in its front matter, and the site links the chapters together in reading order.
++A sample essay. The Essays section is meant for longer pieces, so it is set up as a *series*: each chapter has `series: ["Essays"]` and a `series_order` in its front matter, and the site links the chapters together in reading order.
+ 
+ Write here the way you would write a book: slowly, in chapters, revising as you go. Drafts can be kept out of the published site with `draft: true` in the front matter.
+diff --git a/content/memoir/_index.md b/content/memoir/_index.md
+deleted file mode 100644
+index fa48677..0000000
+--- a/content/memoir/_index.md
++++ /dev/null
+@@ -1,6 +0,0 @@
+----
+-title: "Memoir"
+-description: "The long version: chapters about places, people and years."
+----
+-
+-The long version: chapters about places, people and years.
+diff --git a/content/notes/tech/hugo-cheatsheet.md b/content/notes/tech/hugo-cheatsheet.md
+index 65b8c1b..0b7d7be 100644
+--- a/content/notes/tech/hugo-cheatsheet.md
++++ b/content/notes/tech/hugo-cheatsheet.md
+@@ -21,4 +21,4 @@ categories: ["tech"]
+ 
+ ## Front matter fields used here
+ 
+-`title`, `date`, `summary`, `tags`, `categories`, `series` and `series_order` (memoir), `draft: true` (hide a page), `colors: <section>` (borrow another section's color theme for one page).
++`title`, `date`, `summary`, `tags`, `categories`, `series` and `series_order` (essays), `draft: true` (hide a page), `colors: <section>` (borrow another section's color theme for one page).
+diff --git a/data/sections.yaml b/data/sections.yaml
+index dc7ff4e..388ea85 100644
+--- a/data/sections.yaml
++++ b/data/sections.yaml
+@@ -34,7 +34,7 @@ journal:
+   dark_edge: "48, 42, 90"
+   light_bg: "251, 250, 255"
+ 
+-memoir:
++essays:
+   tagline: "the long version"
+   icon: "book-open"
+   primary:
+-- 
+2.43.0
+

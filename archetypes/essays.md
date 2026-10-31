@@ -3,7 +3,7 @@ title: "{{ replace .Name "-" " " | title }}"
 date: {{ .Date }}
 draft: true
 summary: ""
-series: ["Memoir"]
+series: ["Essays"]
 series_order: 
 ---
 

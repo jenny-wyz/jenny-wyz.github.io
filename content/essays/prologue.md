@@ -2,10 +2,10 @@
 title: "Prologue"
 date: 2026-10-31
 summary: "Where the long version starts."
-series: ["Memoir"]
+series: ["Essays"]
 series_order: 1
 ---
 
-A sample memoir chapter. The memoir section is meant for longer pieces, so it is set up as a *series*: each chapter has `series: ["Memoir"]` and a `series_order` in its front matter, and the site links the chapters together in reading order.
+A sample essay. The Essays section is meant for longer pieces, so it is set up as a *series*: each chapter has `series: ["Essays"]` and a `series_order` in its front matter, and the site links the chapters together in reading order.
 
 Write here the way you would write a book: slowly, in chapters, revising as you go. Drafts can be kept out of the published site with `draft: true` in the front matter.

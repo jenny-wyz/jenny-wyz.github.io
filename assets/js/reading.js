@@ -205,9 +205,9 @@
     if (!list.length) return '<div class="rd-empty">No books match. Try clearing a filter.</div>';
     var html = '<div class="rd-grid">';
     list.slice(0, shown).forEach(function (b) {
-      html += '<button type="button" class="rd-card" data-book="' + esc(b.id) + '">' + cover(b, 'md') +
-        '<span class="rd-title">' + esc(b.title) + '</span>' +
-        (b.author ? '<span class="rd-author">' + esc(b.author) + '</span>' : '') +
+      // The cover (image or typographic spine) already shows title and author,
+      // so the card only adds the rating/status line. The name stays for screen readers.
+      html += '<button type="button" class="rd-card" data-book="' + esc(b.id) + '" aria-label="' + esc(b.title + (b.author ? ', ' + b.author : '')) + '">' + cover(b, 'md') +
         '<span class="rd-card-meta">' + (b.rating ? stars(b.rating) : (b.status !== 'Completed' ? statusTag(b.status) : '')) + '</span>' +
         '</button>';
     });
