@@ -53,3 +53,4 @@ Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirec
 - Never commit secrets. The Notion token lives only in GitHub secrets.
 - Keep `public/` and `resources/` out of git (see `.gitignore`).
 - Keep changes small and explain them; ask before large redesigns or deleting content.
+- Do not add Co-Authored-By or Claude-Session trailers to commit messages.
