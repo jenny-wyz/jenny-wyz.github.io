@@ -26,6 +26,11 @@ enableEmoji = true
   tag = "tags"
   category = "categories"
   series = "series"
+  subject = "subjects"   # Notes subjects; a note can have several
+
+[permalinks]
+  [permalinks.term]
+    subjects = "/notes/:slug/"   # subject pages live inside the Notes section
 
 [sitemap]
   changefreq = 'weekly'

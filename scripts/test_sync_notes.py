@@ -94,14 +94,13 @@ class BlockTests(unittest.TestCase):
         self.assertEqual(conv.images, [("https://s3/x/photo.png?sig=1", "img-1.png")])
 
 
-NAMES = {"title": "Name", "subject": "Subject", "tags": "Tags", "date": "Date", "publish": "Publish", "summary": "Summary"}
+NAMES = {"title": "Name", "subjects": "Tags", "date": "Date", "publish": "Publish", "summary": "Summary"}
 
 
-def row(pid="abc123", title="Rock", publish=True, subject="music", date="2024-04-25", icon=None, tags=("genres",)):
+def row(pid="abc123", title="Rock", publish=True, subjects=("music",), date="2024-04-25", icon=None):
     r = {"id": pid, "created_time": "2026-01-01T00:00:00Z", "properties": {
         "Name": {"type": "title", "title": rt(title)},
-        "Subject": {"type": "select", "select": {"name": subject} if subject else None},
-        "Tags": {"type": "multi_select", "multi_select": [{"name": t} for t in tags]},
+        "Tags": {"type": "multi_select", "multi_select": [{"name": t} for t in subjects]},
         "Date": {"type": "date", "date": {"start": date} if date else None},
         "Publish": {"type": "checkbox", "checkbox": publish},
         "Summary": {"type": "rich_text", "rich_text": rt("sum")},
@@ -116,33 +115,39 @@ class NoteTests(unittest.TestCase):
         self.assertIsNone(sn.build_note(row(publish=False), NAMES, "x", []))
 
     def test_icon_joins_title_and_front_matter(self):
-        n = sn.build_note(row(title="Beef", icon="🥩", tags=("Cuts", "beef")), NAMES, "body", [])
+        n = sn.build_note(row(title="Beef", icon="🥩", subjects=("Food", "biology")), NAMES, "body", [])
         self.assertEqual(n["title"], "🥩 Beef")
         self.assertEqual(n["slug"], "beef")
-        self.assertEqual(n["tags"], ["beef", "cuts"])
+        self.assertEqual(n["subjects"], ["biology", "food"])
         fm = sn.front_matter(n)
         self.assertIn('title: "🥩 Beef"', fm)
         self.assertIn("notion_id: abc123", fm)
-        self.assertIn('categories: ["music"]', fm)
+        self.assertIn('subjects: ["biology", "food"]', fm)
+        self.assertNotIn("tags:", fm)
+
+    def test_no_subject_falls_back_to_misc(self):
+        n = sn.build_note(row(subjects=()), NAMES, "b", [])
+        self.assertEqual(n["subjects"], ["misc"])
 
     def test_write_remove_and_leave_handwritten(self):
-        with tempfile.TemporaryDirectory() as root:
-            os.makedirs(os.path.join(root, "music"))
-            hand = os.path.join(root, "music", "hand.md")
+        with tempfile.TemporaryDirectory() as tmp:
+            root = os.path.join(tmp, "notes")
+            os.makedirs(root)
+            hand = os.path.join(root, "hand.md")
             with open(hand, "w") as f:
                 f.write('---\ntitle: "Hand"\n---\n')
             n1 = sn.build_note(row("id1", "Rock"), NAMES, "r", [])
             n2 = sn.build_note(row("id2", "Jazz"), NAMES, "j", [])
             log = lambda m: None
             self.assertEqual(sn.write_notes([n1, n2], root, False, log), (2, 0))
-            self.assertTrue(os.path.exists(os.path.join(root, "music", "rock.md")))
+            self.assertTrue(os.path.exists(os.path.join(root, "rock.md")))
+            self.assertTrue(os.path.exists(os.path.join(tmp, "subjects", "music", "_index.md")))
             # Unchanged run: nothing written.
             self.assertEqual(sn.write_notes([n1, n2], root, False, log), (0, 0))
             # Jazz unpublished, Rock renamed: old file goes, new one comes, hand.md stays.
             n1b = sn.build_note(row("id1", "Rock music"), NAMES, "r", [])
             self.assertEqual(sn.write_notes([n1b], root, False, log), (1, 1))
-            files = sorted(os.listdir(os.path.join(root, "music")))
-            self.assertEqual(files, ["_index.md", "hand.md", "rock-music.md"])
+            self.assertEqual(sorted(os.listdir(root)), ["hand.md", "rock-music.md"])
 
 
 if __name__ == "__main__":

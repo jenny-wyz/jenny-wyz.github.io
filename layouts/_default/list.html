@@ -1,9 +1,10 @@
 {{ define "main" }}
   {{/*
     Site override of Blowfish's list template.
-    Difference from the theme: if a section has subsections (like Notes with
-    its subjects), they are shown first as a card grid, and the article list
-    below then includes entries from all of them, newest first.
+    Difference from the theme: a section can show a card grid above its
+    article list, either its subsections (folders) or the terms of a taxonomy
+    (Notes: `cards: "subjects"`). With subsections the list below includes
+    entries from all of them, newest first.
   */}}
   {{ .Scratch.Set "scope" "list" }}
 
@@ -25,23 +26,48 @@
     </div>
   </section>
 
+  {{/*
+    Cards at the top of the list. Two sources:
+      * subsections of this section (folders), or
+      * the terms of a taxonomy, when the section's _index.md sets
+        `cards: "<taxonomy>"` (Notes uses `cards: "subjects"`, so one note
+        can sit under several subjects and each subject page lists it).
+  */}}
   {{ $subs := .Sections }}
   {{ $pages := .RegularPages }}
-  {{ if gt (len $subs) 0 }}
-    {{ $pages = .RegularPagesRecursive }}
+  {{ $cards := slice }}
+  {{ $cardTaxonomy := .Params.cards }}
+  {{ if $cardTaxonomy }}
+    {{ range $name, $taxonomy := site.Taxonomies }}
+      {{ if eq $name $cardTaxonomy }}
+        {{ range $term, $weighted := $taxonomy }}
+          {{ $termPage := site.GetPage (printf "/%s/%s" $name $term) }}
+          {{ if $termPage }}
+            {{ $cards = $cards | append (dict "title" $termPage.Title "url" $termPage.RelPermalink "desc" $termPage.Description "count" (len $weighted)) }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ else }}
+    {{ range $subs }}
+      {{ $cards = $cards | append (dict "title" .Title "url" .RelPermalink "desc" .Description "count" (len .RegularPagesRecursive)) }}
+    {{ end }}
+    {{ if gt (len $subs) 0 }}{{ $pages = .RegularPagesRecursive }}{{ end }}
+  {{ end }}
+  {{ if gt (len $cards) 0 }}
     <section class="not-prose mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {{ range $subs.ByTitle }}
-        <a href="{{ .RelPermalink }}"
+      {{ range sort $cards "title" }}
+        <a href="{{ .url }}"
            class="flex flex-col gap-1 rounded-xl border p-4 no-underline transition-transform hover:-translate-y-0.5"
            style="border-color: rgba(var(--color-primary-500), 0.35); background: linear-gradient(135deg, rgba(var(--color-primary-500), 0.16), rgba(var(--color-primary-500), 0.04));">
           <div class="flex items-center gap-2">
-            <span class="text-lg font-bold text-neutral-800 dark:text-neutral-100">{{ .Title }}</span>
+            <span class="text-lg font-bold text-neutral-800 dark:text-neutral-100">{{ .title }}</span>
             <span class="ms-auto rounded-full px-2 py-0.5 text-xs font-medium"
                   style="background: rgba(var(--color-primary-500), 0.18); color: rgb(var(--color-primary-400));">
-              {{ len .RegularPagesRecursive }}
+              {{ .count }}
             </span>
           </div>
-          {{ with .Description }}
+          {{ with .desc }}
             <p class="text-sm text-neutral-600 dark:text-neutral-300">{{ . }}</p>
           {{ end }}
         </a>
@@ -70,7 +96,7 @@
         {{ end }}
       {{ end }}
     </section>
-  {{ else if eq (len $subs) 0 }}
+  {{ else if eq (len $cards) 0 }}
     <section class="mt-10 prose dark:prose-invert">
       <p class="py-8 border-t">
         <em>{{ i18n "list.no_articles" | emojify }}</em>

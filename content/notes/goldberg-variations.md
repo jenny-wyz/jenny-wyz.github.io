@@ -2,8 +2,7 @@
 title: "Goldberg Variations: a listening map"
 date: 2026-10-31
 summary: "Thirty variations on one bass line. Where to start listening."
-tags: ["bach", "piano"]
-categories: ["music"]
+subjects: ["music"]
 ---
 
 A sample note in the music subsection. Notes live in subfolders under `content/notes/` (music, tech, literature, philosophy, history, biology), and each note also carries a category tag so it shows up under `/categories/` across the whole site.

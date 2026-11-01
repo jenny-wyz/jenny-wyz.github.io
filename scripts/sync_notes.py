@@ -20,7 +20,8 @@ Rules of the road:
   * A Notion outage never wipes the section: if the query fails, nothing is
     written or deleted. If it succeeds, the result is trusted as is (an empty
     Publish set is a legitimate choice, not an error).
-  * Subject folders are created on demand, with a plain _index.md.
+  * A new subject gets its page, content/subjects/<subject>/_index.md, created
+    on demand with a plain title and description (edit it afterwards).
   * Reuses the HTTP client and property helpers from sync_books.py.
 """
 
@@ -226,8 +227,7 @@ def front_matter(note: dict) -> str:
     lines = ["---", f"title: {yaml_str(note['title'])}", f"date: {note['date']}"]
     if note.get("summary"):
         lines.append(f"summary: {yaml_str(note['summary'])}")
-    lines.append("tags: [" + ", ".join(yaml_str(t) for t in note["tags"]) + "]")
-    lines.append(f"categories: [{yaml_str(note['subject'])}]")
+    lines.append("subjects: [" + ", ".join(yaml_str(t) for t in note["subjects"]) + "]")
     lines.append(f"notion_id: {note['id']}")
     lines.append("---")
     return "\n".join(lines) + "\n"
@@ -244,16 +244,15 @@ def build_note(row: dict, names: dict, body: str, images: list[tuple[str, str]])
     icon = row.get("icon") or {}
     if icon.get("type") == "emoji":
         title = f"{icon['emoji']} {title}"
-    subject = (get_text(row, names["subject"]) or "misc").strip().lower()
+    subjects = sorted({slugify(t) for t in get_multi(row, names["subjects"]) if t.strip()}) or ["misc"]
     date = get_date(row, names["date"]) or (row.get("created_time") or "")[:10]
     return {
         "id": compact_id(row.get("id", "")),
         "title": title,
         "slug": slugify(get_text(row, names["title"])),
-        "subject": slugify(subject),
+        "subjects": subjects,
         "date": date[:10],
         "summary": get_text(row, names.get("summary", "Summary")).strip(),
-        "tags": sorted({t.strip().lower() for t in get_multi(row, names["tags"]) if t.strip()}),
         "body": body.strip() + "\n",
         "images": images,
     }
@@ -290,7 +289,8 @@ def managed_files(root: str) -> dict[str, str]:
 
 
 def ensure_subject(root: str, subject: str) -> None:
-    d = os.path.join(root, subject)
+    """Create content/subjects/<subject>/_index.md if the subject is new."""
+    d = os.path.join(os.path.dirname(root.rstrip("/")), "subjects", subject)
     idx = os.path.join(d, "_index.md")
     if os.path.exists(idx):
         return
@@ -316,8 +316,9 @@ def write_notes(notes: list[dict], root: str, dry_run: bool, log) -> tuple[int, 
     keep: set[str] = set()
     written = 0
     for n in notes:
-        ensure_subject(root, n["subject"])
-        base = os.path.join(root, n["subject"])
+        for subject in n["subjects"]:
+            ensure_subject(root, subject)
+        base = root
         bundle = bool(n["images"])
         if bundle:
             path = os.path.join(base, n["slug"], "index.md")
@@ -407,12 +408,12 @@ def main(argv: Optional[list[str]] = None) -> int:
         note = build_note(row, names, body, conv.images)
         if note:
             notes.append(note)
-    notes.sort(key=lambda n: (n["subject"], n["slug"]))
+    notes.sort(key=lambda n: n["slug"])
 
-    # Two notes with the same title in one subject would overwrite each other.
+    # Two notes with the same title would overwrite each other.
     seen: dict[str, dict] = {}
     for n in notes:
-        key = f"{n['subject']}/{n['slug']}"
+        key = n["slug"]
         if key in seen:
             n["slug"] += "-" + n["id"][:6]
         seen[key] = n

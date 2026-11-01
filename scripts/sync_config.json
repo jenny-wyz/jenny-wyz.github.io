@@ -28,8 +28,7 @@
     },
     "site_notes": {
       "title": "Name",
-      "subject": "Subject",
-      "tags": "Tags",
+      "subjects": "Tags",
       "date": "Date",
       "publish": "Publish",
       "summary": "Summary"
@@ -38,7 +37,7 @@
   "output": "data/books.json",
   "fetch_page_bodies": true,
   "site_notes": {
-    "_comment": "Jernier's Notes on Stuff: the Notes section. Only pages with Publish ticked are written to output_dir.",
+    "_comment": "Jernier's Notes on Stuff: the Notes section. Only pages with Publish ticked are written to output_dir. \"Tags\" holds the subjects.",
     "database_id": "11175b3357bb47bd8781f0238d4dc010",
     "data_source_id": "d4ac95b3-96a1-4a80-9689-799823ff8986",
     "output_dir": "content/notes"

@@ -6,7 +6,7 @@ Context for Claude when working on this repository. Read this and `README.md` be
 
 Jenny's personal "life capsule" website, published at https://jenny-wyz.github.io/ from this repo (`jenny-wyz/jenny-wyz.github.io`). Built with Hugo (extended) and the Blowfish theme (git submodule in `themes/blowfish`, v3.8.0). Deployed by GitHub Actions (`.github/workflows/hugo.yaml`) on every push to `main`.
 
-Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (synced nightly from the Notion database "Jernier's Notes on Stuff" by scripts/sync_notes.py; only pages with Publish ticked are written; files with a notion_id in their front matter belong to the sync, files without are hand-written and left alone; subfolders: music, tech, literature, philosophy, history, biology, food, skincare; the sync creates new ones). More top-level sections may come later.
+Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (one flat folder, `content/notes/`; subjects are the `subjects` taxonomy with term pages served at /notes/<subject>/ and described in `content/subjects/<subject>/_index.md`; a note can have several subjects; synced nightly from the Notion database "Jernier's Notes on Stuff" by `scripts/sync_notes.py`, whose "Tags" property holds the subjects; only pages with Publish ticked are written; files with a `notion_id` belong to the sync, files without are hand-written and left alone). More top-level sections may come later.
 
 ## Owner and preferences
 
@@ -24,7 +24,8 @@ Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirec
 - `content/`: Markdown for every section except the Reading shelf. `_index.md` per section.
 - `data/sections.yaml`: per-section colors, icons, taglines for home cards.
 - `layouts/`: site overrides of Blowfish.
-  - `_default/list.html`: section list; shows subsection cards (used by Notes).
+  - `_default/list.html`: section list; shows cards for subsections, or for the terms of a taxonomy when the section sets `cards: "<taxonomy>"` (Notes uses the `subjects` taxonomy).
+  - `partials/breadcrumbs.html`: subject pages show "Notes /" as their crumb.
   - `shortcodes/sections.html`: home page section cards.
   - `reading/list.html`, `reading/single.html`, `partials/reading/*`: the Reading app.
 - `assets/css/reading.css`, `assets/js/reading.js`: Reading section styles and client-side app (no dependencies).

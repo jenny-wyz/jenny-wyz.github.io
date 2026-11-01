@@ -13,7 +13,7 @@ Everything is a Markdown file under `content/`:
 | Brain dump | `content/braindump/` | |
 | Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |
 | Recipes | `content/recipes/` | |
-| Notes | `content/notes/<subject>/` | synced nightly from Notion ("Jernier's Notes on Stuff", `scripts/sync_notes.py`); hand-written notes without `notion_id` are kept as they are; subjects are subfolders |
+| Notes | `content/notes/` | synced nightly from Notion ("Jernier's Notes on Stuff", `scripts/sync_notes.py`); subjects are a taxonomy (`subjects:` in front matter, pages at `/notes/<subject>/`, descriptions in `content/subjects/`); hand-written notes without `notion_id` are kept as they are |
 
 Each file starts with front matter between `---` lines:
 

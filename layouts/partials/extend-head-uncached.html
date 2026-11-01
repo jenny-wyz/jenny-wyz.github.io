@@ -3,8 +3,10 @@
   Looks up the current page's top-level section in data/sections.yaml and
   emits CSS variables that override the site scheme for this page only.
   A page can pick a different theme with `colors: <key>` in its front matter.
+  Subject pages (the "subjects" taxonomy, served under /notes/) use the Notes theme.
 */ -}}
 {{- $key := .Params.colors | default .Section -}}
+{{- if eq .Type "subjects" }}{{ $key = "notes" }}{{ end -}}
 {{- $theme := index hugo.Data.sections $key -}}
 {{- if $theme }}
   <style>
