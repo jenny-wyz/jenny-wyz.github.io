@@ -1,59 +1,53 @@
 ---
-title: "Swiss cheese tier list"
+title: "🧀 Swiss cheese tier list"
 date: 2024-10-12
 subjects: ["food"]
 notion_id: 40bef088fb8b818ab7a1e216b2cbe3ff
 ---
 
-### S
+#### S
 
 *Nothing here yet.*
 
-### A
+#### A
 
 **Gruyère**
-
 - Slightly salty
 - Texture kinda hard, firm
 
 **Appenzeller** (kräftig 2)
-
 - Somewhat spicy; nutty
 
 **Mauenseer**
-
 - Creamy, smooth, not very hard
 - Nutty; mild tang
 
-### B
+#### B
 
 *Nothing here yet.*
 
-### C
+#### C
 
 **Emmental**
-
 - Kinda 涩
 - Not smooth, not creamy
 - Firm
 
-### D
+#### D
 
 *Nothing here yet.*
 
-### E
+#### E
 
 **Rotgeschmierter Rahmweichkäse**
-
 - 腥, pungent; too rich
 - Soft, creamy
 
-### F
+#### F
 
 *Nothing here yet.*
 
-### Not ranked yet
-
+#### Not ranked yet
 - Raclette
 - Tête de Moine
 - Sbrinz

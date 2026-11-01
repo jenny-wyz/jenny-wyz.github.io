@@ -1,85 +1,73 @@
 ---
-title: "Skin care"
+title: "💅 Skin care"
 date: 2022-04-12
-subjects: ["skincare"]
+subjects: ["biochem"]
 notion_id: 40bef088fb8b81cbbd94c2ae47e55395
 ---
 
-## Active ingredients
+### Active ingredients
 
-### Vitamin A (retinoids / retinols)
-
+#### Vitamin A (retinoids / retinols)
 - Antioxidants
 - Increase cell turnover (smooth out fine lines & wrinkles)
 - Even texture
 - Kill acne-causing bacteria
 - Side effect includes drying → pair well with moisturizer
 
-### Vitamin B3 (niacinamide)
-
+#### Vitamin B3 (niacinamide)
 - Produced by our body to transform carbohydrates into energy
 - Help all sorts of skin conditions (dullness & pore size)
 - Balance sebum production & texture
 - Less acidic than vitamin C (4.5 pH level)
 
-### Vitamin C (L-ascorbic acid)
-
+#### Vitamin C (L-ascorbic acid)
 - Brightening effect
 - Promote elastin & collagen production in the dermis layer
 - Derivatives: tetrahexyldecyl ascorbate, ascorbyl glucoside, magnesium ascorbyl phosphate → better for sensitive skin
 
-### Alpha hydroxy acid (AHA)
-
+#### Alpha hydroxy acid (AHA)
 - Fruit/milk-derived chemical exfoliants that are water-soluble
 - Slough off excess dead skin cells
 - Unclog pores and even out skin tone (help with black & white heads)
 - Common AHAs: glycolic acid (most potent), lactic acid (best for sensitive skin), tartaric acid, mandelic and citric acid
 
-### Beta hydroxy acid (BHA)
-
+#### Beta hydroxy acid (BHA)
 - Chemical exfoliants that are oil-soluble
 - Control sebum production
 - Smooth and minimize the look of enlarged pores
 
-## Combining active ingredients
+### Combining active ingredients
 
-### Hyaluronic acid + vitamin C
-
+#### Hyaluronic acid + vitamin C
 - Extra synergistic boost (brightening & hydrating)
 - Help with dehydrated skin
 
-### Azelaic acid + vitamin C
-
+#### Azelaic acid + vitamin C
 - Azelaic acid calms inflammation, kills acne-causing bacteria & treats post-acne marks
 - Paired with vitamin C for amplified efficacy
 
-### Vitamin A (retinol) + vitamin B3 (niacinamide)
-
+#### Vitamin A (retinol) + vitamin B3 (niacinamide)
 - Great combo for sensitive skin
 - Niacinamide helps dilute the potent effects of retinol
 - Help to stimulate ceramide production in the skin (ceramides are lipids that hold our skin together)
 
-### Vitamin B3 (niacinamide) + vitamin C
-
+#### Vitamin B3 (niacinamide) + vitamin C
 - Help smooth wrinkles and even out dull, pigmented skin (post-acne marks & hyperpigmentation)
 
-### Vitamin C + vitamin E + ferulic acid
-
+#### Vitamin C + vitamin E + ferulic acid
 - Stabilize & boost the efficacy of vitamin C
 - Calm down irritation & nourish skin
 - Create an ironclad shield that protects skin from the environment & UV rays & stimulates collagen
 
-## Layering active ingredients
+### Layering active ingredients
 
-### Method 1: texture & consistency
-
+#### Method 1: texture & consistency
 - Watery products include toners and serums
 - Creamy products are emollients like moisturizers
   - Emollients trap water inside & soften the skin outside
 - Apply products from thinnest (watery) to thickest (creamy)
 
-### Method 2: pH levels
-
+#### Method 2: pH levels
 - pH scale ranges from 0 to 14, from acidic to alkaline
   - Too acidic products can cause irritated, red and inflamed skin
   - Very alkaline products can cause dry, flaky and dehydrated skin

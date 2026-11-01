@@ -1,5 +1,5 @@
 ---
-title: "Jazz"
+title: "🎵 Jazz"
 date: 2024-04-25
 subjects: ["music"]
 notion_id: 40bef088fb8b81829ae9d8534ee2cb7a
@@ -13,7 +13,6 @@ notion_id: 40bef088fb8b81829ae9d8534ee2cb7a
 - 音色：选择传统配器
   - 钢琴、贝斯、鼓、小号
 
-### Barber Beats
-
+#### Barber Beats
 - Acid jazz + vaporwave
 - Atmospheric

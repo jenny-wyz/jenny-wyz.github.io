@@ -1,11 +1,11 @@
 ---
-title: "Skincare chemicals"
+title: "💅 Skincare chemicals"
 date: 2023-12-02
-subjects: ["skincare"]
+subjects: ["biochem"]
 notion_id: 40bef088fb8b81ae8128decfd918f3de
 ---
 
-## Hydrating & moisturizing
+### Hydrating & moisturizing
 
 | Ingredient | Problem | Effects | Side effects |
 |---|---|---|---|
@@ -15,14 +15,14 @@ notion_id: 40bef088fb8b81ae8128decfd918f3de
 | Fatty acids (e.g. linoleic acid) | Damaged skin barrier | Nourishes and repairs the skin barrier | Generally well tolerated |
 | Shea butter | Dry, rough skin | Moisturizes, softens and soothes | Rare allergies |
 
-## Exfoliants
+### Exfoliants
 
 | Ingredient | Problem | Effects | Side effects |
 |---|---|---|---|
 | AHAs (e.g. glycolic acid) | Uneven skin tone, texture | Exfoliates, improves skin tone | Potential irritation |
 | BHAs (e.g. salicylic acid) | Acne, clogged pores | Exfoliates, treats acne | Can cause dryness or redness |
 
-## Anti-aging
+### Anti-aging
 
 | Ingredient | Problem | Effects | Side effects |
 |---|---|---|---|
@@ -31,7 +31,7 @@ notion_id: 40bef088fb8b81ae8128decfd918f3de
 | Vitamin C (ascorbic acid) | Sun damage, pigmentation | Antioxidant, brightens skin | Irritation in high concentrations |
 | Coenzyme Q10 (ubiquinone) | Fine lines, wrinkles | Antioxidant, supports collagen production | Generally safe, occasional irritation |
 
-## Sun protection
+### Sun protection
 
 | Ingredient | Problem | Effects | Side effects |
 |---|---|---|---|
