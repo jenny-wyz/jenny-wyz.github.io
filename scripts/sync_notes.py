@@ -152,16 +152,17 @@ class Converter:
 
         # Everything below is a top-level block; indentation only applies to lists.
         if t == "paragraph":
-            return ([text] if text else []) + nested(0)
+            return ([text.replace("\n", "\\\n")] if text else []) + nested(0)
         if t in ("heading_1", "heading_2", "heading_3"):
             level = int(t[-1]) + 1          # Notion h1 -> ## so the page title stays the only h1
             return [f"{'#' * level} {text}"] + nested(0)
         if t == "quote":
-            body = [text] + nested(0)
+            # Line breaks inside the quote (poem lines) become hard breaks.
+            body = [text.replace("\n", "\\\n> ")] + nested(0)
             return ["> " + "\n> ".join(body)]
         if t == "callout":
             icon = (p.get("icon") or {}).get("emoji", "")
-            body = [(icon + " " + text).strip()] + nested(0)
+            body = [(icon + " " + text).strip().replace("\n", "\\\n> ")] + nested(0)
             return ["> " + "\n> ".join(body)]
         if t == "toggle":
             return [f"**{text}**"] + nested(0)

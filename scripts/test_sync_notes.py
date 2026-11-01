@@ -86,6 +86,10 @@ class BlockTests(unittest.TestCase):
         q = blk("quote", "wise", "q1", children=[blk("paragraph", "more", "p2")])
         self.assertEqual(md([q, blk("divider", "", "d1")]), "> wise\n> more\n\n---")
 
+    def test_quote_line_breaks(self):
+        q = blk("quote", "line one\nline two", "q2")
+        self.assertEqual(md([q]), "> line one\\\n> line two")
+
     def test_image_is_collected(self):
         conv = FakeConverter([])
         b = {"id": "i1", "type": "image", "has_children": False,
