@@ -72,7 +72,9 @@
     {
       "added": "2026-10-14",
       "author": "Martin Heidegger",
-      "categories": [],
+      "categories": [
+        "Philosophy"
+      ],
       "collection": false,
       "completed": null,
       "id": "3f9ef088fb8b808cb2c3eabc3fe2634e",
@@ -80,8 +82,8 @@
       "notes": [],
       "rating": null,
       "review": "",
-      "started": null,
-      "status": "Reading",
+      "started": "2026-09-28",
+      "status": "Paused",
       "title": "Being and Time"
     },
     {
@@ -202,7 +204,7 @@
       "rating": null,
       "review": "",
       "started": null,
-      "status": "Reading",
+      "status": "Paused",
       "title": "Emotional Intelligence"
     },
     {
@@ -534,7 +536,7 @@
       "rating": null,
       "review": "",
       "started": "2026-09-01",
-      "status": "Paused",
+      "status": "Reading",
       "title": "Of Human Bondage"
     },
     {
@@ -1288,6 +1290,24 @@
       "title": "White Nights"
     },
     {
+      "added": "2026-11-01",
+      "author": "51人",
+      "categories": [
+        "Fiction",
+        "Spirituality"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b8098a6e3f4015bcf1ff0",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "藏族小故事",
+      "started": null,
+      "status": "Completed",
+      "title": "三个故事"
+    },
+    {
       "added": "2025-06-25",
       "author": "刘慈欣",
       "categories": [
@@ -1441,6 +1461,23 @@
       "started": null,
       "status": "Paused",
       "title": "我是猫"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "张晓风",
+      "categories": [
+        "Personal Essays"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b80039c78e2528bf224fb",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "抒情散文。很有生活",
+      "started": null,
+      "status": "Completed",
+      "title": "我自我的田渠归来"
     },
     {
       "added": "2026-11-01",
