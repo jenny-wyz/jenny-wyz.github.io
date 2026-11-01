@@ -1,7 +1,6 @@
 ---
 title: "Goldberg Variations: a listening map"
 date: 2026-10-31
-summary: "Thirty variations on one bass line. Where to start listening."
 subjects: ["music"]
 ---
 

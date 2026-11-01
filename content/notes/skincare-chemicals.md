@@ -1,7 +1,6 @@
 ---
 title: "Skincare chemicals"
 date: 2023-12-02
-summary: "Common ingredients by purpose: what problem each one targets, what it does, and its side effects."
 subjects: ["skincare"]
 notion_id: 40bef088fb8b81ae8128decfd918f3de
 ---

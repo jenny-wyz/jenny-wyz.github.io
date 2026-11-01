@@ -94,7 +94,7 @@ class BlockTests(unittest.TestCase):
         self.assertEqual(conv.images, [("https://s3/x/photo.png?sig=1", "img-1.png")])
 
 
-NAMES = {"title": "Name", "subjects": "Tags", "date": "Date", "publish": "Publish", "summary": "Summary"}
+NAMES = {"title": "Name", "subjects": "Tags", "date": "Date", "publish": "Publish"}
 
 
 def row(pid="abc123", title="Rock", publish=True, subjects=("music",), date="2024-04-25", icon=None):
@@ -103,7 +103,6 @@ def row(pid="abc123", title="Rock", publish=True, subjects=("music",), date="202
         "Tags": {"type": "multi_select", "multi_select": [{"name": t} for t in subjects]},
         "Date": {"type": "date", "date": {"start": date} if date else None},
         "Publish": {"type": "checkbox", "checkbox": publish},
-        "Summary": {"type": "rich_text", "rich_text": rt("sum")},
     }}
     if icon:
         r["icon"] = {"type": "emoji", "emoji": icon}
@@ -124,6 +123,7 @@ class NoteTests(unittest.TestCase):
         self.assertIn("notion_id: abc123", fm)
         self.assertIn('subjects: ["biology", "food"]', fm)
         self.assertNotIn("tags:", fm)
+        self.assertNotIn("summary:", fm)
 
     def test_no_subject_falls_back_to_misc(self):
         n = sn.build_note(row(subjects=()), NAMES, "b", [])

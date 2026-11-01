@@ -1,7 +1,6 @@
 ---
 title: "Electronic"
 date: 2024-04-25
-summary: "House, progressive house and EDM, in a few lines each."
 subjects: ["music"]
 notion_id: 40bef088fb8b812d8019da6af1bc9595
 ---

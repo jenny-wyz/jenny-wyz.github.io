@@ -1,7 +1,6 @@
 ---
 title: "Ship of Theseus, applied to a website"
 date: 2026-10-31
-summary: "If every file is eventually replaced, is it the same capsule?"
 subjects: ["philosophy"]
 ---
 

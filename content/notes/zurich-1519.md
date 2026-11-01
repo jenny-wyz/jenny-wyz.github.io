@@ -1,7 +1,6 @@
 ---
 title: "Zurich, 1519"
 date: 2026-10-31
-summary: "Zwingli arrives at the Grossmünster and starts preaching straight through Matthew."
 subjects: ["history"]
 ---
 

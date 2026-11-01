@@ -1,7 +1,6 @@
 ---
 title: "Random notes on music production"
 date: 2024-04-10
-summary: "Groove, DJing, equal temperament, phase cancellation, speaker layouts, panning."
 subjects: ["music"]
 notion_id: 40bef088fb8b811b8a20fed98453ebf9
 ---

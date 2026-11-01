@@ -1,7 +1,6 @@
 ---
 title: "Swiss cheese tier list"
 date: 2024-10-12
-summary: "Every Swiss cheese I have tried, ranked from S to F, with tasting notes."
 subjects: ["food"]
 notion_id: 40bef088fb8b818ab7a1e216b2cbe3ff
 ---

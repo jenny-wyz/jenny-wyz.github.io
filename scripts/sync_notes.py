@@ -225,8 +225,6 @@ def yaml_str(s: str) -> str:
 
 def front_matter(note: dict) -> str:
     lines = ["---", f"title: {yaml_str(note['title'])}", f"date: {note['date']}"]
-    if note.get("summary"):
-        lines.append(f"summary: {yaml_str(note['summary'])}")
     lines.append("subjects: [" + ", ".join(yaml_str(t) for t in note["subjects"]) + "]")
     lines.append(f"notion_id: {note['id']}")
     lines.append("---")
@@ -252,7 +250,6 @@ def build_note(row: dict, names: dict, body: str, images: list[tuple[str, str]])
         "slug": slugify(get_text(row, names["title"])),
         "subjects": subjects,
         "date": date[:10],
-        "summary": get_text(row, names.get("summary", "Summary")).strip(),
         "body": body.strip() + "\n",
         "images": images,
     }

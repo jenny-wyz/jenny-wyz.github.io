@@ -30,8 +30,7 @@
       "title": "Name",
       "subjects": "Tags",
       "date": "Date",
-      "publish": "Publish",
-      "summary": "Summary"
+      "publish": "Publish"
     }
   },
   "output": "data/books.json",

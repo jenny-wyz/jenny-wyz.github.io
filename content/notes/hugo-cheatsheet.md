@@ -1,7 +1,6 @@
 ---
 title: "Hugo cheat sheet for this site"
 date: 2026-10-31
-summary: "The handful of commands and conventions needed to keep this site running."
 subjects: ["tech"]
 ---
 

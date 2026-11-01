@@ -1,7 +1,6 @@
 ---
 title: "On very short Kafka"
 date: 2026-10-31
-summary: "The one-paragraph stories and why they work."
 subjects: ["literature"]
 ---
 

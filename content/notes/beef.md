@@ -1,7 +1,6 @@
 ---
 title: "🥩 Beef"
 date: 2024-06-12
-summary: "The main beef cuts: where they sit on the cow, how to recognize them, texture, price and how to cook them."
 subjects: ["food"]
 notion_id: 40bef088fb8b81a3a9ddf8f2d4ec6983
 ---

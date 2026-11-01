@@ -1,7 +1,6 @@
 ---
 title: "What a genome is not"
 date: 2026-10-31
-summary: "Three common metaphors for the genome and where each one breaks."
 subjects: ["biology"]
 ---
 
