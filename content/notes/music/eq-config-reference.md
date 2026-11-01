@@ -4,6 +4,7 @@ date: 2026-10-11
 summary: "Which EQ preset for which kind of listening."
 tags: ["eq", "listening"]
 categories: ["music"]
+notion_id: 40bef088fb8b81568fc9efb18b675749
 ---
 
 **All others** - small speakers

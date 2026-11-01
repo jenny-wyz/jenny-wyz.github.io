@@ -4,6 +4,7 @@ date: 2022-04-12
 summary: "The main actives, which ones pair well, and in what order to layer them."
 tags: ["actives", "routine"]
 categories: ["skincare"]
+notion_id: 40bef088fb8b81cbbd94c2ae47e55395
 ---
 
 ## Active ingredients

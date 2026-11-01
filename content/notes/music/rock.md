@@ -4,6 +4,7 @@ date: 2024-04-25
 summary: "A field guide to rock subgenres, with a few tracks for each."
 tags: ["genres", "rock"]
 categories: ["music"]
+notion_id: 40bef088fb8b81e39458dc0aa31fecfd
 ---
 
 Typical ensemble:

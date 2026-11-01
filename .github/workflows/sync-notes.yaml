@@ -1,0 +1,75 @@
+# Nightly sync of the Notes section from Notion.
+#
+# Reads "Jernier's Notes on Stuff" and rewrites the synced files under
+# content/notes/ (only pages with Publish ticked; hand-written notes are left
+# alone). When anything changed, commits and starts the Pages deploy.
+#
+# One-time setup:
+#   * The same NOTION_TOKEN secret as the reading sync.
+#   * In Notion, open the "Jernier's Notes on Stuff" database, menu (...) >
+#     Connections > add the integration used for the reading list.
+#
+# Run it by hand from the Actions tab ("Run workflow") to test.
+name: Sync notes from Notion
+
+on:
+  schedule:
+    - cron: "41 3 * * *"   # every day, 03:41 UTC (04:41 / 05:41 Zurich)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: "sync-notes"
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run tests
+        run: python3 -I scripts/test_sync_notes.py
+
+      - name: Sync notes from Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+        run: |
+          if [ -z "$NOTION_TOKEN" ]; then
+            echo "::error::NOTION_TOKEN secret is not set (Settings > Secrets and variables > Actions)"
+            exit 1
+          fi
+          python3 scripts/sync_notes.py --verbose
+
+      - name: Commit and push changes
+        id: commit
+        run: |
+          git add -A -- content/notes
+          if git diff --cached --quiet; then
+            echo "No changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          n=$(grep -rl "^notion_id:" content/notes | wc -l)
+          git commit -m "Sync notes from Notion ($n notes)"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy the site
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run hugo.yaml --ref main

@@ -1,10 +1,11 @@
 ---
-title: "🧊"
+title: "🧊 Substances"
 date: 2024-01-05
 summary: "Psychoactive substances by class: forms, effects on neurons, risks and dependence."
 tags: ["pharmacology", "neuroscience"]
 categories: ["biology"]
 draft: true
+notion_id: 40bef088fb8b81c08ec3cb8320894efb
 ---
 
 ## Psychedelics

@@ -1,5 +1,5 @@
 {
-  "_comment": "Notion sources for the Reading section. IDs are not secrets; the integration token is (NOTION_TOKEN env var / GitHub secret).",
+  "_comment": "Notion sources for the Reading and Notes sections. IDs are not secrets; the integration token is (NOTION_TOKEN env var / GitHub secret).",
   "books": {
     "database_id": "21def088fb8b81638847d5df725945c7",
     "data_source_id": "21def088-fb8b-81f5-a168-000b39e6b4f2"
@@ -25,8 +25,22 @@
       "title": "Name",
       "book": "Name of book",
       "text": "Thoughts & Notes"
+    },
+    "site_notes": {
+      "title": "Name",
+      "subject": "Subject",
+      "tags": "Tags",
+      "date": "Date",
+      "publish": "Publish",
+      "summary": "Summary"
     }
   },
   "output": "data/books.json",
-  "fetch_page_bodies": true
+  "fetch_page_bodies": true,
+  "site_notes": {
+    "_comment": "Jernier's Notes on Stuff: the Notes section. Only pages with Publish ticked are written to output_dir.",
+    "database_id": "11175b3357bb47bd8781f0238d4dc010",
+    "data_source_id": "d4ac95b3-96a1-4a80-9689-799823ff8986",
+    "output_dir": "content/notes"
+  }
 }

@@ -9,7 +9,7 @@ categories: ["tech"]
 ## Everyday
 
 - New journal entry: create `content/journal/YYYY-MM-DD-title.md` with a title and date in the front matter.
-- New note: put it in the right subfolder under `content/notes/` and set `categories: ["<subject>"]`.
+- New note: add a page to the Notion database "Jernier's Notes on Stuff", pick a Subject and tick Publish; the nightly sync writes it to `content/notes/<subject>/`. A hand-written note still works too: put it in the right subfolder and set `categories: ["<subject>"]`.
 - Preview locally: `hugo server -D` and open the printed address. `-D` includes drafts.
 - Publish: commit and push to `main`. GitHub Actions builds and deploys the site.
 

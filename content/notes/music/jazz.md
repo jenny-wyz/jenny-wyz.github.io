@@ -4,6 +4,7 @@ date: 2024-04-25
 summary: "What makes jazz jazz: melody, harmony, rhythm, timbre. Plus barber beats."
 tags: ["genres", "jazz"]
 categories: ["music"]
+notion_id: 40bef088fb8b81829ae9d8534ee2cb7a
 ---
 
 - 旋律：布鲁斯etc音阶

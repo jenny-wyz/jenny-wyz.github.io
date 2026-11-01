@@ -6,7 +6,7 @@ Context for Claude when working on this repository. Read this and `README.md` be
 
 Jenny's personal "life capsule" website, published at https://jenny-wyz.github.io/ from this repo (`jenny-wyz/jenny-wyz.github.io`). Built with Hugo (extended) and the Blowfish theme (git submodule in `themes/blowfish`, v3.8.0). Deployed by GitHub Actions (`.github/workflows/hugo.yaml`) on every push to `main`.
 
-Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (subfolders: music, tech, literature, philosophy, history, biology, food, skincare; more may be added). More top-level sections may come later.
+Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (synced nightly from the Notion database "Jernier's Notes on Stuff" by scripts/sync_notes.py; only pages with Publish ticked are written; files with a notion_id in their front matter belong to the sync, files without are hand-written and left alone; subfolders: music, tech, literature, philosophy, history, biology, food, skincare; the sync creates new ones). More top-level sections may come later.
 
 ## Owner and preferences
 
@@ -43,7 +43,8 @@ Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirec
 ## Current status and open items
 
 - Site is live with sample entries in each section (placeholders Jenny will replace).
-- `data/books.json` (89 books) was generated once from a Notion export; the live Notion API sync has not yet run in production. It needs: a Notion internal integration connected to the "Jernier reads" page, the repo secret `NOTION_TOKEN`, optionally the variable `COVERS=true`. The first manual run of "Sync reading list from Notion" is the real-world test; check its log carefully.
+- The reading sync from Notion runs in production (114 books as of Nov 2026, covers fetched).
+- Notes: 11 notes were imported from Apple Notes in Nov 2026 and copied into the Notion database "Jernier's Notes on Stuff" (database id in `scripts/sync_config.json`, key `site_notes`). The files under `content/notes/` carry the matching `notion_id`, so the first run of "Sync notes from Notion" should produce no or only cosmetic diffs. Before that first run: give the Notion integration access to that database (database page > ... > Connections). The "Substances" note is a draft in the repo and unpublished in Notion; the sync will remove the repo file, which is intended.
 - Covers have never been fetched (the build environment could not reach Open Library). Expect most English titles to match and most Chinese titles to keep spines.
 - Hugo is pinned to 0.167.0 in `hugo.yaml` because Blowfish 3.8.0 declares compatibility up to that version. Re-test before upgrading either.
 - GitHub pauses scheduled workflows after 60 days without repo activity.
