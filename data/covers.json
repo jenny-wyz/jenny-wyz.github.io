@@ -486,10 +486,26 @@
     "checked": "2026-10-31",
     "title": "Being and Time"
   },
+  "40bef088fb8b8003be0aef24c6306d80": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "挪威的森林"
+  },
+  "40bef088fb8b80298318f3eda4604e06": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "斗破苍穹"
+  },
   "40bef088fb8b8029bad5fdd27e7467ae": {
     "status": "miss",
     "checked": "2026-11-01",
     "title": "How to be a Stoic"
+  },
+  "40bef088fb8b8038ac1bfe354080b43d": {
+    "status": "ok",
+    "cover_i": 10324512,
+    "checked": "2026-11-01",
+    "title": "我是猫"
   },
   "40bef088fb8b80398eececc94a15c8e9": {
     "status": "ok",
@@ -497,10 +513,35 @@
     "checked": "2026-11-01",
     "title": "The Winter’s Tale"
   },
+  "40bef088fb8b8054a9a1c6f65e90361d": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "Man’s Search for Meaning"
+  },
+  "40bef088fb8b806da95fe2999f7ab421": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "哈利·波特"
+  },
+  "40bef088fb8b80739b14e43809c0ee3d": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "罗生门"
+  },
   "40bef088fb8b80a68984d02c5f951cfc": {
     "status": "miss",
     "checked": "2026-11-01",
     "title": "The Sickness unto Death"
+  },
+  "40bef088fb8b80a98d4bce52d200a0c1": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "斗罗大陆"
+  },
+  "40bef088fb8b80b3a1c5d79b0dc9d849": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "刺杀骑士团长"
   },
   "40bef088fb8b80fda437c6dab94ab338": {
     "status": "ok",
