@@ -10,3 +10,73 @@
 .dark .logo svg { color: rgb(var(--color-neutral-300)); }
 .logo:hover svg, a:focus-visible > .logo svg { color: rgb(var(--color-primary-600)); }
 .dark .logo:hover svg, .dark a:focus-visible > .logo svg { color: rgb(var(--color-primary-400)); }
+
+/* ------------------------------------------------------------------ */
+/* Subject bubbles (Notes page, layouts/partials/bubbles.html)          */
+/* ------------------------------------------------------------------ */
+
+/* A soft palette: fill color, and an ink color dark enough to read on it. */
+:root {
+  --bub-0: 244, 170, 190;  --bub-ink-0: 140, 55, 85;    /* rose */
+  --bub-1: 160, 200, 232;  --bub-ink-1: 40, 85, 130;    /* sky */
+  --bub-2: 236, 214, 150;  --bub-ink-2: 125, 95, 20;    /* butter */
+  --bub-3: 170, 212, 184;  --bub-ink-3: 45, 110, 70;    /* sage */
+  --bub-4: 196, 184, 232;  --bub-ink-4: 85, 65, 140;    /* lavender */
+  --bub-5: 246, 196, 160;  --bub-ink-5: 150, 80, 35;    /* apricot */
+  --bub-6: 165, 220, 212;  --bub-ink-6: 35, 110, 100;   /* mint */
+  --bub-7: 222, 184, 206;  --bub-ink-7: 125, 65, 100;   /* mauve */
+  --bub-8: 222, 206, 176;  --bub-ink-8: 120, 90, 45;    /* sand */
+  --bub-fill: 0.34;
+  --bub-line: 0.75;
+}
+.dark {
+  --bub-fill: 0.16;
+  --bub-line: 0.55;
+  /* In dark mode the pastel itself is the readable ink. */
+  --bub-ink-0: var(--bub-0); --bub-ink-1: var(--bub-1); --bub-ink-2: var(--bub-2);
+  --bub-ink-3: var(--bub-3); --bub-ink-4: var(--bub-4); --bub-ink-5: var(--bub-5);
+  --bub-ink-6: var(--bub-6); --bub-ink-7: var(--bub-7); --bub-ink-8: var(--bub-8);
+}
+
+.bubbles {
+  position: relative;
+  margin: 0.5rem 0 3rem;
+  /* No-JS fallback: a wrapped row of equal circles. */
+  display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center;
+}
+.bubbles.is-laid-out { display: block; }
+
+.bubble {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 6.5rem; height: 6.5rem;
+  border-radius: 50%;
+  text-decoration: none;
+  text-align: center;
+  background: rgba(var(--bub), var(--bub-fill));
+  border: 1.5px solid rgba(var(--bub), var(--bub-line));
+  color: rgb(var(--bub-ink));
+  box-shadow: 0 8px 24px -12px rgba(var(--bub), 0.6);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  will-change: transform;
+}
+.is-laid-out .bubble {
+  position: absolute;
+  animation: bubble-drift var(--drift, 8s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+.bubble:hover, .bubble:focus-visible {
+  background: rgba(var(--bub), calc(var(--bub-fill) + 0.18));
+  box-shadow: 0 14px 32px -12px rgba(var(--bub), 0.9);
+  animation-play-state: paused;
+  transform: scale(1.06);
+  outline: none;
+}
+.bubble-title { font-weight: 600; line-height: 1.15; padding: 0 0.6em; }
+.bubble-count { font-size: 0.72em; opacity: 0.75; margin-top: 0.2em; font-variant-numeric: tabular-nums; }
+
+@keyframes bubble-drift {
+  from { translate: 0 0; }
+  to   { translate: var(--dx, 6px) var(--dy, -8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-laid-out .bubble { animation: none; }
+}

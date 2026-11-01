@@ -1,0 +1,114 @@
+{{- /*
+  Floating subject bubbles.
+
+  Input: a slice of dicts with "title", "url", "count". Renders each as a
+  round link whose size follows the count (square root, so a subject with
+  four times the notes gets a bubble twice as wide). A small script packs
+  the circles into the container without overlaps and lets them drift;
+  without JavaScript they fall back to a wrapped row of circles.
+
+  Colors come from a fixed pastel palette (assets/css/custom.css, --bub-*),
+  assigned per subject by a stable hash of its name so a subject keeps its
+  color when others are added. Styles live in custom.css under ".bubbles".
+*/ -}}
+{{- $palette := 9 -}}
+{{- $max := 1 -}}
+{{- range . }}{{ if gt .count $max }}{{ $max = .count }}{{ end }}{{ end -}}
+<nav class="bubbles not-prose" aria-label="Subjects" data-max="{{ $max }}">
+  {{- range $i, $b := sort . "title" }}
+    {{- $slot := mod $i $palette -}}
+    <a class="bubble" href="{{ $b.url }}" data-count="{{ $b.count }}" data-key="{{ $b.title }}" style="--bub: var(--bub-{{ $slot }}); --bub-ink: var(--bub-ink-{{ $slot }});">
+      <span class="bubble-title">{{ $b.title }}</span>
+      <span class="bubble-count">{{ $b.count }}</span>
+    </a>
+  {{- end }}
+</nav>
+<script>
+(function () {
+  var field = document.querySelector(".bubbles");
+  if (!field) return;
+  var bubbles = Array.prototype.slice.call(field.querySelectorAll(".bubble"));
+  var max = parseFloat(field.getAttribute("data-max")) || 1;
+
+  // Stable per-subject color: hash the name, take a free palette slot.
+  var slots = 9, used = {};
+  bubbles.slice().sort(function (a, b) {
+    return a.getAttribute("data-key") < b.getAttribute("data-key") ? -1 : 1;
+  }).forEach(function (b) {
+    var key = b.getAttribute("data-key"), h = 0;
+    for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+    var s = h % slots, tries = 0;
+    while (used[s] && tries < slots) { s = (s + 1) % slots; tries++; }
+    used[s] = true;
+    b.style.setProperty("--bub", "var(--bub-" + s + ")");
+    b.style.setProperty("--bub-ink", "var(--bub-ink-" + s + ")");
+  });
+
+  // Deterministic pseudo-random so the layout is the same on every visit.
+  var seed = 0;
+  bubbles.forEach(function (b) { var k = b.getAttribute("data-key"); for (var i = 0; i < k.length; i++) seed = (seed * 33 + k.charCodeAt(i)) >>> 0; });
+  function rnd() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function layout() {
+    var W = field.clientWidth;
+    if (!W) return;
+    var narrow = W < 560;
+    var dMin = narrow ? 68 : 84, dMax = narrow ? 150 : 200;
+    var circles = bubbles.map(function (b) {
+      var c = parseFloat(b.getAttribute("data-count")) || 1;
+      var d = dMin + (dMax - dMin) * Math.sqrt(c / max);
+      return { el: b, r: d / 2 };
+    });
+    var area = circles.reduce(function (s, c) { return s + Math.PI * c.r * c.r; }, 0);
+    var H = Math.max(narrow ? 300 : 320, Math.ceil(area * 2.2 / W));
+    field.style.height = H + "px";
+
+    seed = 7;
+    bubbles.forEach(function (b) { var k = b.getAttribute("data-key"); for (var i = 0; i < k.length; i++) seed = (seed * 33 + k.charCodeAt(i)) >>> 0; });
+    circles.forEach(function (c) {
+      c.x = c.r + rnd() * (W - 2 * c.r);
+      c.y = c.r + rnd() * (H - 2 * c.r);
+    });
+    var pad = 10;
+    for (var it = 0; it < 240; it++) {
+      for (var i = 0; i < circles.length; i++) {
+        var a = circles[i];
+        for (var j = i + 1; j < circles.length; j++) {
+          var b = circles[j];
+          var dx = b.x - a.x, dy = b.y - a.y;
+          var dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
+          var min = a.r + b.r + pad;
+          if (dist < min) {
+            var push = (min - dist) / 2, ux = dx / dist, uy = dy / dist;
+            a.x -= ux * push; a.y -= uy * push; b.x += ux * push; b.y += uy * push;
+          }
+        }
+        // gentle pull toward the middle so the field reads as one cluster
+        a.x += (W / 2 - a.x) * 0.004; a.y += (H / 2 - a.y) * 0.004;
+        a.x = Math.min(W - a.r, Math.max(a.r, a.x));
+        a.y = Math.min(H - a.r, Math.max(a.r, a.y));
+      }
+    }
+    circles.forEach(function (c, i) {
+      var s = c.el.style;
+      s.width = s.height = (c.r * 2) + "px";
+      s.left = (c.x - c.r) + "px";
+      s.top = (c.y - c.r) + "px";
+      s.fontSize = Math.max(0.78, Math.min(1.15, c.r / 70)) + "rem";
+      if (!reduce) {
+        s.setProperty("--drift", (6 + rnd() * 5).toFixed(2) + "s");
+        s.setProperty("--delay", (-rnd() * 8).toFixed(2) + "s");
+        s.setProperty("--dx", ((rnd() - 0.5) * 14).toFixed(1) + "px");
+        s.setProperty("--dy", ((rnd() - 0.5) * 18).toFixed(1) + "px");
+      }
+    });
+    field.classList.add("is-laid-out");
+  }
+
+  layout();
+  var t;
+  window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(layout, 120); });
+})();
+</script>

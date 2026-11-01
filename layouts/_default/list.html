@@ -1,10 +1,10 @@
 {{ define "main" }}
   {{/*
     Site override of Blowfish's list template.
-    Difference from the theme: a section can show a card grid above its
-    article list, either its subsections (folders) or the terms of a taxonomy
-    (Notes: `cards: "subjects"`). With subsections the list below includes
-    entries from all of them, newest first.
+    Difference from the theme: a section can show its subsections (folders)
+    as a card grid above the article list, or the terms of a taxonomy as
+    floating bubbles (Notes: `cards: "subjects"`, see partials/bubbles.html).
+    With subsections the list below includes entries from all of them.
   */}}
   {{ .Scratch.Set "scope" "list" }}
 
@@ -54,7 +54,9 @@
     {{ end }}
     {{ if gt (len $subs) 0 }}{{ $pages = .RegularPagesRecursive }}{{ end }}
   {{ end }}
-  {{ if gt (len $cards) 0 }}
+  {{ if and $cardTaxonomy (gt (len $cards) 0) }}
+    {{ partial "bubbles.html" $cards }}
+  {{ else if gt (len $cards) 0 }}
     <section class="not-prose grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style="margin-bottom: 3rem;">
       {{ range sort $cards "title" }}
         <a href="{{ .url }}"
