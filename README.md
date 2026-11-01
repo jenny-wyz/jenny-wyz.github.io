@@ -13,7 +13,7 @@ Everything is a Markdown file under `content/`:
 | Brain dump | `content/braindump/` | |
 | Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |
 | Recipes | `content/recipes/` | |
-| Notes | `content/notes/<subject>/` | subjects are subfolders: music, tech, literature, philosophy, history, biology |
+| Notes | `content/notes/<subject>/` | subjects are subfolders: music, tech, literature, philosophy, history, biology, food, skincare |
 
 Each file starts with front matter between `---` lines:
 

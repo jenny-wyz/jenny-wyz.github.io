@@ -6,7 +6,7 @@ Context for Claude when working on this repository. Read this and `README.md` be
 
 Jenny's personal "life capsule" website, published at https://jenny-wyz.github.io/ from this repo (`jenny-wyz/jenny-wyz.github.io`). Built with Hugo (extended) and the Blowfish theme (git submodule in `themes/blowfish`, v3.8.0). Deployed by GitHub Actions (`.github/workflows/hugo.yaml`) on every push to `main`.
 
-Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (subfolders: music, tech, literature, philosophy, history, biology; more may be added). More top-level sections may come later.
+Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (subfolders: music, tech, literature, philosophy, history, biology, food, skincare; more may be added). More top-level sections may come later.
 
 ## Owner and preferences
 
