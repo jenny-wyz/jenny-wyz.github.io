@@ -496,6 +496,12 @@
     "checked": "2026-11-01",
     "title": "挪威的森林"
   },
+  "40bef088fb8b801ab1faff762de4bf14": {
+    "status": "ok",
+    "cover_i": 9282831,
+    "checked": "2026-11-01",
+    "title": "An Enquiry Concerning Human Understanding"
+  },
   "40bef088fb8b80298318f3eda4604e06": {
     "status": "miss",
     "checked": "2026-11-01",
@@ -505,6 +511,11 @@
     "status": "miss",
     "checked": "2026-11-01",
     "title": "How to be a Stoic"
+  },
+  "40bef088fb8b8033baa5d5d5ff6990b8": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "绝对不在场证明"
   },
   "40bef088fb8b8038ac1bfe354080b43d": {
     "status": "ok",
@@ -517,6 +528,16 @@
     "cover_i": 10226009,
     "checked": "2026-11-01",
     "title": "The Winter’s Tale"
+  },
+  "40bef088fb8b804396b1cda35eb16a1c": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "聊斋志异"
+  },
+  "40bef088fb8b804cbbe0f78573abe307": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "断舍离"
   },
   "40bef088fb8b8054a9a1c6f65e90361d": {
     "status": "miss",
@@ -533,10 +554,26 @@
     "checked": "2026-11-01",
     "title": "罗生门"
   },
+  "40bef088fb8b807a968cdc5e3fbe683e": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "诡计博物馆"
+  },
+  "40bef088fb8b8085afdbd79d8b0d0274": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "Just Ask Yourself"
+  },
   "40bef088fb8b8098a6e3f4015bcf1ff0": {
     "status": "miss",
     "checked": "2026-11-01",
     "title": "三个故事"
+  },
+  "40bef088fb8b80a1b966e2e91a3a1efa": {
+    "status": "ok",
+    "cover_i": 6604586,
+    "checked": "2026-11-01",
+    "title": "Discourse on Method and Meditations"
   },
   "40bef088fb8b80a68984d02c5f951cfc": {
     "status": "miss",
@@ -553,10 +590,26 @@
     "checked": "2026-11-01",
     "title": "刺杀骑士团长"
   },
+  "40bef088fb8b80bcac7bf8a5fa680e0b": {
+    "status": "ok",
+    "cover_i": 4519411,
+    "checked": "2026-11-01",
+    "title": "A Modest Proposal"
+  },
+  "40bef088fb8b80fa8701c3ba3b2608da": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "窗边的小豆豆"
+  },
   "40bef088fb8b80fda437c6dab94ab338": {
     "status": "ok",
     "cover_i": 14913522,
     "checked": "2026-11-01",
     "title": "The Adventures of Huckleberry Finn"
+  },
+  "40bef088fb8b80fdb494da12f103bd24": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "封神演义"
   }
 }

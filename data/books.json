@@ -35,6 +35,29 @@
       "title": "A Brief History of Time"
     },
     {
+      "added": "2026-11-01",
+      "author": "Jonathan Swift",
+      "categories": [
+        "Sociology"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b80bcac7bf8a5fa680e0b",
+      "lang": "en",
+      "notes": [
+        {
+          "created": "2026-11-01",
+          "text": "satire. love!!\n\nbut forgot. need to read it again!",
+          "title": "Notes & Thoughts"
+        }
+      ],
+      "rating": 5,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "A Modest Proposal"
+    },
+    {
       "added": "2026-09-01",
       "author": "Agatha Christie",
       "body": "- And then there were none\n\n- Death on the nile\n\n- Murder on the orient express\n\n- the murder of roger ackroyd\n\n- the abc murders\n\n- five little pigs\n\n- evil under the sun\n\n- a murder is announced\n\n- the murder on the links\n\n- the big four\n\n- peril at the house\n\n- death in the clouds\n\n- the mysterious affair at styles\n\n- three act tragedy\n\n- after the funeral\n\n- elephants can remember\n\n- appointment with death\n\n- hercule poirot’s christmas\n\n- hickory dickory dock\n\n- …",
@@ -51,6 +74,23 @@
       "started": null,
       "status": "Completed",
       "title": "Agatha Christie"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "David Hume",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b801ab1faff762de4bf14",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "An Enquiry Concerning Human Understanding"
     },
     {
       "added": "2026-09-01",
@@ -172,6 +212,23 @@
       "started": null,
       "status": "Completed",
       "title": "De Profundis"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "René Descartes",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b80a1b966e2e91a3a1efa",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Discourse on Method and Meditations"
     },
     {
       "added": "2026-09-01",
@@ -359,6 +416,23 @@
       "started": null,
       "status": "Completed",
       "title": "Jane Eyre"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "Moirae Choquette",
+      "categories": [
+        "Self-improvement"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b8085afdbd79d8b0d0274",
+      "lang": "en",
+      "notes": [],
+      "rating": 4,
+      "review": "simple yet insightful",
+      "started": null,
+      "status": "Paused",
+      "title": "Just Ask Yourself"
     },
     {
       "added": "2026-09-01",
@@ -992,23 +1066,6 @@
     },
     {
       "added": "2026-09-01",
-      "author": "Oscar Wilde",
-      "categories": [
-        "Fiction"
-      ],
-      "collection": false,
-      "completed": null,
-      "id": "3ceef088fb8b806bb5f4c03256a262fc",
-      "lang": "en",
-      "notes": [],
-      "rating": null,
-      "review": "",
-      "started": null,
-      "status": "Completed",
-      "title": "The Nightingale and the Rose"
-    },
-    {
-      "added": "2026-09-01",
       "author": "Ernest Hemingway",
       "categories": [
         "Fiction"
@@ -1395,6 +1452,23 @@
     },
     {
       "added": "2026-09-01",
+      "author": "Oscar Wilde",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b806bb5f4c03256a262fc",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "唯美",
+      "started": null,
+      "status": "Completed",
+      "title": "夜莺与玫瑰"
+    },
+    {
+      "added": "2026-09-01",
       "author": "东野圭吾",
       "categories": [
         "Fiction"
@@ -1409,6 +1483,24 @@
       "started": null,
       "status": "Completed",
       "title": "嫌疑人X的献身"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "许仲琳",
+      "body": "比干你的心呢",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b80fdb494da12f103bd24",
+      "lang": "zh",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "封神演义"
     },
     {
       "added": "2026-09-01",
@@ -1515,7 +1607,7 @@
     },
     {
       "added": "2026-11-01",
-      "author": "忘了",
+      "author": "唐家三少",
       "categories": [
         "Fiction"
       ],
@@ -1529,6 +1621,23 @@
       "started": null,
       "status": "Completed",
       "title": "斗罗大陆"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "山下英子",
+      "categories": [
+        "Spirituality"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b804cbbe0f78573abe307",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Paused",
+      "title": "断舍离"
     },
     {
       "added": "2025-06-25",
@@ -1669,6 +1778,23 @@
       "title": "白夜行"
     },
     {
+      "added": "2026-11-01",
+      "author": "黑柳彻子",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b80fa8701c3ba3b2608da",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "窗边的小豆豆"
+    },
+    {
       "added": "2025-06-25",
       "author": "叶真中显",
       "categories": [
@@ -1687,6 +1813,23 @@
     },
     {
       "added": "2026-11-01",
+      "author": "大山诚一郎",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b8033baa5d5d5ff6990b8",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "绝对不在场证明"
+    },
+    {
+      "added": "2026-11-01",
       "author": "芥川龙之介",
       "categories": [
         "Fiction"
@@ -1701,6 +1844,23 @@
       "started": null,
       "status": "Completed",
       "title": "罗生门"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "蒲松龄",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b804396b1cda35eb16a1c",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "聊斋志异"
     },
     {
       "added": "2026-09-01",
@@ -1753,6 +1913,23 @@
       "started": null,
       "status": "Completed",
       "title": "解忧杂货店"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "大山诚一郎",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b807a968cdc5e3fbe683e",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "诡计博物馆"
     },
     {
       "added": "2026-09-02",
