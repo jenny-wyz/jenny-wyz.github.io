@@ -35,23 +35,6 @@
       "title": "A Brief History of Time"
     },
     {
-      "added": "2026-09-02",
-      "author": "Edgar Allan Poe",
-      "categories": [
-        "Fiction"
-      ],
-      "collection": false,
-      "completed": null,
-      "id": "3cfef088fb8b80d19a0cff608bb11fb3",
-      "lang": "en",
-      "notes": [],
-      "rating": null,
-      "review": "",
-      "started": null,
-      "status": "Completed",
-      "title": "A Cask of Amontillado"
-    },
-    {
       "added": "2026-09-01",
       "author": "Agatha Christie",
       "body": "- And then there were none\n\n- Death on the nile\n\n- Murder on the orient express\n\n- the murder of roger ackroyd\n\n- the abc murders\n\n- five little pigs\n\n- evil under the sun\n\n- a murder is announced\n\n- the murder on the links\n\n- the big four\n\n- peril at the house\n\n- death in the clouds\n\n- the mysterious affair at styles\n\n- three act tragedy\n\n- after the funeral\n\n- elephants can remember\n\n- appointment with death\n\n- hercule poirot’s christmas\n\n- hickory dickory dock\n\n- …",
@@ -135,23 +118,6 @@
       "started": null,
       "status": "Completed",
       "title": "Brave New World"
-    },
-    {
-      "added": "2026-09-01",
-      "author": "Jack London",
-      "categories": [
-        "Fiction"
-      ],
-      "collection": false,
-      "completed": null,
-      "id": "3ceef088fb8b802eb192f412ee1ecc28",
-      "lang": "en",
-      "notes": [],
-      "rating": 5,
-      "review": "",
-      "started": null,
-      "status": "Completed",
-      "title": "Call of the Wild"
     },
     {
       "added": "2026-09-01",
@@ -357,6 +323,23 @@
       "started": null,
       "status": "To Read",
       "title": "Holy Bible"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "Epictetus, Seneca, Marcus Aurelius",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b8029bad5fdd27e7467ae",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "How to be a Stoic"
     },
     {
       "added": "2026-09-01",
@@ -692,6 +675,23 @@
       "title": "Stray Birds"
     },
     {
+      "added": "2026-11-01",
+      "author": "Mark Twain",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b80fda437c6dab94ab338",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Adventures of Huckleberry Finn"
+    },
+    {
       "added": "2026-09-02",
       "author": "Mark Twain",
       "categories": [
@@ -742,6 +742,40 @@
       "started": null,
       "status": "Completed",
       "title": "The Brothers Karamazov"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Jack London",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b802eb192f412ee1ecc28",
+      "lang": "en",
+      "notes": [],
+      "rating": 5,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Call of the Wild"
+    },
+    {
+      "added": "2026-09-02",
+      "author": "Edgar Allan Poe",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3cfef088fb8b80d19a0cff608bb11fb3",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Cask of Amontillado"
     },
     {
       "added": "2026-09-01",
@@ -798,7 +832,7 @@
       "review": "",
       "started": null,
       "status": "To Read",
-      "title": "The Devil"
+      "title": "The Devils"
     },
     {
       "added": "2025-06-25",
@@ -989,6 +1023,23 @@
       "title": "The Outsider"
     },
     {
+      "added": "2025-06-25",
+      "author": "Oscar Wilde",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "21def088fb8b8036a243c82b1ecd102f",
+      "lang": "en",
+      "notes": [],
+      "rating": 4,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Picture of Dorian Gray"
+    },
+    {
       "added": "2026-09-02",
       "author": "Albert Camus",
       "categories": [
@@ -1005,23 +1056,6 @@
       "started": null,
       "status": "To Read",
       "title": "The Plague"
-    },
-    {
-      "added": "2025-06-25",
-      "author": "Oscar Wilde",
-      "categories": [
-        "Classic Literature"
-      ],
-      "collection": false,
-      "completed": null,
-      "id": "21def088fb8b8036a243c82b1ecd102f",
-      "lang": "en",
-      "notes": [],
-      "rating": 4,
-      "review": "",
-      "started": null,
-      "status": "Completed",
-      "title": "The Portrait of Dorian Gray"
     },
     {
       "added": "2025-06-25",
@@ -1065,6 +1099,23 @@
       "title": "The Second Sex"
     },
     {
+      "added": "2026-11-01",
+      "author": "Søren Kierkegaard",
+      "categories": [
+        "Philosophy"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b80a68984d02c5f951cfc",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Sickness unto Death"
+    },
+    {
       "added": "2026-09-01",
       "author": "Goethe",
       "categories": [
@@ -1080,6 +1131,23 @@
       "started": null,
       "status": "To Read",
       "title": "The Sorrows of Young Werther"
+    },
+    {
+      "added": "2026-11-01",
+      "author": "William Shakespeare",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "40bef088fb8b80398eececc94a15c8e9",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Winter’s Tale"
     },
     {
       "added": "2026-09-01",
@@ -1320,7 +1388,7 @@
       "review": "",
       "started": null,
       "status": "Completed",
-      "title": "明朝那些事"
+      "title": "明朝那些事儿"
     },
     {
       "added": "2026-09-01",

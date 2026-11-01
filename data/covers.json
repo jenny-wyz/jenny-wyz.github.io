@@ -485,5 +485,27 @@
     "cover_i": 15221434,
     "checked": "2026-10-31",
     "title": "Being and Time"
+  },
+  "40bef088fb8b8029bad5fdd27e7467ae": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "How to be a Stoic"
+  },
+  "40bef088fb8b80398eececc94a15c8e9": {
+    "status": "ok",
+    "cover_i": 10226009,
+    "checked": "2026-11-01",
+    "title": "The Winter’s Tale"
+  },
+  "40bef088fb8b80a68984d02c5f951cfc": {
+    "status": "miss",
+    "checked": "2026-11-01",
+    "title": "The Sickness unto Death"
+  },
+  "40bef088fb8b80fda437c6dab94ab338": {
+    "status": "ok",
+    "cover_i": 14913522,
+    "checked": "2026-11-01",
+    "title": "The Adventures of Huckleberry Finn"
   }
 }
