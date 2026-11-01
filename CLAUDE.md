@@ -6,7 +6,7 @@ Context for Claude when working on this repository. Read this and `README.md` be
 
 Jenny's personal "life capsule" website, published at https://jenny-wyz.github.io/ from this repo (`jenny-wyz/jenny-wyz.github.io`). Built with Hugo (extended) and the Blowfish theme (git submodule in `themes/blowfish`, v3.8.0). Deployed by GitHub Actions (`.github/workflows/hugo.yaml`) on every push to `main`.
 
-Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (one flat folder, `content/notes/`; subjects are the `subjects` taxonomy with term pages served at /notes/<subject>/ and described in `content/subjects/<subject>/_index.md`; a note can have several subjects; synced nightly from the Notion database "Jernier's Notes on Stuff" by `scripts/sync_notes.py`, whose "Tags" property holds the subjects; only pages with Publish ticked are written; files with a `notion_id` belong to the sync, files without are hand-written and left alone). More top-level sections may come later.
+Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (one flat folder, `content/notes/`; subjects are the `subjects` taxonomy with term pages served at /notes/<subject>/ (title in `content/subjects/<subject>/_index.md`); a note can have several subjects; synced nightly from the Notion database "Jernier's Notes on Stuff" by `scripts/sync_notes.py`, whose "Tags" property holds the subjects; only pages with Publish ticked are written; files with a `notion_id` belong to the sync, files without are hand-written and left alone). More top-level sections may come later.
 
 ## Owner and preferences
 

@@ -21,7 +21,7 @@ Rules of the road:
     written or deleted. If it succeeds, the result is trusted as is (an empty
     Publish set is a legitimate choice, not an error).
   * A new subject gets its page, content/subjects/<subject>/_index.md, created
-    on demand with a plain title and description (edit it afterwards).
+    on demand with just a title.
   * Reuses the HTTP client and property helpers from sync_books.py.
 """
 
@@ -294,7 +294,7 @@ def ensure_subject(root: str, subject: str) -> None:
     os.makedirs(d, exist_ok=True)
     nice = subject.replace("-", " ").title()
     with open(idx, "w", encoding="utf-8") as f:
-        f.write(f'---\ntitle: "{nice}"\ndescription: "Notes on {nice.lower()}."\n---\n\nNotes on {nice.lower()}.\n')
+        f.write(f'---\ntitle: "{nice}"\n---\n')
 
 
 def download(url: str, dest: str, log) -> bool:

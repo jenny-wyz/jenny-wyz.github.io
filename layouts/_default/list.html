@@ -55,7 +55,7 @@
     {{ if gt (len $subs) 0 }}{{ $pages = .RegularPagesRecursive }}{{ end }}
   {{ end }}
   {{ if gt (len $cards) 0 }}
-    <section class="not-prose mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <section class="not-prose grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style="margin-bottom: 3rem;">
       {{ range sort $cards "title" }}
         <a href="{{ .url }}"
            class="flex flex-col gap-1 rounded-xl border p-4 no-underline transition-transform hover:-translate-y-0.5"
