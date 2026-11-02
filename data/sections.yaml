@@ -16,7 +16,7 @@
 # A single page can also pick any theme with `colors: <key>` in its front matter.
 
 journal:
-  tagline: "day by day"
+  tagline: "week by week"
   icon: "pen-nib"
   primary:
     50: "245, 243, 255"
@@ -35,7 +35,7 @@ journal:
   light_bg: "251, 250, 255"
 
 essays:
-  tagline: "the long version"
+  tagline: "know thyself"
   icon: "book-open"
   primary:
     50: "255, 251, 235"
@@ -54,7 +54,7 @@ essays:
   light_bg: "255, 252, 247"
 
 braindump:
-  tagline: "unsorted thoughts"
+  tagline: "unsorted random thoughts"
   icon: "lightbulb"
   primary:
     50: "236, 253, 245"
@@ -73,7 +73,7 @@ braindump:
   light_bg: "247, 254, 251"
 
 reading:
-  tagline: "books and what they left behind"
+  tagline: "jernier's library"
   icon: "book"
   primary:
     50: "250, 245, 255"
@@ -92,7 +92,7 @@ reading:
   light_bg: "252, 249, 255"
 
 recipes:
-  tagline: "things worth cooking twice"
+  tagline: "jernier's kitchen"
   icon: "utensils"
   primary:
     50: "255, 247, 237"
@@ -111,7 +111,7 @@ recipes:
   light_bg: "255, 251, 246"
 
 notes:
-  tagline: "music, food, skincare, tech, biology..."
+  tagline: "jernier's classroom"
   icon: "note-sticky"
   primary:
     50: "240, 253, 250"
