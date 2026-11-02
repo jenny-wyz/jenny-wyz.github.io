@@ -46,7 +46,9 @@
     FIELD_VH: 0.7,    // field height as a share of the viewport height (desktop)
     FIELD_AREA: 4,    // field is at least this many times the bubbles' own area
     SIZE_MIN: 84,     // diameter of a 1-note bubble, desktop (px)
-    SIZE_MAX: 200     // diameter of the biggest subject, desktop (px)
+    SIZE_MAX: 200,    // diameter of the biggest subject, desktop (px)
+    SQUASH_MAX: 0.09, // how much a shoved bubble flattens (0 = rigid, 0.15 = jelly)
+    SQUASH_SMOOTH: 0.08 // how quickly the squash follows the motion (smaller = softer, slower)
   };
 
   var field = document.querySelector(".bubbles");
@@ -84,6 +86,7 @@
         el: b, r: d / 2, m: d * d,
         x: prev ? prev.x : 0, y: prev ? prev.y : 0,
         vx: prev ? prev.vx : 0, vy: prev ? prev.vy : 0,
+        svx: 0, svy: 0,                          // smoothed velocity, for the soft squash
         phase: Math.random() * Math.PI * 2,
         wobble: 0.6 + Math.random() * 0.8,
         drift: T.TURN + Math.random() * T.TURN_SPREAD
@@ -114,7 +117,7 @@
         var dx = b.x - a.x, dy = b.y - a.y;
         var dist = Math.sqrt(dx * dx + dy * dy) || 0.01, min = a.r + b.r;
         if (dist < min) {
-          var ux = dx / dist, uy = dy / dist, overlap = (min - dist) * (bounce ? 0.5 : 1);
+          var ux = dx / dist, uy = dy / dist, overlap = (min - dist) * (bounce ? 0.8 : 1);
           var wa = b.m / (a.m + b.m), wb = a.m / (a.m + b.m);
           a.x -= ux * overlap * wa; a.y -= uy * overlap * wa;
           b.x += ux * overlap * wb; b.y += uy * overlap * wb;
@@ -169,9 +172,20 @@
     if (!document.hidden) raf = requestAnimationFrame(step); else raf = 0;
   }
 
+  // Squash is driven by a smoothed velocity, so it only shows up when a bubble
+  // is really being pushed (a collision, the cursor chasing it), never from
+  // frame-to-frame noise. That is the soft jiggle without the glitching.
   function paint() {
     circles.forEach(function (c) {
-      c.el.style.transform = "translate3d(" + (c.x - c.r).toFixed(2) + "px," + (c.y - c.r).toFixed(2) + "px,0)";
+      c.svx += (c.vx - c.svx) * T.SQUASH_SMOOTH; c.svy += (c.vy - c.svy) * T.SQUASH_SMOOTH;
+      var sp = Math.sqrt(c.svx * c.svx + c.svy * c.svy);
+      var sq = Math.max(0, Math.min(T.SQUASH_MAX, (sp - 30) / 900));
+      var tr = "translate3d(" + (c.x - c.r).toFixed(2) + "px," + (c.y - c.r).toFixed(2) + "px,0)";
+      if (sq > 0.004) {
+        var ang = Math.atan2(c.svy, c.svx).toFixed(3);
+        tr += " rotate(" + ang + "rad) scale(" + (1 + sq).toFixed(3) + "," + (1 - sq).toFixed(3) + ") rotate(-" + ang + "rad)";
+      }
+      c.el.style.transform = tr;
     });
   }
 
