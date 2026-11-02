@@ -54,7 +54,7 @@ essays:
   light_bg: "255, 252, 247"
 
 braindump:
-  tagline: "unsorted random thoughts"
+  tagline: "unsorted thoughts"
   icon: "lightbulb"
   primary:
     50: "236, 253, 245"
