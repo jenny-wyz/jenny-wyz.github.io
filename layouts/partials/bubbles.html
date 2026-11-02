@@ -27,6 +27,28 @@
 </nav>
 <script>
 (function () {
+  /* ------------------------------------------------------------------ *
+   *  TUNING KNOBS: this is the place to change how the bubbles move.    *
+   *  Units are pixels and seconds. Edit, commit, push.                   *
+   * ------------------------------------------------------------------ */
+  var T = {
+    SPEED: 95,        // strength of each bubble's current (bigger = faster, livelier)
+    MAX_SPEED: 110,   // hard cap on px/s, so nothing ever zooms
+    DRAG: 0.975,      // per-frame velocity kept (closer to 1 = glide longer; 0.9 = sluggish)
+    TURN: 0.35,       // how quickly a current changes heading (bigger = twistier paths)
+    TURN_SPREAD: 0.3, // random extra TURN per bubble, so they don't all turn alike
+    AGILITY: 150,     // small bubbles move more than big ones: agility = AGILITY / (radius + 40)
+    CENTER_PULL: 0.08,// gentle pull toward the middle of the field (0 = none)
+    MOUSE_PUSH: 420,  // how hard the cursor pushes bubbles away (0 = ignore the mouse)
+    MOUSE_REACH: 110, // extra px around a bubble where the cursor is felt
+    CLICK_SHOVE: 260, // strength of the scatter on a click in empty space (0 = off)
+    WALL_BOUNCE: 0.8, // speed kept when bouncing off an edge (1 = perfect bounce)
+    FIELD_VH: 0.7,    // field height as a share of the viewport height (desktop)
+    FIELD_AREA: 4,    // field is at least this many times the bubbles' own area
+    SIZE_MIN: 84,     // diameter of a 1-note bubble, desktop (px)
+    SIZE_MAX: 200     // diameter of the biggest subject, desktop (px)
+  };
+
   var field = document.querySelector(".bubbles");
   if (!field) return;
   var bubbles = Array.prototype.slice.call(field.querySelectorAll(".bubble"));
@@ -53,7 +75,7 @@
   function size() {
     W = field.clientWidth;
     var narrow = W < 560;
-    var dMin = narrow ? 68 : 84, dMax = narrow ? 150 : 200;
+    var dMin = narrow ? T.SIZE_MIN * 0.8 : T.SIZE_MIN, dMax = narrow ? T.SIZE_MAX * 0.75 : T.SIZE_MAX;
     circles = bubbles.map(function (b, i) {
       var c = parseFloat(b.getAttribute("data-count")) || 1;
       var d = dMin + (dMax - dMin) * Math.sqrt(c / max);
@@ -62,13 +84,13 @@
         el: b, r: d / 2, m: d * d,
         x: prev ? prev.x : 0, y: prev ? prev.y : 0,
         vx: prev ? prev.vx : 0, vy: prev ? prev.vy : 0,
-        phase: Math.random() * Math.PI * 2, wobble: 0.6 + Math.random() * 0.8,
-        drift: 0.35 + Math.random() * 0.3       // how quickly this bubble's current turns
+        phase: Math.random() * Math.PI * 2,
+        wobble: 0.6 + Math.random() * 0.8,
+        drift: T.TURN + Math.random() * T.TURN_SPREAD
       };
     });
     var area = circles.reduce(function (s, c) { return s + Math.PI * c.r * c.r; }, 0);
-    // Plenty of room: roughly 4x the bubbles' own area, at least ~70% of the viewport.
-    H = Math.max(narrow ? 460 : Math.round(window.innerHeight * 0.7), Math.ceil(area * 4 / W));
+    H = Math.max(narrow ? 460 : Math.round(window.innerHeight * T.FIELD_VH), Math.ceil(area * T.FIELD_AREA / W));
     field.style.height = H + "px";
     circles.forEach(function (c) {
       var s = c.el.style;
@@ -77,30 +99,29 @@
       if (!c.x) { c.x = c.r + Math.random() * (W - 2 * c.r); c.y = c.r + Math.random() * (H - 2 * c.r); }
       c.x = Math.min(W - c.r, Math.max(c.r, c.x)); c.y = Math.min(H - c.r, Math.max(c.r, c.y));
     });
-    // Untangle the initial placement before the first frame.
-    for (var k = 0; k < 120; k++) collide(0);
+    for (var k = 0; k < 120; k++) collide(false);   // untangle before the first frame
     paint();
     field.classList.add("is-laid-out");
   }
 
+  // Bubbles touch exactly at their rims (no gap). Overlap is removed in a few
+  // gentle steps rather than at once, which is what keeps them from shaking.
   function collide(bounce) {
-    var pad = 6;
     for (var i = 0; i < circles.length; i++) {
       var a = circles[i];
       for (var j = i + 1; j < circles.length; j++) {
         var b = circles[j];
         var dx = b.x - a.x, dy = b.y - a.y;
-        var dist = Math.sqrt(dx * dx + dy * dy) || 0.01, min = a.r + b.r + pad;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 0.01, min = a.r + b.r;
         if (dist < min) {
-          var ux = dx / dist, uy = dy / dist, overlap = min - dist;
+          var ux = dx / dist, uy = dy / dist, overlap = (min - dist) * (bounce ? 0.5 : 1);
           var wa = b.m / (a.m + b.m), wb = a.m / (a.m + b.m);
           a.x -= ux * overlap * wa; a.y -= uy * overlap * wa;
           b.x += ux * overlap * wb; b.y += uy * overlap * wb;
           if (bounce) {
-            // exchange a bit of momentum along the contact normal (soft, squishy)
             var rel = (b.vx - a.vx) * ux + (b.vy - a.vy) * uy;
             if (rel < 0) {
-              var imp = -rel * 0.9;
+              var imp = -rel * 0.85;
               a.vx -= ux * imp * wa; a.vy -= uy * imp * wa;
               b.vx += ux * imp * wb; b.vy += uy * imp * wb;
             }
@@ -114,52 +135,43 @@
   function step(now) {
     var dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now; t += dt;
     circles.forEach(function (c) {
-      // Wander: each bubble follows its own slowly turning current. The
-      // heading changes continuously, so there are no jolts, and the pull is
-      // strong enough that the motion is easy to see.
+      // Each bubble follows its own slowly turning current: smooth, no jolts.
       var ang = c.phase + Math.sin(t * c.drift + c.phase) * 2.6 + t * 0.25 * c.wobble;
-      var agility = 150 / (c.r + 40);          // small bubbles are livelier
-      var pull = 95 * agility;
+      var agility = T.AGILITY / (c.r + 40);
+      var pull = T.SPEED * agility;
       c.vx += Math.cos(ang) * pull * dt; c.vy += Math.sin(ang) * pull * dt;
-      // A gentle bias back toward the middle keeps the cluster on stage.
-      c.vx += (W / 2 - c.x) * 0.08 * dt; c.vy += (H / 2 - c.y) * 0.08 * dt;
+      c.vx += (W / 2 - c.x) * T.CENTER_PULL * dt; c.vy += (H / 2 - c.y) * T.CENTER_PULL * dt;
 
       // The cursor pushes bubbles away, more strongly up close.
-      if (mouse.inside) {
+      if (mouse.inside && T.MOUSE_PUSH) {
         var mx = c.x - mouse.x, my = c.y - mouse.y, md = Math.sqrt(mx * mx + my * my) || 1;
-        var reach = c.r + 110;
+        var reach = c.r + T.MOUSE_REACH;
         if (md < reach) {
-          var f = (1 - md / reach) * 420 * agility;
+          var f = (1 - md / reach) * T.MOUSE_PUSH * agility;
           c.vx += (mx / md) * f * dt * 8; c.vy += (my / md) * f * dt * 8;
         }
       }
 
-      // Light drag, then move. The cap keeps a shove from turning into a rocket.
-      var drag = Math.pow(0.975, dt * 60);
+      var drag = Math.pow(T.DRAG, dt * 60);
       c.vx *= drag; c.vy *= drag;
-      var sp = Math.sqrt(c.vx * c.vx + c.vy * c.vy), cap = 110;
-      if (sp > cap) { c.vx *= cap / sp; c.vy *= cap / sp; }
+      var sp = Math.sqrt(c.vx * c.vx + c.vy * c.vy);
+      if (sp > T.MAX_SPEED) { c.vx *= T.MAX_SPEED / sp; c.vy *= T.MAX_SPEED / sp; }
       c.x += c.vx * dt; c.y += c.vy * dt;
 
-      // Soft walls: slow down near the edge, bounce if we hit it.
-      var margin = 8;
-      if (c.x < c.r + margin) { c.x = c.r + margin; c.vx = Math.abs(c.vx) * 0.8; }
-      if (c.x > W - c.r - margin) { c.x = W - c.r - margin; c.vx = -Math.abs(c.vx) * 0.8; }
-      if (c.y < c.r + margin) { c.y = c.r + margin; c.vy = Math.abs(c.vy) * 0.8; }
-      if (c.y > H - c.r - margin) { c.y = H - c.r - margin; c.vy = -Math.abs(c.vy) * 0.8; }
+      var m = 8;
+      if (c.x < c.r + m) { c.x = c.r + m; c.vx = Math.abs(c.vx) * T.WALL_BOUNCE; }
+      if (c.x > W - c.r - m) { c.x = W - c.r - m; c.vx = -Math.abs(c.vx) * T.WALL_BOUNCE; }
+      if (c.y < c.r + m) { c.y = c.r + m; c.vy = Math.abs(c.vy) * T.WALL_BOUNCE; }
+      if (c.y > H - c.r - m) { c.y = H - c.r - m; c.vy = -Math.abs(c.vy) * T.WALL_BOUNCE; }
     });
-    collide(1);
+    collide(true);
     paint();
     if (!document.hidden) raf = requestAnimationFrame(step); else raf = 0;
   }
 
   function paint() {
     circles.forEach(function (c) {
-      // A touch of squash along the direction of travel makes it feel soft.
-      var sp = Math.sqrt(c.vx * c.vx + c.vy * c.vy);
-      var sq = Math.min(0.08, sp / 2000), ang = Math.atan2(c.vy, c.vx);
-      c.el.style.transform = "translate3d(" + (c.x - c.r).toFixed(1) + "px," + (c.y - c.r).toFixed(1) + "px,0)" +
-        (sq > 0.005 ? " rotate(" + ang.toFixed(3) + "rad) scale(" + (1 + sq).toFixed(3) + "," + (1 - sq).toFixed(3) + ") rotate(" + (-ang).toFixed(3) + "rad)" : "");
+      c.el.style.transform = "translate3d(" + (c.x - c.r).toFixed(2) + "px," + (c.y - c.r).toFixed(2) + "px,0)";
     });
   }
 
@@ -171,13 +183,12 @@
     mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.inside = true;
   });
   field.addEventListener("mouseleave", function () { mouse.inside = false; });
-  // A tap gives everything a shove.
   field.addEventListener("click", function (e) {
-    if (e.target.closest("a")) return;
+    if (e.target.closest("a") || !T.CLICK_SHOVE) return;
     var r = field.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
     circles.forEach(function (c) {
       var dx = c.x - px, dy = c.y - py, d = Math.sqrt(dx * dx + dy * dy) || 1;
-      var pow = 260 * Math.max(0, 1 - d / (W * 0.6));
+      var pow = T.CLICK_SHOVE * Math.max(0, 1 - d / (W * 0.6));
       c.vx += dx / d * pow; c.vy += dy / d * pow;
     });
   });
