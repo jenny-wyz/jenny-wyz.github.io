@@ -185,7 +185,9 @@
   .rail-panel { transition: none; }
 }
 
-/* Subjects rail on subject pages: a colored dot per subject, matching its bubble. */
+/* Subjects rail on subject pages: narrower (names are short), and a colored
+   dot per subject, matching its bubble. */
+.rail-subjects { --rail-w: 11rem; }
 .rail-item-dot a { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
 .rail-item-dot a::before {
   background: rgba(var(--bub, var(--color-primary-500)), 0.9);
@@ -195,4 +197,3 @@
 .rail-item-dot.is-current a::before { background: rgb(var(--bub, var(--color-primary-500))); box-shadow: 0 0 0 3px rgba(var(--bub, var(--color-primary-500)), 0.35); }
 .rail-item-dot.is-current a { color: rgb(var(--color-neutral-900)); }
 .dark .rail-item-dot.is-current a { color: rgb(var(--color-neutral-100)); }
-.rail-item-count { font-size: 0.72rem; font-variant-numeric: tabular-nums; opacity: 0.6; }

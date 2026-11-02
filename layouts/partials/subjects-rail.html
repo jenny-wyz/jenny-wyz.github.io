@@ -1,6 +1,6 @@
 {{- /*
   Subjects rail: the right-edge drawer on a subject page, listing every
-  subject with its note count. The current one is marked. Each subject gets
+  subject by name. The current one is marked. Each subject gets
   the same pastel dot as its bubble on /notes/ (same hash, see bubbles.html).
   Shares the ".rail" styles with the note rail (assets/css/custom.css).
 */ -}}
@@ -20,14 +20,12 @@
     <section class="rail-group">
       <a class="rail-heading" href="{{ (site.GetPage "/notes").RelPermalink }}">
         <span>Notes</span>
-        <span class="rail-heading-count">{{ len $terms }} subjects</span>
       </a>
       <ol class="rail-list">
         {{- range sort $terms "title" }}
         <li class="rail-item rail-item-dot{{ if eq .url $.RelPermalink }} is-current{{ end }}" data-key="{{ .title }}">
           <a href="{{ .url }}"{{ if eq .url $.RelPermalink }} aria-current="page"{{ end }}>
             <span>{{ .title }}</span>
-            <span class="rail-item-count">{{ .count }}</span>
           </a>
         </li>
         {{- end }}
