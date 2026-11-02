@@ -73,14 +73,18 @@
   will-change: transform;
 }
 .dark .bubble {
-  --hi: 0.55;
+  --hi: 0.38;
+  /* One soft, wide highlight; no second gleam; a quiet halo. */
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, var(--hi)) 0, rgba(255, 255, 255, calc(var(--hi) * 0.4)) 14%, rgba(255, 255, 255, 0) 34%),
+    radial-gradient(circle at 50% 50%, rgba(var(--bub), calc(var(--bub-fill) * 0.3)) 0, rgba(var(--bub), calc(var(--bub-fill) * 0.5)) 62%, rgba(var(--bub), calc(var(--bub-fill) * 1.6)) 90%, rgba(255, 255, 255, 0.22) 97%, rgba(var(--bub), 0.6) 100%);
   box-shadow:
-    inset 0 -14px 28px -8px rgba(var(--bub), 0.45),
-    inset 0 10px 22px -10px rgba(255, 255, 255, 0.35),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
-    0 22px 44px -20px rgba(var(--bub), 0.55),
-    0 0 36px -10px rgba(var(--bub), 0.35);
+    inset 0 -14px 28px -8px rgba(var(--bub), 0.3),
+    inset 0 10px 24px -12px rgba(255, 255, 255, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 18px 36px -22px rgba(var(--bub), 0.35);
 }
+.dark .bubble::after { display: none; }
 /* Iridescent film: a slowly turning ring of pastel hues, masked to the edge. */
 .bubble::before {
   content: ""; position: absolute; inset: 0; border-radius: 50%;
@@ -94,7 +98,7 @@
   animation: film-turn 14s linear infinite;
   pointer-events: none;
 }
-.dark .bubble::before { --film: 0.35; }
+.dark .bubble::before { --film: 0.22; }
 /* A second, smaller gleam that sits across from the main highlight. */
 .bubble::after {
   content: ""; position: absolute; left: 62%; top: 66%; width: 18%; height: 10%;

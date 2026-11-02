@@ -5,9 +5,8 @@
   round link whose size follows the count (square root, so a subject with
   four times the notes gets a bubble twice as wide). A small script packs
   the circles into the container without overlaps and then runs a small
-  physics loop: bubbles wander on slow currents, dash off now and then,
-  bump softly into each other, shy away from the cursor, and scatter on a
-  click. Without JavaScript they fall back to a wrapped row of circles;
+  physics loop: bubbles glide on their own slowly turning currents, bump
+  softly into each other, shy away from the cursor, and scatter on a click. Without JavaScript they fall back to a wrapped row of circles;
   with "reduce motion" they stay where they are packed.
 
   Colors come from a fixed pastel palette (assets/css/custom.css, --bub-*),
@@ -64,12 +63,12 @@
         x: prev ? prev.x : 0, y: prev ? prev.y : 0,
         vx: prev ? prev.vx : 0, vy: prev ? prev.vy : 0,
         phase: Math.random() * Math.PI * 2, wobble: 0.6 + Math.random() * 0.8,
-        kick: 4 + Math.random() * 7,            // seconds until the next burst
-        spin: (Math.random() - 0.5) * 0.6       // slow rotation of the film
+        drift: 0.35 + Math.random() * 0.3       // how quickly this bubble's current turns
       };
     });
     var area = circles.reduce(function (s, c) { return s + Math.PI * c.r * c.r; }, 0);
-    H = Math.max(narrow ? 320 : 360, Math.ceil(area * 2.4 / W));
+    // Plenty of room: roughly 4x the bubbles' own area, at least ~70% of the viewport.
+    H = Math.max(narrow ? 460 : Math.round(window.innerHeight * 0.7), Math.ceil(area * 4 / W));
     field.style.height = H + "px";
     circles.forEach(function (c) {
       var s = c.el.style;
@@ -115,20 +114,15 @@
   function step(now) {
     var dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now; t += dt;
     circles.forEach(function (c) {
-      // Wander: a slow, looping current with a bit of personality per bubble.
-      var fx = Math.cos(t * c.wobble + c.phase) * 18 + Math.sin(t * 0.37 + c.phase * 2) * 9;
-      var fy = Math.sin(t * c.wobble * 0.8 + c.phase) * 18 + Math.cos(t * 0.29 + c.phase) * 9;
-      // Lighter bubbles are livelier than heavy ones.
-      var agility = 120 / (c.r + 40);
-      c.vx += fx * agility * dt; c.vy += fy * agility * dt;
-
-      // Every few seconds, a burst: a sudden dash in a random direction.
-      c.kick -= dt;
-      if (c.kick <= 0) {
-        var ang = Math.random() * Math.PI * 2, pow = (40 + Math.random() * 110) * agility;
-        c.vx += Math.cos(ang) * pow; c.vy += Math.sin(ang) * pow;
-        c.kick = 5 + Math.random() * 9;
-      }
+      // Wander: each bubble follows its own slowly turning current. The
+      // heading changes continuously, so there are no jolts, and the pull is
+      // strong enough that the motion is easy to see.
+      var ang = c.phase + Math.sin(t * c.drift + c.phase) * 2.6 + t * 0.25 * c.wobble;
+      var agility = 150 / (c.r + 40);          // small bubbles are livelier
+      var pull = 95 * agility;
+      c.vx += Math.cos(ang) * pull * dt; c.vy += Math.sin(ang) * pull * dt;
+      // A gentle bias back toward the middle keeps the cluster on stage.
+      c.vx += (W / 2 - c.x) * 0.08 * dt; c.vy += (H / 2 - c.y) * 0.08 * dt;
 
       // The cursor pushes bubbles away, more strongly up close.
       if (mouse.inside) {
@@ -140,19 +134,19 @@
         }
       }
 
-      // Drag, then move. Clamp so a burst never turns into a rocket.
-      var drag = Math.pow(0.82, dt * 60);
+      // Light drag, then move. The cap keeps a shove from turning into a rocket.
+      var drag = Math.pow(0.975, dt * 60);
       c.vx *= drag; c.vy *= drag;
-      var sp = Math.sqrt(c.vx * c.vx + c.vy * c.vy), cap = 160;
+      var sp = Math.sqrt(c.vx * c.vx + c.vy * c.vy), cap = 110;
       if (sp > cap) { c.vx *= cap / sp; c.vy *= cap / sp; }
       c.x += c.vx * dt; c.y += c.vy * dt;
 
       // Soft walls: slow down near the edge, bounce if we hit it.
       var margin = 8;
-      if (c.x < c.r + margin) { c.x = c.r + margin; c.vx = Math.abs(c.vx) * 0.6; }
-      if (c.x > W - c.r - margin) { c.x = W - c.r - margin; c.vx = -Math.abs(c.vx) * 0.6; }
-      if (c.y < c.r + margin) { c.y = c.r + margin; c.vy = Math.abs(c.vy) * 0.6; }
-      if (c.y > H - c.r - margin) { c.y = H - c.r - margin; c.vy = -Math.abs(c.vy) * 0.6; }
+      if (c.x < c.r + margin) { c.x = c.r + margin; c.vx = Math.abs(c.vx) * 0.8; }
+      if (c.x > W - c.r - margin) { c.x = W - c.r - margin; c.vx = -Math.abs(c.vx) * 0.8; }
+      if (c.y < c.r + margin) { c.y = c.r + margin; c.vy = Math.abs(c.vy) * 0.8; }
+      if (c.y > H - c.r - margin) { c.y = H - c.r - margin; c.vy = -Math.abs(c.vy) * 0.8; }
     });
     collide(1);
     paint();

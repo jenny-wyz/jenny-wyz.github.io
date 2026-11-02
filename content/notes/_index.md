@@ -2,6 +2,7 @@
 title: "Notes"
 description: "Notes on stuff, sorted by subject."
 cards: "subjects"
+hideList: true        # the page is just the bubbles; notes are reached via the subjects
 groupByYear: false   # newest first, no year headings
 cascade:
   showSummary: false   # note lists show title, date and subjects only

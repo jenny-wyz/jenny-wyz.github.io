@@ -77,7 +77,9 @@
     </section>
   {{ end }}
 
-  {{ if gt (len $pages) 0 }}
+  {{ if .Params.hideList }}
+    {{/* The section shows only its cards or bubbles (Notes: `hideList: true`). */}}
+  {{ else if gt (len $pages) 0 }}
     {{ $groupByYear := .Params.groupByYear | default (site.Params.list.groupByYear | default false) }}
     {{ $orderByWeight := .Params.orderByWeight | default (site.Params.list.orderByWeight | default false) }}
     <section class="space-y-10 w-full">
