@@ -87,6 +87,7 @@
 
 .rail {
   --rail-w: 17rem;
+  --rail-bg: var(--color-neutral);          /* page background, light */
   position: fixed; right: 0; top: 50%;
   z-index: 30;
   display: flex; align-items: center;
@@ -100,13 +101,14 @@
   border: 1px solid rgba(var(--color-primary-500), 0.35);
   border-right: 0;
   border-radius: 0.75rem 0 0 0.75rem;
-  background: rgba(var(--color-neutral), 0.72);
+  background: rgba(var(--rail-bg), 0.78);
   color: rgb(var(--color-primary-600));
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 6px 22px -10px rgba(0, 0, 0, 0.35);
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
+.dark .rail { --rail-bg: var(--color-neutral-800); }   /* page background, dark */
 .dark .rail-tab { color: rgb(var(--color-primary-400)); }
 .rail-tab-label {
   writing-mode: vertical-rl; text-orientation: mixed;
@@ -127,7 +129,7 @@
   border: 1px solid rgba(var(--color-primary-500), 0.22);
   border-right: 0;
   border-radius: 0.9rem 0 0 0.9rem;
-  background: rgba(var(--color-neutral), 0.94);
+  background: rgba(var(--rail-bg), 0.94);
   backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.45);
   opacity: 0;
@@ -138,7 +140,7 @@
 }
 /* Open: the tab becomes the drawer's handle, flush against the panel. */
 .rail:hover .rail-tab, .rail:focus-within .rail-tab, .rail.is-open .rail-tab {
-  background: rgba(var(--color-neutral), 0.94);
+  background: rgba(var(--rail-bg), 0.94);
   border-color: rgba(var(--color-primary-500), 0.22);
   box-shadow: none;
 }
@@ -182,3 +184,15 @@
 @media (prefers-reduced-motion: reduce) {
   .rail-panel { transition: none; }
 }
+
+/* Subjects rail on subject pages: a colored dot per subject, matching its bubble. */
+.rail-item-dot a { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+.rail-item-dot a::before {
+  background: rgba(var(--bub, var(--color-primary-500)), 0.9);
+  width: 0.45rem; height: 0.45rem; top: 0.7em;
+  box-shadow: 0 0 0 3px rgba(var(--bub, var(--color-primary-500)), 0.18);
+}
+.rail-item-dot.is-current a::before { background: rgb(var(--bub, var(--color-primary-500))); box-shadow: 0 0 0 3px rgba(var(--bub, var(--color-primary-500)), 0.35); }
+.rail-item-dot.is-current a { color: rgb(var(--color-neutral-900)); }
+.dark .rail-item-dot.is-current a { color: rgb(var(--color-neutral-100)); }
+.rail-item-count { font-size: 0.72rem; font-variant-numeric: tabular-nums; opacity: 0.6; }

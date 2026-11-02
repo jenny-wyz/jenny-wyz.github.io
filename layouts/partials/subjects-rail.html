@@ -1,0 +1,67 @@
+{{- /*
+  Subjects rail: the right-edge drawer on a subject page, listing every
+  subject with its note count. The current one is marked. Each subject gets
+  the same pastel dot as its bubble on /notes/ (same hash, see bubbles.html).
+  Shares the ".rail" styles with the note rail (assets/css/custom.css).
+*/ -}}
+{{- $terms := slice -}}
+{{- range $name, $pages := site.Taxonomies.subjects }}
+  {{- with site.GetPage (printf "/subjects/%s" $name) }}
+    {{- $terms = $terms | append (dict "title" .Title "url" .RelPermalink "count" (len $pages)) -}}
+  {{- end }}
+{{- end }}
+{{- if gt (len $terms) 1 }}
+<aside class="rail rail-subjects print:hidden" aria-label="All subjects">
+  <button class="rail-tab" type="button" aria-expanded="false" aria-controls="rail-panel">
+    <span class="rail-tab-label">Subjects</span>
+    <span class="rail-tab-count">{{ len $terms }}</span>
+  </button>
+  <div class="rail-panel" id="rail-panel">
+    <section class="rail-group">
+      <a class="rail-heading" href="{{ (site.GetPage "/notes").RelPermalink }}">
+        <span>Notes</span>
+        <span class="rail-heading-count">{{ len $terms }} subjects</span>
+      </a>
+      <ol class="rail-list">
+        {{- range sort $terms "title" }}
+        <li class="rail-item rail-item-dot{{ if eq .url $.RelPermalink }} is-current{{ end }}" data-key="{{ .title }}">
+          <a href="{{ .url }}"{{ if eq .url $.RelPermalink }} aria-current="page"{{ end }}>
+            <span>{{ .title }}</span>
+            <span class="rail-item-count">{{ .count }}</span>
+          </a>
+        </li>
+        {{- end }}
+      </ol>
+    </section>
+  </div>
+</aside>
+<script>
+(function () {
+  var rail = document.querySelector(".rail");
+  if (!rail) return;
+  var tab = rail.querySelector(".rail-tab");
+  tab.addEventListener("click", function () {
+    var open = rail.classList.toggle("is-open");
+    tab.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  document.addEventListener("click", function (e) {
+    if (!rail.contains(e.target)) { rail.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { rail.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
+  });
+  // Same color assignment as the bubbles on /notes/: hash the name, take a free slot.
+  var items = Array.prototype.slice.call(rail.querySelectorAll(".rail-item-dot"));
+  var slots = 9, used = {};
+  items.slice().sort(function (a, b) { return a.getAttribute("data-key") < b.getAttribute("data-key") ? -1 : 1; })
+    .forEach(function (li) {
+      var key = li.getAttribute("data-key"), h = 0;
+      for (var i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+      var s = h % slots, tries = 0;
+      while (used[s] && tries < slots) { s = (s + 1) % slots; tries++; }
+      used[s] = true;
+      li.style.setProperty("--bub", "var(--bub-" + s + ")");
+    });
+})();
+</script>
+{{- end }}
