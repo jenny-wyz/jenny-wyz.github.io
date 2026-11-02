@@ -39,10 +39,10 @@
     TURN_SPREAD: 0.3, // random extra TURN per bubble, so they don't all turn alike
     AGILITY: 150,     // small bubbles move more than big ones: agility = AGILITY / (radius + 40)
     CENTER_PULL: 0.08,// gentle pull toward the middle of the field (0 = none)
-    MOUSE_PUSH: 420,  // how hard the cursor pushes bubbles away (0 = ignore the mouse)
+    MOUSE_PUSH: 900,  // how firmly the cursor nudges bubbles away, as a smooth force (0 = ignore the mouse)
     MOUSE_REACH: 110, // extra px around a bubble where the cursor is felt
-    CLICK_SHOVE: 260, // strength of the scatter on a click in empty space (0 = off)
-    WALL_BOUNCE: 0.8, // speed kept when bouncing off an edge (1 = perfect bounce)
+    CLICK_SHOVE: 0,   // scatter on a click in empty space; 0 = off (try 120 for a gentle puff)
+    WALL_SPRING: 40,  // how firmly the edges push a bubble back in (soft walls, no snapping)
     FIELD_VH: 0.7,    // field height as a share of the viewport height (desktop)
     FIELD_AREA: 4,    // field is at least this many times the bubbles' own area
     SIZE_MIN: 84,     // diameter of a 1-note bubble, desktop (px)
@@ -107,8 +107,7 @@
     field.classList.add("is-laid-out");
   }
 
-  // Bubbles touch exactly at their rims (no gap). Overlap is removed in a few
-  // gentle steps rather than at once, which is what keeps them from shaking.
+  // Bubbles touch exactly at their rims (no gap) and never stay overlapped.
   function collide(bounce) {
     for (var i = 0; i < circles.length; i++) {
       var a = circles[i];
@@ -117,7 +116,7 @@
         var dx = b.x - a.x, dy = b.y - a.y;
         var dist = Math.sqrt(dx * dx + dy * dy) || 0.01, min = a.r + b.r;
         if (dist < min) {
-          var ux = dx / dist, uy = dy / dist, overlap = (min - dist) * (bounce ? 0.8 : 1);
+          var ux = dx / dist, uy = dy / dist, overlap = min - dist;
           var wa = b.m / (a.m + b.m), wb = a.m / (a.m + b.m);
           a.x -= ux * overlap * wa; a.y -= uy * overlap * wa;
           b.x += ux * overlap * wb; b.y += uy * overlap * wb;
@@ -128,6 +127,9 @@
               a.vx -= ux * imp * wa; a.vy -= uy * imp * wa;
               b.vx += ux * imp * wb; b.vy += uy * imp * wb;
             }
+            // a touch of parting speed, so touching bubbles drift apart again
+            a.vx -= ux * 6 * wa; a.vy -= uy * 6 * wa;
+            b.vx += ux * 6 * wb; b.vy += uy * 6 * wb;
           }
         }
       }
@@ -151,7 +153,7 @@
         var reach = c.r + T.MOUSE_REACH;
         if (md < reach) {
           var f = (1 - md / reach) * T.MOUSE_PUSH * agility;
-          c.vx += (mx / md) * f * dt * 8; c.vy += (my / md) * f * dt * 8;
+          c.vx += (mx / md) * f * dt; c.vy += (my / md) * f * dt;
         }
       }
 
@@ -159,13 +161,20 @@
       c.vx *= drag; c.vy *= drag;
       var sp = Math.sqrt(c.vx * c.vx + c.vy * c.vy);
       if (sp > T.MAX_SPEED) { c.vx *= T.MAX_SPEED / sp; c.vy *= T.MAX_SPEED / sp; }
+      if (!isFinite(c.vx) || !isFinite(c.vy)) { c.vx = c.vy = 0; }   // belt and braces
+      if (!isFinite(c.x) || !isFinite(c.y)) { c.x = W / 2; c.y = H / 2; }
       c.x += c.vx * dt; c.y += c.vy * dt;
 
-      var m = 8;
-      if (c.x < c.r + m) { c.x = c.r + m; c.vx = Math.abs(c.vx) * T.WALL_BOUNCE; }
-      if (c.x > W - c.r - m) { c.x = W - c.r - m; c.vx = -Math.abs(c.vx) * T.WALL_BOUNCE; }
-      if (c.y < c.r + m) { c.y = c.r + m; c.vy = Math.abs(c.vy) * T.WALL_BOUNCE; }
-      if (c.y > H - c.r - m) { c.y = H - c.r - m; c.vy = -Math.abs(c.vy) * T.WALL_BOUNCE; }
+      // Soft walls: a spring pushes a bubble back once it crosses the edge,
+      // so there is no snapping and nothing can get pinned against a side.
+      var m = 8, k = T.WALL_SPRING;
+      if (c.x < c.r + m) c.vx += (c.r + m - c.x) * k * dt;
+      if (c.x > W - c.r - m) c.vx -= (c.x - (W - c.r - m)) * k * dt;
+      if (c.y < c.r + m) c.vy += (c.r + m - c.y) * k * dt;
+      if (c.y > H - c.r - m) c.vy -= (c.y - (H - c.r - m)) * k * dt;
+      // Never let one escape the field entirely (e.g. after a resize).
+      c.x = Math.min(W - c.r * 0.5, Math.max(c.r * 0.5, c.x));
+      c.y = Math.min(H - c.r * 0.5, Math.max(c.r * 0.5, c.y));
     });
     collide(true);
     paint();
@@ -182,8 +191,8 @@
       var sq = Math.max(0, Math.min(T.SQUASH_MAX, (sp - 30) / 900));
       var tr = "translate3d(" + (c.x - c.r).toFixed(2) + "px," + (c.y - c.r).toFixed(2) + "px,0)";
       if (sq > 0.004) {
-        var ang = Math.atan2(c.svy, c.svx).toFixed(3);
-        tr += " rotate(" + ang + "rad) scale(" + (1 + sq).toFixed(3) + "," + (1 - sq).toFixed(3) + ") rotate(-" + ang + "rad)";
+        var ang = Math.atan2(c.svy, c.svx);
+        tr += " rotate(" + ang.toFixed(3) + "rad) scale(" + (1 + sq).toFixed(3) + "," + (1 - sq).toFixed(3) + ") rotate(" + (-ang).toFixed(3) + "rad)";
       }
       c.el.style.transform = tr;
     });
