@@ -4,8 +4,11 @@
   Input: a slice of dicts with "title", "url", "count". Renders each as a
   round link whose size follows the count (square root, so a subject with
   four times the notes gets a bubble twice as wide). A small script packs
-  the circles into the container without overlaps and lets them drift;
-  without JavaScript they fall back to a wrapped row of circles.
+  the circles into the container without overlaps and then runs a small
+  physics loop: bubbles wander on slow currents, dash off now and then,
+  bump softly into each other, shy away from the cursor, and scatter on a
+  click. Without JavaScript they fall back to a wrapped row of circles;
+  with "reduce motion" they stay where they are packed.
 
   Colors come from a fixed pastel palette (assets/css/custom.css, --bub-*),
   assigned per subject by a stable hash of its name so a subject keeps its
@@ -44,71 +47,150 @@
     b.style.setProperty("--bub-ink", "var(--bub-ink-" + s + ")");
   });
 
-  // Deterministic pseudo-random so the layout is the same on every visit.
-  var seed = 0;
-  bubbles.forEach(function (b) { var k = b.getAttribute("data-key"); for (var i = 0; i < k.length; i++) seed = (seed * 33 + k.charCodeAt(i)) >>> 0; });
-  function rnd() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
-
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var W = 0, H = 0, circles = [];
+  var mouse = { x: -1e4, y: -1e4, inside: false };
 
-  function layout() {
-    var W = field.clientWidth;
-    if (!W) return;
+  function size() {
+    W = field.clientWidth;
     var narrow = W < 560;
     var dMin = narrow ? 68 : 84, dMax = narrow ? 150 : 200;
-    var circles = bubbles.map(function (b) {
+    circles = bubbles.map(function (b, i) {
       var c = parseFloat(b.getAttribute("data-count")) || 1;
       var d = dMin + (dMax - dMin) * Math.sqrt(c / max);
-      return { el: b, r: d / 2 };
+      var prev = circles[i];
+      return {
+        el: b, r: d / 2, m: d * d,
+        x: prev ? prev.x : 0, y: prev ? prev.y : 0,
+        vx: prev ? prev.vx : 0, vy: prev ? prev.vy : 0,
+        phase: Math.random() * Math.PI * 2, wobble: 0.6 + Math.random() * 0.8,
+        kick: 4 + Math.random() * 7,            // seconds until the next burst
+        spin: (Math.random() - 0.5) * 0.6       // slow rotation of the film
+      };
     });
     var area = circles.reduce(function (s, c) { return s + Math.PI * c.r * c.r; }, 0);
-    var H = Math.max(narrow ? 300 : 320, Math.ceil(area * 2.2 / W));
+    H = Math.max(narrow ? 320 : 360, Math.ceil(area * 2.4 / W));
     field.style.height = H + "px";
-
-    seed = 7;
-    bubbles.forEach(function (b) { var k = b.getAttribute("data-key"); for (var i = 0; i < k.length; i++) seed = (seed * 33 + k.charCodeAt(i)) >>> 0; });
     circles.forEach(function (c) {
-      c.x = c.r + rnd() * (W - 2 * c.r);
-      c.y = c.r + rnd() * (H - 2 * c.r);
-    });
-    var pad = 10;
-    for (var it = 0; it < 240; it++) {
-      for (var i = 0; i < circles.length; i++) {
-        var a = circles[i];
-        for (var j = i + 1; j < circles.length; j++) {
-          var b = circles[j];
-          var dx = b.x - a.x, dy = b.y - a.y;
-          var dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-          var min = a.r + b.r + pad;
-          if (dist < min) {
-            var push = (min - dist) / 2, ux = dx / dist, uy = dy / dist;
-            a.x -= ux * push; a.y -= uy * push; b.x += ux * push; b.y += uy * push;
-          }
-        }
-        // gentle pull toward the middle so the field reads as one cluster
-        a.x += (W / 2 - a.x) * 0.004; a.y += (H / 2 - a.y) * 0.004;
-        a.x = Math.min(W - a.r, Math.max(a.r, a.x));
-        a.y = Math.min(H - a.r, Math.max(a.r, a.y));
-      }
-    }
-    circles.forEach(function (c, i) {
       var s = c.el.style;
       s.width = s.height = (c.r * 2) + "px";
-      s.left = (c.x - c.r) + "px";
-      s.top = (c.y - c.r) + "px";
       s.fontSize = Math.max(0.78, Math.min(1.15, c.r / 70)) + "rem";
-      if (!reduce) {
-        s.setProperty("--drift", (6 + rnd() * 5).toFixed(2) + "s");
-        s.setProperty("--delay", (-rnd() * 8).toFixed(2) + "s");
-        s.setProperty("--dx", ((rnd() - 0.5) * 14).toFixed(1) + "px");
-        s.setProperty("--dy", ((rnd() - 0.5) * 18).toFixed(1) + "px");
-      }
+      if (!c.x) { c.x = c.r + Math.random() * (W - 2 * c.r); c.y = c.r + Math.random() * (H - 2 * c.r); }
+      c.x = Math.min(W - c.r, Math.max(c.r, c.x)); c.y = Math.min(H - c.r, Math.max(c.r, c.y));
     });
+    // Untangle the initial placement before the first frame.
+    for (var k = 0; k < 120; k++) collide(0);
+    paint();
     field.classList.add("is-laid-out");
   }
 
-  layout();
-  var t;
-  window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(layout, 120); });
+  function collide(bounce) {
+    var pad = 6;
+    for (var i = 0; i < circles.length; i++) {
+      var a = circles[i];
+      for (var j = i + 1; j < circles.length; j++) {
+        var b = circles[j];
+        var dx = b.x - a.x, dy = b.y - a.y;
+        var dist = Math.sqrt(dx * dx + dy * dy) || 0.01, min = a.r + b.r + pad;
+        if (dist < min) {
+          var ux = dx / dist, uy = dy / dist, overlap = min - dist;
+          var wa = b.m / (a.m + b.m), wb = a.m / (a.m + b.m);
+          a.x -= ux * overlap * wa; a.y -= uy * overlap * wa;
+          b.x += ux * overlap * wb; b.y += uy * overlap * wb;
+          if (bounce) {
+            // exchange a bit of momentum along the contact normal (soft, squishy)
+            var rel = (b.vx - a.vx) * ux + (b.vy - a.vy) * uy;
+            if (rel < 0) {
+              var imp = -rel * 0.9;
+              a.vx -= ux * imp * wa; a.vy -= uy * imp * wa;
+              b.vx += ux * imp * wb; b.vy += uy * imp * wb;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  var last = 0, t = 0;
+  function step(now) {
+    var dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now; t += dt;
+    circles.forEach(function (c) {
+      // Wander: a slow, looping current with a bit of personality per bubble.
+      var fx = Math.cos(t * c.wobble + c.phase) * 18 + Math.sin(t * 0.37 + c.phase * 2) * 9;
+      var fy = Math.sin(t * c.wobble * 0.8 + c.phase) * 18 + Math.cos(t * 0.29 + c.phase) * 9;
+      // Lighter bubbles are livelier than heavy ones.
+      var agility = 120 / (c.r + 40);
+      c.vx += fx * agility * dt; c.vy += fy * agility * dt;
+
+      // Every few seconds, a burst: a sudden dash in a random direction.
+      c.kick -= dt;
+      if (c.kick <= 0) {
+        var ang = Math.random() * Math.PI * 2, pow = (40 + Math.random() * 110) * agility;
+        c.vx += Math.cos(ang) * pow; c.vy += Math.sin(ang) * pow;
+        c.kick = 5 + Math.random() * 9;
+      }
+
+      // The cursor pushes bubbles away, more strongly up close.
+      if (mouse.inside) {
+        var mx = c.x - mouse.x, my = c.y - mouse.y, md = Math.sqrt(mx * mx + my * my) || 1;
+        var reach = c.r + 110;
+        if (md < reach) {
+          var f = (1 - md / reach) * 420 * agility;
+          c.vx += (mx / md) * f * dt * 8; c.vy += (my / md) * f * dt * 8;
+        }
+      }
+
+      // Drag, then move. Clamp so a burst never turns into a rocket.
+      var drag = Math.pow(0.82, dt * 60);
+      c.vx *= drag; c.vy *= drag;
+      var sp = Math.sqrt(c.vx * c.vx + c.vy * c.vy), cap = 160;
+      if (sp > cap) { c.vx *= cap / sp; c.vy *= cap / sp; }
+      c.x += c.vx * dt; c.y += c.vy * dt;
+
+      // Soft walls: slow down near the edge, bounce if we hit it.
+      var margin = 8;
+      if (c.x < c.r + margin) { c.x = c.r + margin; c.vx = Math.abs(c.vx) * 0.6; }
+      if (c.x > W - c.r - margin) { c.x = W - c.r - margin; c.vx = -Math.abs(c.vx) * 0.6; }
+      if (c.y < c.r + margin) { c.y = c.r + margin; c.vy = Math.abs(c.vy) * 0.6; }
+      if (c.y > H - c.r - margin) { c.y = H - c.r - margin; c.vy = -Math.abs(c.vy) * 0.6; }
+    });
+    collide(1);
+    paint();
+    if (!document.hidden) raf = requestAnimationFrame(step); else raf = 0;
+  }
+
+  function paint() {
+    circles.forEach(function (c) {
+      // A touch of squash along the direction of travel makes it feel soft.
+      var sp = Math.sqrt(c.vx * c.vx + c.vy * c.vy);
+      var sq = Math.min(0.08, sp / 2000), ang = Math.atan2(c.vy, c.vx);
+      c.el.style.transform = "translate3d(" + (c.x - c.r).toFixed(1) + "px," + (c.y - c.r).toFixed(1) + "px,0)" +
+        (sq > 0.005 ? " rotate(" + ang.toFixed(3) + "rad) scale(" + (1 + sq).toFixed(3) + "," + (1 - sq).toFixed(3) + ") rotate(" + (-ang).toFixed(3) + "rad)" : "");
+    });
+  }
+
+  var raf = 0;
+  function start() { if (!reduce && !raf) { last = performance.now(); raf = requestAnimationFrame(step); } }
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) start(); });
+  field.addEventListener("mousemove", function (e) {
+    var r = field.getBoundingClientRect();
+    mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.inside = true;
+  });
+  field.addEventListener("mouseleave", function () { mouse.inside = false; });
+  // A tap gives everything a shove.
+  field.addEventListener("click", function (e) {
+    if (e.target.closest("a")) return;
+    var r = field.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+    circles.forEach(function (c) {
+      var dx = c.x - px, dy = c.y - py, d = Math.sqrt(dx * dx + dy * dy) || 1;
+      var pow = 260 * Math.max(0, 1 - d / (W * 0.6));
+      c.vx += dx / d * pow; c.vy += dy / d * pow;
+    });
+  });
+
+  size();
+  start();
+  var rt;
+  window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(size, 150); });
 })();
 </script>
