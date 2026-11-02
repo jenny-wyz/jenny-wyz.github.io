@@ -1,0 +1,55 @@
+{{- /*
+  Subject rail: a slim tab fixed to the right edge of a note page. On hover
+  (or tap, on touch screens) it slides out a panel listing every note in the
+  same subject(s), newest first, with the current one marked. Styles live in
+  assets/css/custom.css under ".rail".
+*/ -}}
+{{- $groups := slice -}}
+{{- range .Params.subjects }}
+  {{- with site.GetPage (printf "/subjects/%s" (urlize .)) }}
+    {{- $groups = $groups | append (dict "page" . "notes" (.Pages.ByDate.Reverse)) -}}
+  {{- end }}
+{{- end }}
+{{- if $groups }}
+{{- $first := index $groups 0 -}}
+<aside class="rail print:hidden" aria-label="Other notes in this subject">
+  <button class="rail-tab" type="button" aria-expanded="false" aria-controls="rail-panel">
+    <span class="rail-tab-label">{{ $first.page.Title }}{{ if gt (len $groups) 1 }} +{{ sub (len $groups) 1 }}{{ end }}</span>
+    <span class="rail-tab-count">{{ len $first.notes }}</span>
+  </button>
+  <div class="rail-panel" id="rail-panel">
+    {{- range $groups }}
+    <section class="rail-group">
+      <a class="rail-heading" href="{{ .page.RelPermalink }}">
+        <span>{{ .page.Title }}</span>
+        <span class="rail-heading-count">{{ len .notes }}</span>
+      </a>
+      <ol class="rail-list">
+        {{- range .notes }}
+        <li class="rail-item{{ if eq .RelPermalink $.RelPermalink }} is-current{{ end }}">
+          <a href="{{ .RelPermalink }}"{{ if eq .RelPermalink $.RelPermalink }} aria-current="page"{{ end }}>{{ .Title }}</a>
+        </li>
+        {{- end }}
+      </ol>
+    </section>
+    {{- end }}
+  </div>
+</aside>
+<script>
+(function () {
+  var rail = document.querySelector(".rail");
+  if (!rail) return;
+  var tab = rail.querySelector(".rail-tab");
+  tab.addEventListener("click", function () {
+    var open = rail.classList.toggle("is-open");
+    tab.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  document.addEventListener("click", function (e) {
+    if (!rail.contains(e.target)) { rail.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { rail.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
+  });
+})();
+</script>
+{{- end }}

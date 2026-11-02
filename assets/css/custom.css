@@ -80,3 +80,105 @@
 @media (prefers-reduced-motion: reduce) {
   .is-laid-out .bubble { animation: none; }
 }
+
+/* ------------------------------------------------------------------ */
+/* Subject rail on note pages (layouts/partials/subject-rail.html)      */
+/* ------------------------------------------------------------------ */
+
+.rail {
+  --rail-w: 17rem;
+  position: fixed; right: 0; top: 50%;
+  z-index: 30;
+  display: flex; align-items: center;
+  transform: translateY(-50%);
+  pointer-events: none;            /* only the tab and panel take clicks */
+}
+.rail-tab {
+  pointer-events: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 0.55rem;
+  padding: 0.9rem 0.45rem;
+  border: 1px solid rgba(var(--color-primary-500), 0.35);
+  border-right: 0;
+  border-radius: 0.75rem 0 0 0.75rem;
+  background: rgba(var(--color-neutral), 0.72);
+  color: rgb(var(--color-primary-600));
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 22px -10px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.dark .rail-tab { color: rgb(var(--color-primary-400)); }
+.rail-tab-label {
+  writing-mode: vertical-rl; text-orientation: mixed;
+  font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+}
+.rail-tab-count {
+  font-size: 0.65rem; font-variant-numeric: tabular-nums;
+  min-width: 1.35rem; height: 1.35rem; line-height: 1.35rem;
+  border-radius: 999px;
+  background: rgba(var(--color-primary-500), 0.16);
+}
+
+.rail-panel {
+  pointer-events: auto;
+  width: var(--rail-w); max-height: 70vh; overflow-y: auto;
+  margin-right: calc(-1 * var(--rail-w));
+  padding: 1rem 1.1rem 1.1rem;
+  border: 1px solid rgba(var(--color-primary-500), 0.22);
+  border-right: 0;
+  border-radius: 0.9rem 0 0 0.9rem;
+  background: rgba(var(--color-neutral), 0.94);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: margin-right 0.28s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.2s ease;
+}
+.rail:hover .rail-panel, .rail:focus-within .rail-panel, .rail.is-open .rail-panel {
+  margin-right: 0; opacity: 1;
+}
+/* Open: the tab becomes the drawer's handle, flush against the panel. */
+.rail:hover .rail-tab, .rail:focus-within .rail-tab, .rail.is-open .rail-tab {
+  background: rgba(var(--color-neutral), 0.94);
+  border-color: rgba(var(--color-primary-500), 0.22);
+  box-shadow: none;
+}
+.rail:hover .rail-panel, .rail:focus-within .rail-panel, .rail.is-open .rail-panel {
+  border-radius: 0; border-left: 0;
+}
+
+.rail-group + .rail-group { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid rgba(var(--color-primary-500), 0.15); }
+.rail-heading {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgb(var(--color-primary-600)); text-decoration: none;
+}
+.dark .rail-heading { color: rgb(var(--color-primary-400)); }
+.rail-heading-count { font-weight: 500; opacity: 0.7; font-variant-numeric: tabular-nums; }
+.rail-list { list-style: none; margin: 0; padding: 0; }
+.rail-item a {
+  display: block; padding: 0.3rem 0 0.3rem 0.9rem; position: relative;
+  font-size: 0.86rem; line-height: 1.35; text-decoration: none;
+  color: rgb(var(--color-neutral-600));
+  transition: color 0.15s ease;
+}
+.dark .rail-item a { color: rgb(var(--color-neutral-400)); }
+.rail-item a:hover { color: rgb(var(--color-neutral-900)); }
+.dark .rail-item a:hover { color: rgb(var(--color-neutral-100)); }
+.rail-item a::before {
+  content: ""; position: absolute; left: 0; top: 0.78em;
+  width: 0.35rem; height: 0.35rem; border-radius: 50%;
+  background: rgba(var(--color-primary-500), 0.3);
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+.rail-item a:hover::before { transform: scale(1.25); }
+.rail-item.is-current a { color: rgb(var(--color-primary-700)); font-weight: 600; }
+.dark .rail-item.is-current a { color: rgb(var(--color-primary-300)); }
+.rail-item.is-current a::before { background: rgb(var(--color-primary-500)); }
+
+@media (max-width: 640px) {
+  .rail { --rail-w: min(17rem, 85vw); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail-panel { transition: none; }
+}

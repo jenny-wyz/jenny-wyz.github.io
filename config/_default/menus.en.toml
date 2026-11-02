@@ -1,5 +1,6 @@
 # -- Main Menu --
-# Shown in the header. Order is by weight, lowest first.
+# Shown in the header (and the home page cards follow the same order).
+# Order is by weight, lowest first.
 # To add a new section later: create content/<name>/_index.md, add an
 # entry here, and (optionally) give it colors in data/sections.yaml.
 
@@ -11,27 +12,27 @@
 [[main]]
   name = "Essays"
   pageRef = "essays"
-  weight = 20
+  weight = 40
 
 [[main]]
   name = "Brain dump"
   pageRef = "braindump"
-  weight = 30
+  weight = 50
 
 [[main]]
   name = "Reading"
   pageRef = "reading"
-  weight = 40
+  weight = 20
 
 [[main]]
   name = "Recipes"
   pageRef = "recipes"
-  weight = 50
+  weight = 60
 
 [[main]]
   name = "Notes"
   pageRef = "notes"
-  weight = 60
+  weight = 30
 
 # -- Footer Menu --
 

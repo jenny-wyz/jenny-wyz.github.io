@@ -26,6 +26,7 @@ Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirec
 - `layouts/`: site overrides of Blowfish.
   - `_default/list.html`: section list; shows cards for subsections, or for the terms of a taxonomy when the section sets `cards: "<taxonomy>"` (Notes uses the `subjects` taxonomy).
   - `partials/breadcrumbs.html`: subject pages show "Notes /" as their crumb.
+  - `notes/single.html`: copy of the theme's single.html plus `partials/subject-rail.html`, the hover drawer on the right edge of a note listing the other notes in its subject(s). Notes also cascade `showPagination: false` and `showRelatedContent: false` from `content/notes/_index.md`.
   - `partials/bubbles.html`: the floating subject bubbles on /notes/ (size by note count, pastel palette in `assets/css/custom.css`, tiny packing script, no-JS fallback).
   - `shortcodes/sections.html`: home page section cards.
   - `reading/list.html`, `reading/single.html`, `partials/reading/*`: the Reading app.
