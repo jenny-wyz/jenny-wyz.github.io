@@ -80,7 +80,7 @@ def decrypt(password: str, vault: dict) -> str:
 PANEL = """
 <div id="jw-lock" class="jw-lock" hidden>
   <div class="jw-lock-card">
-    <p class="jw-lock-knock">Knock knock</p>
+    <p class="jw-lock-knock">Knock knock.</p>
     <p class="jw-lock-who">Who&rsquo;s there?</p>
     <form class="jw-lock-form" autocomplete="off">
       <input id="jw-pw" class="jw-lock-input" type="password" placeholder="thou shalt speak" aria-label="Password" autocomplete="current-password">
