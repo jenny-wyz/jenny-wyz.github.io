@@ -80,11 +80,11 @@ def decrypt(password: str, vault: dict) -> str:
 PANEL = """
 <div id="jw-lock" class="jw-lock" hidden>
   <div class="jw-lock-card">
-    <p class="jw-lock-knock">Knock knock.</p>
+    <p class="jw-lock-knock">Knock knock</p>
     <p class="jw-lock-who">Who&rsquo;s there?</p>
     <form class="jw-lock-form" autocomplete="off">
-      <input id="jw-pw" class="jw-lock-input" type="password" placeholder="say the word" aria-label="Password" autocomplete="current-password">
-      <button class="jw-lock-btn" type="submit">Come in</button>
+      <input id="jw-pw" class="jw-lock-input" type="password" placeholder="thou shalt speak" aria-label="Password" autocomplete="current-password">
+      <button class="jw-lock-btn" type="submit">bitte</button>
     </form>
     <p id="jw-msg" class="jw-lock-msg" aria-live="polite"></p>
   </div>
@@ -166,13 +166,13 @@ PANEL = """
       input.value = ""; input.classList.remove("is-wrong"); void input.offsetWidth; input.classList.add("is-wrong");
       msg.classList.add("is-bad");
       if (tries >= TRIES) {
-        msg.textContent = "Wrong door.";
+        msg.textContent = "Fine. Welcome.";
         store(K_LOCK, String(Date.now() + LOCK_MS));
         setTimeout(function () { location.replace(DECOY); }, 900);
       } else if (tries === TRIES - 1) {
-        msg.textContent = "Still not you. Last try.";
+        msg.textContent = "Shabi. Last try.";
       } else {
-        msg.textContent = "Not you. Two more tries.";
+        msg.textContent = "Social credits -10000";
       }
     });
   });

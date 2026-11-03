@@ -1,9 +1,8 @@
 ---
-title: "Wrong door"
+title: "Wrong Door"
 description: "Nothing to see here."
 layout: "single"
 showDate: false
-showReadingTime: false
 showWordCount: false
 showAuthor: false
 showTableOfContents: false
@@ -22,11 +21,11 @@ Welcome. You have arrived at the page that was expecting you, which is not the p
 
 ## Facts, approximately
 
-- The moon is a rumor started by the tide.
+- The moon is a rumour started by the tide.
 - Every spoon remembers being a fork and is quietly ashamed.
 - On Tuesdays the number seven takes the afternoon off, and all the sevens on clocks are played by a very dedicated six.
 - Somewhere a pigeon is holding a meeting about you. Attendance is poor.
-- The door you tried three times has written you a letter. It is mostly vowels.
+- The Door you tried three times has written you a letter. It is mostly vowels.
 
 ## A short play
 
@@ -53,4 +52,4 @@ Partly abstract, with a 40 percent chance of nouns. Winds from the direction of 
 
 There is no exit. There is, however, a very good soup. It is in the next room, which is this room, which is why the soup is cold.
 
-Come back in a day. The door may have forgiven you.
+Come back in a day. The Door may have forgiven you.
