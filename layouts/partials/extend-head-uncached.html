@@ -5,6 +5,11 @@
   A page can pick a different theme with `colors: <key>` in its front matter.
   Subject pages (the "subjects" taxonomy, served under /notes/) use the Notes theme.
 */ -}}
+{{- if .Params.protected }}
+  {{/* Picked up by scripts/protect_pages.py after the build: this page's
+       content gets encrypted and replaced by the password prompt. */}}
+  <meta name="jw-protected" content="1">
+{{- end }}
 {{- $key := .Params.colors | default .Section -}}
 {{- if eq .Type "subjects" }}{{ $key = "notes" }}{{ end -}}
 {{- $theme := index hugo.Data.sections $key -}}

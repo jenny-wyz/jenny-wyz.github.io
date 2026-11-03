@@ -44,6 +44,10 @@ Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirec
 - Long write-ups about a book: a page in `content/reading/` with `book: <id>` in front matter.
 - Tests: `python3 -I scripts/test_sync_books.py` and `python3 -I scripts/test_fetch_covers.py`.
 
+## Password-protected pages
+
+`protected: true` in a page's front matter (or a section's `_index.md` with a `cascade`, see `content/braindump/_index.md` for the full set of lines) makes the deploy step `scripts/protect_pages.py` encrypt that page's `<main>` content (AES-256-GCM, key from the `PAGE_PASSWORD` repository secret via PBKDF2) and replace it with a "Knock knock" prompt; the browser decrypts in place. Three wrong tries lock protected pages for 24h in that browser and redirect to `/shabi/` (`content/shabi.md`, the decoy). Protected pages are also kept out of search, RSS, sitemap and related blocks by the front matter lines. Local `hugo server` shows the content unencrypted; only the deploy locks it. Tests: `python3 -I scripts/test_protect_pages.py`.
+
 ## Current status and open items
 
 - Site is live with sample entries in each section (placeholders Jenny will replace).

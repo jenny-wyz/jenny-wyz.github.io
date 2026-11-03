@@ -47,6 +47,15 @@ jobs:
             --gc \
             --minify \
             --baseURL "${{ steps.pages.outputs.base_url }}/"
+      - name: Lock password-protected pages
+        # Encrypts every page with `protected: true` (scripts/protect_pages.py).
+        # Needs the PAGE_PASSWORD repository secret; fails loudly if it is missing.
+        env:
+          PAGE_PASSWORD: ${{ secrets.PAGE_PASSWORD }}
+        run: |
+          python3 -m pip install --quiet cryptography
+          python3 -I scripts/test_protect_pages.py
+          python3 scripts/protect_pages.py public
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
