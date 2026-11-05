@@ -12,7 +12,9 @@ on the deployed site is unreadable; the header, nav and footer stay as they
 are, so a locked page still looks like the rest of the site.
 
 It also blanks the description meta tags of those pages, so the summary
-does not leak through link previews.
+does not leak through link previews, and it folds the page's own images
+(files next to the page, e.g. notebook photos) into the encrypted payload
+as data: URIs and deletes the loose files, so they cannot be fetched by URL.
 
 Visitor-side rules (in the embedded script):
   * 3 wrong tries lock protected pages for 24 hours in that browser and send
@@ -172,7 +174,7 @@ PANEL = """
       } else if (tries === TRIES - 1) {
         msg.textContent = "Shabi. Last try.";
       } else {
-        msg.textContent = "Social credits -10000";
+        msg.textContent = "Social credits -10,000,000!";
       }
     });
   });
@@ -181,17 +183,71 @@ PANEL = """
 """
 
 
-def lock_html(html: str, password: str, decoy: str) -> str:
+IMG_SRC_RE = re.compile(r'(<img\b[^>]*?\bsrc=["\']?)([^"\'\s>]+)', re.I)
+MIME = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp", ".gif": "image/gif", ".svg": "image/svg+xml"}
+
+
+def inline_images(content: str, page_dir: str, site_root: str) -> tuple[str, list[str]]:
+    """Replace local <img src> with data: URIs; return the files to delete."""
+    used: list[str] = []
+
+    def repl(m):
+        src = m.group(2)
+        if src.startswith(("data:", "http:", "https:", "//")):
+            return m.group(0)
+        path = os.path.normpath(os.path.join(site_root, src.lstrip("/"))) if src.startswith("/") \
+            else os.path.normpath(os.path.join(page_dir, src.split("?")[0]))
+        ext = os.path.splitext(path)[1].lower()
+        if ext not in MIME or not os.path.isfile(path):
+            return m.group(0)
+        with open(path, "rb") as fh:
+            data = base64.b64encode(fh.read()).decode("ascii")
+        used.append(path)
+        return m.group(1) + f"data:{MIME[ext]};base64,{data}"
+
+    # Responsive variants would be loose files too: take the largest srcset
+    # candidate as the src, then drop srcset/sizes so one folded-in image
+    # carries the picture.
+    def biggest(m):
+        tag = m.group(0)
+        ss = re.search(r'\ssrcset=["\']([^"\']*)["\']', tag, re.I)
+        if ss:
+            best, bw = None, -1
+            for cand in ss.group(1).split(","):
+                parts = cand.strip().split()
+                if not parts:
+                    continue
+                w = int(parts[1][:-1]) if len(parts) > 1 and parts[1].endswith("w") and parts[1][:-1].isdigit() else 0
+                if w > bw:
+                    best, bw = parts[0], w
+            if best:
+                tag = re.sub(r'(\ssrc=["\']?)[^"\'\s>]+', lambda mm: mm.group(1) + best, tag, count=1, flags=re.I)
+        return re.sub(r'\s(?:srcset|sizes)=["\'][^"\']*["\']', "", tag, flags=re.I)
+    content = re.sub(r"<img\b[^>]*>", biggest, content, flags=re.I)
+    content = IMG_SRC_RE.sub(repl, content)
+    # Nothing in a protected page's folder may stay fetchable: remove every
+    # image file there, including resized copies Hugo made.
+    if os.path.isdir(page_dir):
+        for f in os.listdir(page_dir):
+            if os.path.splitext(f)[1].lower() in MIME:
+                full = os.path.join(page_dir, f)
+                if full not in used:
+                    used.append(full)
+    return content, used
+
+
+def lock_html(html: str, password: str, decoy: str, page_dir: str = "", site_root: str = "") -> tuple[str, list[str]]:
     m = MAIN_RE.search(html)
     if not m:
         raise ValueError("no <main> element found")
-    vault = encrypt(password, m.group(2))
+    content, used = inline_images(m.group(2), page_dir, site_root) if page_dir else (m.group(2), [])
+    vault = encrypt(password, content)
     panel = PANEL.replace("__VAULT__", json.dumps(vault)).replace("__DECOY__", decoy)
     html = html[: m.start(2)] + panel + html[m.end(2):]
     html = DESC_RE.sub("", html)
     html = DESC_RE2.sub("", html)
     html = LDJSON_RE.sub("", html)
-    return html
+    return html, used
 
 
 def find_protected(root: str) -> list[str]:
@@ -222,13 +278,17 @@ def main(argv=None) -> int:
         print(f"error: {len(pages)} protected page(s) but PAGE_PASSWORD is not set "
               "(repository secret: Settings > Secrets and variables > Actions)", file=sys.stderr)
         return 2
+    removed: set[str] = set()
     for path in pages:
         with open(path, encoding="utf-8") as fh:
             html = fh.read()
-        html = lock_html(html, password, args.decoy)
+        html, used = lock_html(html, password, args.decoy, os.path.dirname(path), args.site)
         with open(path, "w", encoding="utf-8") as fh:
             fh.write(html)
-        print(f"  locked {os.path.relpath(path, args.site)}", file=sys.stderr)
+        removed.update(used)
+        print(f"  locked {os.path.relpath(path, args.site)}" + (f" (+{len(used)} image(s) folded in)" if used else ""), file=sys.stderr)
+    for f in removed:
+        os.remove(f)
     print(f"Locked {len(pages)} page(s).", file=sys.stderr)
     return 0
 

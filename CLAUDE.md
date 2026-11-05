@@ -6,7 +6,7 @@ Context for Claude when working on this repository. Read this and `README.md` be
 
 Jenny's personal "life capsule" website, published at https://jenny-wyz.github.io/ from this repo (`jenny-wyz/jenny-wyz.github.io`). Built with Hugo (extended) and the Blowfish theme (git submodule in `themes/blowfish`, v3.8.0). Deployed by GitHub Actions (`.github/workflows/hugo.yaml`) on every push to `main`.
 
-Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (one flat folder, `content/notes/`; subjects are the `subjects` taxonomy with term pages served at /notes/<subject>/ (title in `content/subjects/<subject>/_index.md`); a note can have several subjects; synced nightly from the Notion database "Jernier's Notes on Stuff" by `scripts/sync_notes.py`, whose "Tags" property holds the subjects; only pages with Publish ticked are written; files with a `notion_id` belong to the sync, files without are hand-written and left alone). More top-level sections may come later.
+Sections: Journal (weekly entries in German, synced from the Notion database "Jernier's Tagebuch" by `scripts/sync_journal.py`, one page per week with the text, a "Wörter der Woche" table and "Originalseiten" photos; password-protected like Brain dump; the entry layout is `layouts/journal/single.html` + the journal block in `assets/css/custom.css`), Essays (a series; formerly "Memoir", old /memoir/ URL redirects), Brain dump, Reading (data-driven, synced from Notion), Recipes, Notes (one flat folder, `content/notes/`; subjects are the `subjects` taxonomy with term pages served at /notes/<subject>/ (title in `content/subjects/<subject>/_index.md`); a note can have several subjects; synced nightly from the Notion database "Jernier's Notes on Stuff" by `scripts/sync_notes.py`, whose "Tags" property holds the subjects; only pages with Publish ticked are written; files with a `notion_id` belong to the sync, files without are hand-written and left alone). More top-level sections may come later.
 
 ## Owner and preferences
 
@@ -29,7 +29,8 @@ Sections: Journal, Essays (a series; formerly "Memoir", old /memoir/ URL redirec
   - `notes/single.html`: copy of the theme's single.html plus `partials/subject-rail.html`, the hover drawer on the right edge of a note listing the other notes in its subject(s). Notes also cascade `showPagination: false` and `showRelatedContent: false` from `content/notes/_index.md`.
   - `subjects/term.html`: copy of the theme's term.html plus `partials/subjects-rail.html`, the same kind of drawer on a subject page listing all subjects with counts and their bubble colors.
   - `partials/bubbles.html`: the floating subject bubbles on /notes/ (size by note count, pastel palette in `assets/css/custom.css`, tiny packing script, no-JS fallback).
-  - `shortcodes/sections.html`: home page section cards.
+  - `journal/single.html`: copy of the theme's single.html with the content wrapped in `.journal-entry` and a tiny script that groups the photos into a grid.
+- `shortcodes/sections.html`: home page section cards.
   - `reading/list.html`, `reading/single.html`, `partials/reading/*`: the Reading app.
 - `assets/css/reading.css`, `assets/js/reading.js`: Reading section styles and client-side app (no dependencies).
 - `archetypes/`: templates for `hugo new` (default, notes, essays, reading).

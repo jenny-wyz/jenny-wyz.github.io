@@ -8,7 +8,7 @@ Everything is a Markdown file under `content/`:
 
 | Section | Folder | Notes |
 |---|---|---|
-| Journal | `content/journal/` | name files `YYYY-MM-DD-title.md` to keep them sorted |
+| Journal (German, weekly, synced from Notion, password-protected) | `content/journal/` | name files `YYYY-MM-DD-title.md` to keep them sorted |
 | Essays | `content/essays/` | pieces carry `series: ["Essays"]` and a `series_order` |
 | Brain dump (password-protected, see CLAUDE.md) | `content/braindump/` | |
 | Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |

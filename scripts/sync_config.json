@@ -31,6 +31,11 @@
       "subjects": "Tags",
       "date": "Date",
       "publish": "Publish"
+    },
+    "journal": {
+      "title": "Name",
+      "week": "Week",
+      "publish": "Publish"
     }
   },
   "output": "data/books.json",
@@ -40,5 +45,11 @@
     "database_id": "11175b3357bb47bd8781f0238d4dc010",
     "data_source_id": "d4ac95b3-96a1-4a80-9689-799823ff8986",
     "output_dir": "content/notes"
+  },
+  "journal": {
+    "_comment": "Jernier's Tagebuch: the Journal section (German weekly entries). Only pages with Publish ticked are written to output_dir.",
+    "database_id": "0e5627154a1e4f4faed0c45cde618bab",
+    "data_source_id": "7f479715-4add-46ee-b281-1ad321254673",
+    "output_dir": "content/journal"
   }
 }

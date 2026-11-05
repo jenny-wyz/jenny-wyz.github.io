@@ -26,7 +26,7 @@ class ProtectTests(unittest.TestCase):
             pp.decrypt("wrong", v)
 
     def test_lock_html_hides_content_and_descriptions(self):
-        out = pp.lock_html(PAGE, "hunter22", "/shabi/")
+        out, _ = pp.lock_html(PAGE, "hunter22", "/shabi/")
         self.assertNotIn("top secret body", out)
         self.assertNotIn("summary leaks", out)
         self.assertNotIn("articleBody", out)
@@ -36,6 +36,17 @@ class ProtectTests(unittest.TestCase):
         self.assertIn('"/shabi/"', out)
         vault = json.loads(re.search(r'id="jw-vault">(.*?)</script>', out, re.S).group(1))
         self.assertIn("<p>top secret body</p>", pp.decrypt("hunter22", vault))
+
+    def test_images_are_folded_in(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, "img-1.png"), "wb") as f:
+                f.write(b"\x89PNG fake")
+            page = PAGE.replace("<p>top secret body</p>", '<p><img src="img-1.png" alt=""></p>')
+            out, used = pp.lock_html(page, "hunter22", "/shabi/", d, d)
+            self.assertEqual(used, [os.path.join(d, "img-1.png")])
+            vault = json.loads(re.search(r'id="jw-vault">(.*?)</script>', out, re.S).group(1))
+            self.assertIn("data:image/png;base64,", pp.decrypt("hunter22", vault))
 
     def test_find_marker(self):
         self.assertTrue(pp.MARKER_RE.search(PAGE))

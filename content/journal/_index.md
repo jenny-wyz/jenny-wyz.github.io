@@ -1,6 +1,28 @@
 ---
 title: "Journal"
-description: "Day by day. Short entries, written close to the moment."
+description: "Wochenweise, auf Deutsch, aus dem Notizbuch."
+# Password-protected, like Brain dump (see CLAUDE.md, "Password-protected pages").
+protected: true
+excludeFromSearch: true
+outputs: ["html"]
+sitemap:
+  disable: true
+groupByYear: false
+cascade:
+  protected: true
+  excludeFromSearch: true
+  showRelatedContent: false
+  showPagination: false
+  showSummary: false
+  showDate: false
+  showReadingTime: false
+  showWordCount: false
+  showTableOfContents: false
+  showZenMode: false
+  sitemap:
+    disable: true
+  build:
+    list: local
 ---
 
-Day by day. Short entries, written close to the moment.
+Wochenweise, auf Deutsch, aus dem Notizbuch.

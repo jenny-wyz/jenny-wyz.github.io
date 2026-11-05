@@ -230,3 +230,50 @@
 .rail-item-dot.is-current a::before { background: rgb(var(--bub, var(--color-primary-500))); box-shadow: 0 0 0 3px rgba(var(--bub, var(--color-primary-500)), 0.35); }
 .rail-item-dot.is-current a { color: rgb(var(--color-neutral-900)); }
 .dark .rail-item-dot.is-current a { color: rgb(var(--color-neutral-100)); }
+
+/* ------------------------------------------------------------------ */
+/* Journal entries (layouts/journal/single.html)                        */
+/* ------------------------------------------------------------------ */
+
+.journal-week { display: none; }   /* the title already names the week */
+
+/* The entry text: a serif, a little larger and airier, like a notebook. */
+.journal-entry > p, .journal-entry > blockquote {
+  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif;
+  font-size: 1.12rem; line-height: 1.75;
+}
+.journal-entry > p:first-of-type::first-letter { font-size: 1.1em; }
+
+/* Section labels: small, spaced capitals with a hairline. */
+.journal-entry h2 {
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgb(var(--color-primary-600)); margin: 2.6rem 0 1rem;
+  display: flex; align-items: center; gap: 0.9rem;
+}
+.dark .journal-entry h2 { color: rgb(var(--color-primary-400)); }
+.journal-entry h2::after { content: ""; flex: 1; height: 1px; background: rgba(var(--color-primary-500), 0.25); }
+
+/* Wörter der Woche: a quiet two-column glossary, no table chrome. */
+.journal-entry table { width: 100%; border-collapse: collapse; margin: 0; font-size: 0.92rem; }
+.journal-entry table thead { display: none; }
+.journal-entry table td { padding: 0.32rem 0; vertical-align: top; border: 0; border-bottom: 1px dotted rgba(var(--color-neutral-500), 0.25); }
+.journal-entry table td:first-child { width: 46%; padding-right: 1rem; font-weight: 600; color: rgb(var(--color-neutral-800)); }
+.dark .journal-entry table td:first-child { color: rgb(var(--color-neutral-100)); }
+.journal-entry table td:last-child { color: rgb(var(--color-neutral-600)); }
+.dark .journal-entry table td:last-child { color: rgb(var(--color-neutral-400)); }
+.journal-entry table tr:last-child td { border-bottom: 0; }
+
+/* Originalseiten: the notebook photos, laid out like pages on a desk. */
+.journal-entry h2 ~ p:has(> img), .journal-entry h2 ~ figure { margin: 0; }
+.journal-entry .journal-pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.6rem 1.4rem; margin-top: 1.2rem; }
+.journal-entry img {
+  display: block; width: 100%; height: auto; margin: 0;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 14px 30px -12px rgba(0, 0, 0, 0.45);
+  transform: rotate(-0.8deg);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.journal-entry img:nth-of-type(even) { transform: rotate(0.7deg); }
+.journal-entry img:hover { transform: rotate(0) scale(1.015); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 22px 40px -14px rgba(0, 0, 0, 0.5); }
+.dark .journal-entry img { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 14px 30px -12px rgba(0, 0, 0, 0.8); }
+@media (prefers-reduced-motion: reduce) { .journal-entry img, .journal-entry img:hover { transform: none; } }
