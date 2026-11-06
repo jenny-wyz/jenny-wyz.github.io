@@ -211,55 +211,10 @@
 .dark .rail-item.is-current a { color: rgb(var(--color-primary-300)); }
 .rail-item.is-current a::before { background: rgb(var(--color-primary-500)); }
 
-.rail-tab-icon { display: none; width: 1.25rem; height: 1.25rem; }
-.rail-tab-icon svg { width: 100%; height: 100%; }
-
-/* Phones and small tablets: a round button in the bottom-right corner and a
-   bottom sheet, instead of the edge tab that sat over the text. */
+/* Phones and small tablets: no rail at all; the subject chips under the
+   title and the Notes page do that job there. */
 @media (max-width: 768px) {
-  .rail { top: auto; right: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); transform: none; display: block; }
-  .rail-tab {
-    position: relative; z-index: 2;
-    flex-direction: row; gap: 0; padding: 0;
-    width: 3.25rem; height: 3.25rem; border-radius: 50%;
-    border: 1px solid rgba(var(--color-primary-500), 0.3);
-    background: rgba(var(--rail-bg), 0.9);
-    box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.45);
-    justify-content: center;
-  }
-  .rail-tab-label { display: none; }
-  .rail-tab-icon { display: block; }
-  .rail-tab-count {
-    position: absolute; top: -0.3rem; right: -0.3rem;
-    min-width: 1.25rem; height: 1.25rem; line-height: 1.25rem; font-size: 0.62rem;
-    background: rgb(var(--color-primary-600)); color: #fff;
-  }
-  .dark .rail-tab-count { background: rgb(var(--color-primary-500)); color: rgb(var(--color-neutral-900)); }
-  .rail:hover .rail-tab, .rail.is-open .rail-tab { background: rgba(var(--rail-bg), 0.9); box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.45); border-color: rgba(var(--color-primary-500), 0.3); }
-
-  .rail-panel {
-    position: fixed; left: 0; right: 0; bottom: 0; width: auto; max-height: 70vh;
-    margin: 0; padding: 1.1rem 1.25rem calc(4.75rem + env(safe-area-inset-bottom, 0px));   /* room for the button */
-    border: 1px solid rgba(var(--color-primary-500), 0.18); border-bottom: 0;
-    border-radius: 1.25rem 1.25rem 0 0;
-    box-shadow: 0 -18px 48px -20px rgba(0, 0, 0, 0.55);
-    transform: translateY(105%); opacity: 1;
-    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    pointer-events: none;
-  }
-  .rail-panel::before {            /* grab handle */
-    content: ""; display: block; width: 2.5rem; height: 0.25rem; margin: 0 auto 0.9rem;
-    border-radius: 999px; background: rgba(var(--color-neutral-500), 0.35);
-  }
-  /* Hover means nothing on touch screens: only a tap opens the sheet. */
-  .rail:hover .rail-panel { transform: translateY(105%); border-radius: 1.25rem 1.25rem 0 0; }
-  .rail.is-open .rail-panel { transform: translateY(0); pointer-events: auto; border-radius: 1.25rem 1.25rem 0 0; }
-  .rail.is-open .rail-tab .rail-tab-icon { transform: rotate(90deg); transition: transform 0.25s ease; }
-  .rail-item a { padding: 0.5rem 0 0.5rem 1rem; font-size: 0.95rem; }
-  .rail-item a::before { top: 0.95em; }
-  /* The theme's scroll-to-top button shares the corner: stack it above. */
-  .rail ~ * #scroll-to-top, body:has(.rail) #scroll-to-top { bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px)); }
-  body:has(.rail.is-open) #scroll-to-top { display: none; }
+  .rail { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .rail-panel { transition: none; }

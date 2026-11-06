@@ -14,7 +14,6 @@
 {{- $first := index $groups 0 -}}
 <aside class="rail print:hidden" aria-label="Other notes in this subject">
   <button class="rail-tab" type="button" aria-expanded="false" aria-controls="rail-panel">
-    <span class="rail-tab-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
     <span class="rail-tab-label">{{ $first.page.Title }}{{ if gt (len $groups) 1 }} +{{ sub (len $groups) 1 }}{{ end }}</span>
     <span class="rail-tab-count">{{ len $first.notes }}</span>
   </button>
