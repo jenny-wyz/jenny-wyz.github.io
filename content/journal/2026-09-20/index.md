@@ -5,7 +5,7 @@ week_end: 2026-09-26
 notion_id: 410ef088fb8b8162a7dcc2c262b63000
 ---
 
-Es ist Herbst, meine Lieblingsjahreszeit. So entspannt am Bullingerplatz. 🍃\
+Es ist Herbst, meine Lieblingsjahreszeit. So entspannt am Bullingerplatz. 🍃🍂\
 Gute Nacht, schlaf gut.
 
 Ich habe von meiner Mutter (meinem Vater) und meiner Großmutter geträumt. Es war sehr beunruhigend und emotional.
