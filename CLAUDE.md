@@ -28,6 +28,7 @@ Sections: Journal (weekly entries in German, synced from the Notion database "Je
   - `partials/breadcrumbs.html`: subject pages show "Notes /" as their crumb.
   - `notes/single.html`: copy of the theme's single.html plus `partials/subject-rail.html`, the hover drawer on the right edge of a note listing the other notes in its subject(s). Notes also cascade `showPagination: false` and `showRelatedContent: false` from `content/notes/_index.md`.
   - `subjects/term.html`: copy of the theme's term.html plus `partials/subjects-rail.html`, the same kind of drawer on a subject page listing all subjects with counts and their bubble colors.
+  - `notes/all-notes.html` + `content/notes/all.md`: the "All notes" page (/notes/all/), linked from a pill under the bubbles (`allLink` in content/notes/_index.md). Not named all.html on purpose: in Hugo that name is a catch-all layout for the whole section.
   - `partials/bubbles.html`: the floating subject bubbles on /notes/ (size by note count, pastel palette in `assets/css/custom.css`, tiny packing script, no-JS fallback).
   - `journal/single.html`: copy of the theme's single.html with the content wrapped in `.journal-entry` and a tiny script that groups the photos into a grid.
 - `shortcodes/sections.html`: home page section cards.

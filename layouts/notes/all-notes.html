@@ -1,0 +1,18 @@
+{{ define "main" }}
+  {{/* Named all-notes.html, not all.html: in Hugo, all.html is a catch-all layout for every page of the section. */}}
+  {{/* Every note in one list, newest first, with its subject chips. Linked
+       from the "All notes" link under the bubbles on /notes/. */}}
+  {{ $notes := where (where site.RegularPages "Section" "notes") "Layout" "ne" "all-notes" }}
+  <header>
+    {{ if .Params.showBreadcrumbs | default (.Site.Params.article.showBreadcrumbs | default false) }}
+      {{ partial "breadcrumbs.html" . }}
+    {{ end }}
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+    <p class="mt-2 text-neutral-500 dark:text-neutral-400">{{ len $notes }} notes, newest first.</p>
+  </header>
+  <section class="mt-8 space-y-10 w-full">
+    {{ range $notes.ByDate.Reverse }}
+      {{ partial "article-link/simple.html" . }}
+    {{ end }}
+  </section>
+{{ end }}
