@@ -55,6 +55,16 @@
     {{ if gt (len $subs) 0 }}{{ $pages = .RegularPagesRecursive }}{{ end }}
   {{ end }}
   {{ if and $cardTaxonomy (gt (len $cards) 0) }}
+    {{/* A quiet link to the full list, top right, when the section names an "all" page. */}}
+    {{ with .Params.allLink }}
+      {{ $all := site.GetPage . }}
+      {{ if not $all }}{{ $all = site.GetPage (printf "%s.md" .) }}{{ end }}
+      {{ with $all }}
+        <p class="all-link"><a href="{{ .RelPermalink }}">{{ .Params.linkText | default .Title }} <span aria-hidden="true">&rarr;</span></a></p>
+      {{ else }}
+        <p class="all-link"><a href="{{ . | relURL }}/">All notes <span aria-hidden="true">&rarr;</span></a></p>
+      {{ end }}
+    {{ end }}
     {{ partial "bubbles.html" $cards }}
   {{ else if gt (len $cards) 0 }}
     <section class="not-prose grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style="margin-bottom: 3rem;">
@@ -78,17 +88,7 @@
   {{ end }}
 
   {{ if .Params.hideList }}
-    {{/* The section shows only its cards or bubbles (Notes: `hideList: true`),
-         plus a quiet link to the full list when the section has an "all" page. */}}
-    {{ with .Params.allLink }}
-      {{ $all := site.GetPage . }}
-      {{ if not $all }}{{ $all = site.GetPage (printf "%s.md" .) }}{{ end }}
-      {{ with $all }}
-        <p class="all-link"><a href="{{ .RelPermalink }}">{{ .Params.linkText | default .Title }} <span aria-hidden="true">&rarr;</span></a></p>
-      {{ else }}
-        <p class="all-link"><a href="{{ . | relURL }}/">All notes <span aria-hidden="true">&rarr;</span></a></p>
-      {{ end }}
-    {{ end }}
+    {{/* The section shows only its cards or bubbles (Notes: `hideList: true`). */}}
   {{ else if gt (len $pages) 0 }}
     {{ $groupByYear := .Params.groupByYear | default (site.Params.list.groupByYear | default false) }}
     {{ $orderByWeight := .Params.orderByWeight | default (site.Params.list.orderByWeight | default false) }}

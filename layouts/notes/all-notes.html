@@ -3,6 +3,7 @@
   {{/* Every note in one list, newest first, with its subject chips. Linked
        from the "All notes" link under the bubbles on /notes/. */}}
   {{ $notes := where (where site.RegularPages "Section" "notes") "Layout" "ne" "all-notes" }}
+  <p class="all-link"><a class="back" href="{{ .Parent.RelPermalink }}"><span aria-hidden="true">&larr;</span> Bubbles</a></p>
   <header>
     {{ if .Params.showBreadcrumbs | default (.Site.Params.article.showBreadcrumbs | default false) }}
       {{ partial "breadcrumbs.html" . }}

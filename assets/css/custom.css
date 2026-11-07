@@ -280,8 +280,8 @@
 .dark .journal-entry img { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 14px 30px -12px rgba(0, 0, 0, 0.8); }
 @media (prefers-reduced-motion: reduce) { .journal-entry img, .journal-entry img:hover { transform: none; } }
 
-/* "All notes" link under the bubbles on /notes/. */
-.all-link { margin: -1.5rem 0 3rem; text-align: right; }
+/* The pill at the top right of /notes/ ("All notes") and /notes/all/ ("Bubbles"). */
+.all-link { margin: 0 0 0.5rem; text-align: right; }
 .all-link a {
   display: inline-flex; align-items: center; gap: 0.4rem;
   padding: 0.45rem 0.95rem; border-radius: 999px;
@@ -295,3 +295,5 @@
 .all-link a:hover { background: rgba(var(--color-primary-500), 0.14); border-color: rgba(var(--color-primary-500), 0.6); transform: translateY(-1px); }
 .all-link a span { transition: transform 0.2s ease; }
 .all-link a:hover span { transform: translateX(3px); }
+.all-link a.back span { order: -1; }
+.all-link a.back:hover span { transform: translateX(-3px); }
