@@ -1,0 +1,56 @@
+{{ define "main" }}
+  {{/*
+    Recipes. Two levels share this template:
+      /recipes/            the cuisines, as tiles with their emoji
+      /recipes/<cuisine>/  the recipes of one cuisine, grouped by the headings
+                           on the Notion page, as tiles
+    Content comes from scripts/sync_recipes.py; styles are in custom.css (.rcp-*).
+  */}}
+  <header>
+    {{ if .Params.showBreadcrumbs | default (.Site.Params.list.showBreadcrumbs | default false) }}
+      {{ partial "breadcrumbs.html" . }}
+    {{ end }}
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+      {{ with .Params.icon }}<span class="rcp-title-icon">{{ . }}</span>{{ end }}{{ .Title }}
+    </h1>
+    {{ with .Description }}<p class="mt-2 text-neutral-500 dark:text-neutral-400">{{ . }}</p>{{ end }}
+  </header>
+
+  {{ if .Sections }}
+    {{/* ---- the cuisines ---- */}}
+    <section class="rcp-cuisines">
+      {{ range .Sections.ByWeight }}
+        <a class="rcp-cuisine" href="{{ .RelPermalink }}">
+          <span class="rcp-cuisine-icon">{{ .Params.icon | default "🍽️" }}</span>
+          <span class="rcp-cuisine-name">{{ .Title }}</span>
+          <span class="rcp-cuisine-count">{{ len .RegularPages }}</span>
+        </a>
+      {{ end }}
+    </section>
+  {{ else }}
+    {{/* ---- one cuisine: recipes grouped by the headings on the Notion page ---- */}}
+    {{ $pages := .RegularPages.ByWeight }}
+    {{ $groups := slice }}
+    {{ range $pages }}
+      {{ $g := .Params.group | default "" }}
+      {{ if not (in $groups $g) }}{{ $groups = $groups | append $g }}{{ end }}
+    {{ end }}
+    {{ range $g := $groups }}
+      {{ with $g }}<h2 class="rcp-group">{{ . }}</h2>{{ end }}
+      <section class="rcp-tiles">
+        {{ range $pages }}{{ if eq (.Params.group | default "") $g }}
+          <a class="rcp-tile" href="{{ .RelPermalink }}">
+            {{ $parts := split .Title " " }}
+            {{ $first := index $parts 0 }}
+            {{ if and (gt (len $parts) 1) (lt (len $first) 4) (not (findRE "[A-Za-z0-9\\p{Han}]" $first)) }}
+              <span class="rcp-tile-icon">{{ $first }}</span>
+              <span class="rcp-tile-name">{{ delimit (after 1 $parts) " " }}</span>
+            {{ else }}
+              <span class="rcp-tile-name">{{ .Title }}</span>
+            {{ end }}
+          </a>
+        {{ end }}{{ end }}
+      </section>
+    {{ end }}
+  {{ end }}
+{{ end }}

@@ -51,5 +51,19 @@
     "database_id": "0e5627154a1e4f4faed0c45cde618bab",
     "data_source_id": "7f479715-4add-46ee-b281-1ad321254673",
     "output_dir": "content/journal"
+  },
+  "recipes": {
+    "_comment": "The Notion page \"Recipes\" and its subpages (cuisines, each holding recipe pages). Not a database: the sync walks the page tree.",
+    "page_id": "2a6ef088fb8b8014801efd80859b45c1",
+    "output_dir": "content/recipes",
+    "cuisine_slugs": {
+      "中": "chinese",
+      "西": "western",
+      "日": "japanese",
+      "东南亚": "southeast-asian",
+      "Baking": "baking",
+      "Jernier’s cafe": "cafe",
+      "Jernier's cafe": "cafe"
+    }
   }
 }

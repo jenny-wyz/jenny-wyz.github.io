@@ -12,7 +12,7 @@ Everything is a Markdown file under `content/`:
 | Essays | `content/essays/` | pieces carry `series: ["Essays"]` and a `series_order` |
 | Brain dump (password-protected, see CLAUDE.md) | `content/braindump/` | |
 | Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |
-| Recipes | `content/recipes/` | |
+| Recipes | `content/recipes/<cuisine>/` | synced nightly from the Notion page "Recipes" (`scripts/sync_recipes.py`); one folder per cuisine, one file per recipe |
 | Notes | `content/notes/` | synced nightly from Notion ("Jernier's Notes on Stuff", `scripts/sync_notes.py`); subjects are a taxonomy (`subjects:` in front matter, pages at `/notes/<subject>/`, titles in `content/subjects/`); hand-written notes without `notion_id` are kept as they are |
 
 Each file starts with front matter between `---` lines:
