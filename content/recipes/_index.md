@@ -1,6 +1,6 @@
 ---
 title: "Recipes"
-description: "Things worth cooking twice."
+description: "I try."
 # Synced nightly from the Notion page "Recipes" (scripts/sync_recipes.py):
 # one folder per cuisine, one file per recipe. Edit in Notion, not here.
 cascade:

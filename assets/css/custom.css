@@ -1,5 +1,24 @@
 /* Site-wide tweaks on top of Blowfish. */
 
+/* Country flag emojis (🇨🇳 🇨🇦 ...). Windows has no flag glyphs, so Chrome and
+   Edge there show the two letters ("CN") instead. This font draws only the
+   flags (unicode-range), every other character falls through to the normal
+   stack, and it is downloaded only on pages that contain a flag.
+   Font: static/fonts/TwemojiCountryFlags.woff2, from the npm package
+   country-flag-emoji-polyfill (code MIT; flag art Twemoji, CC BY 4.0). */
+@font-face {
+  font-family: "Twemoji Country Flags";
+  unicode-range: U+1F1E6-1F1FF, U+1F3F4, U+E0062-E0063, U+E0065, U+E0067,
+    U+E006C, U+E006E, U+E0073-E0074, U+E0077, U+E007F;
+  src: url("/fonts/TwemojiCountryFlags.woff2") format("woff2");
+  font-display: swap;
+}
+:root {
+  --font-sans: "Twemoji Country Flags", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 /* Header: the home icon (assets/img/home.svg) replaces the site title. */
 .logo svg {
   height: 1.5rem;
@@ -241,7 +260,7 @@
 
 /* The entry text: a serif, a little larger and airier, like a notebook. */
 .journal-entry > p, .journal-entry > blockquote {
-  font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif;
+  font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif;
   font-size: 1.12rem; line-height: 1.75;
 }
 .journal-entry > p:first-of-type::first-letter { font-size: 1.1em; }

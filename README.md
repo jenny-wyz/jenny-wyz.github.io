@@ -77,3 +77,7 @@ Commit and push to `main`. The workflow in `.github/workflows/hugo.yaml` builds 
 - **Name, headline, photo, links**: `config/_default/languages.en.toml`; the photo is `assets/img/author.jpg`.
 - **Layouts**: `layouts/` holds the few templates that override the theme (section list with subject cards, home page section grid, per-section color injection). Blowfish's full options: https://blowfish.page/docs/configuration/
 - **Theme update**: `git submodule update --remote themes/blowfish`, then check the site still builds.
+
+## Credits
+
+Country flag emojis are drawn with the "Twemoji Country Flags" font (`static/fonts/`) from [country-flag-emoji-polyfill](https://github.com/talkjs/country-flag-emoji-polyfill) (MIT); flag art from [Twemoji](https://github.com/twitter/twemoji), CC BY 4.0.
