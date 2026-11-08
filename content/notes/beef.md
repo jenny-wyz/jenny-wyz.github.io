@@ -5,7 +5,7 @@ subjects: ["food"]
 notion_id: 40bef088fb8b81a3a9ddf8f2d4ec6983
 ---
 
-#### Sirloin 西冷
+#### Sirloin 西冷 Huftsteak
 - **Position on Cow:** Located in the hindquarter, just behind the short loin.
 - **Identification:** Large, flat, and relatively lean cut. (外圈一层完整脂肪)
 - **Texture:** Moderately tender with a balanced flavor.
