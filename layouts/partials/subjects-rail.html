@@ -14,7 +14,6 @@
 <aside class="rail rail-subjects print:hidden" aria-label="All subjects">
   <button class="rail-tab" type="button" aria-expanded="false" aria-controls="rail-panel">
     <span class="rail-tab-label">Subjects</span>
-    <span class="rail-tab-count">{{ len $terms }}</span>
   </button>
   <div class="rail-panel" id="rail-panel">
     <section class="rail-group">
@@ -38,15 +37,22 @@
   var rail = document.querySelector(".rail");
   if (!rail) return;
   var tab = rail.querySelector(".rail-tab");
+  function close() { rail.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
+  // The tab opens and closes the drawer.
   tab.addEventListener("click", function () {
     var open = rail.classList.toggle("is-open");
     tab.setAttribute("aria-expanded", open ? "true" : "false");
+    if (!open) tab.blur();
   });
+  // A tap outside an open drawer only closes it; it doesn't also follow a
+  // link underneath (capture phase, so it runs before the link does).
   document.addEventListener("click", function (e) {
-    if (!rail.contains(e.target)) { rail.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
-  });
+    if (!rail.classList.contains("is-open") || rail.contains(e.target)) return;
+    e.preventDefault(); e.stopPropagation();
+    close();
+  }, true);
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") { rail.classList.remove("is-open"); tab.setAttribute("aria-expanded", "false"); }
+    if (e.key === "Escape") close();
   });
   // Same color assignment as the bubbles on /notes/: hash the name, take a free slot.
   var items = Array.prototype.slice.call(rail.querySelectorAll(".rail-item-dot"));

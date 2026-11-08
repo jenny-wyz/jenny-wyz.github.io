@@ -187,17 +187,26 @@
   opacity: 0;
   transition: margin-right 0.28s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.2s ease;
 }
-.rail:hover .rail-panel, .rail:focus-within .rail-panel, .rail.is-open .rail-panel {
-  margin-right: 0; opacity: 1;
-}
-/* Open: the tab becomes the drawer's handle, flush against the panel. */
-.rail:hover .rail-tab, .rail:focus-within .rail-tab, .rail.is-open .rail-tab {
+/* Open: tapping/clicking the tab sets .is-open (script in the partial).
+   With a mouse, hovering or tabbing into the rail opens it too. That part is
+   limited to real-mouse devices: on touch screens hover and focus "stick"
+   after a tap, which kept the drawer open when the tab was tapped again. */
+.rail.is-open .rail-panel { margin-right: 0; opacity: 1; border-radius: 0; border-left: 0; }
+/* The tab becomes the drawer's handle, flush against the panel. */
+.rail.is-open .rail-tab {
   background: rgba(var(--rail-bg), 0.94);
   border-color: rgba(var(--color-primary-500), 0.22);
   box-shadow: none;
 }
-.rail:hover .rail-panel, .rail:focus-within .rail-panel, .rail.is-open .rail-panel {
-  border-radius: 0; border-left: 0;
+@media (hover: hover) and (pointer: fine) {
+  .rail:hover .rail-panel, .rail:focus-within .rail-panel {
+    margin-right: 0; opacity: 1; border-radius: 0; border-left: 0;
+  }
+  .rail:hover .rail-tab, .rail:focus-within .rail-tab {
+    background: rgba(var(--rail-bg), 0.94);
+    border-color: rgba(var(--color-primary-500), 0.22);
+    box-shadow: none;
+  }
 }
 
 .rail-group + .rail-group { margin-top: 1rem; padding-top: 0.9rem; border-top: 1px solid rgba(var(--color-primary-500), 0.15); }
