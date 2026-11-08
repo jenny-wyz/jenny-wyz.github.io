@@ -1,7 +1,7 @@
 ---
 title: "🍫 Schokolade Basque"
 date: 2026-05-14
-weight: 5
+weight: 6
 notion_id: 360ef088fb8b80ddacdef5a5bb0a9e21
 ---
 

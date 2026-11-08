@@ -1,7 +1,7 @@
 ---
 title: "🍫 Choco lava cake"
 date: 2025-11-21
-weight: 7
+weight: 8
 notion_id: 2b2ef088fb8b809ab0afe3b470041589
 ---
 

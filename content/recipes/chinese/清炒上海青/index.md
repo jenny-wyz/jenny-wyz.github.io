@@ -1,7 +1,7 @@
 ---
 title: "🥬 清炒上海青"
 date: 2025-11-17
-weight: 27
+weight: 28
 group: "素食"
 group_weight: 3
 notion_id: 2aeef088fb8b80c2b59fdcba67766639
