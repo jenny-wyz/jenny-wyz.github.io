@@ -243,7 +243,7 @@
       "notes": [],
       "rating": null,
       "review": "",
-      "started": null,
+      "started": "2026-10-05",
       "status": "Reading",
       "title": "Dubliners"
     },
@@ -519,6 +519,23 @@
       "collection": false,
       "completed": null,
       "id": "3ceef088fb8b8089af4af5aefb109eea",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Metamorphosis"
+    },
+    {
+      "added": "2026-11-06",
+      "author": "Ovid",
+      "categories": [
+        "Classic Literature"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "410ef088fb8b80d9addde8e5fcb91f28",
       "lang": "en",
       "notes": [],
       "rating": null,
@@ -1186,7 +1203,7 @@
       "id": "40bef088fb8b80a68984d02c5f951cfc",
       "lang": "en",
       "notes": [],
-      "rating": null,
+      "rating": 3,
       "review": "",
       "started": null,
       "status": "Completed",
@@ -1308,7 +1325,7 @@
       "notes": [],
       "rating": null,
       "review": "",
-      "started": null,
+      "started": "2026-10-07",
       "status": "Reading",
       "title": "When Nietzsche Wept"
     },
