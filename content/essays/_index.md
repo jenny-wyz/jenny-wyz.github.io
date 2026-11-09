@@ -1,7 +1,9 @@
 ---
 title: "Essays"
-description: "The long version: longer pieces about places, people and years."
+description: "一些随笔."
 aliases: ["/memoir/"]
 ---
 
-The long version: longer pieces about places, people and years.
+包括但不仅限于：
+回顾，拼凑我的过去
+探索自我
