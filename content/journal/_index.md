@@ -1,6 +1,6 @@
 ---
 title: "Journal"
-description: "Wochenweise, aus dem Notizbuch."
+description: "Wochenweise, auf Deutsch, aus dem Notizbuch."
 # Password-protected, like Brain dump (see CLAUDE.md, "Password-protected pages").
 protected: true
 excludeFromSearch: true
@@ -25,4 +25,4 @@ cascade:
     list: local
 ---
 
-Wochenweise, auf Deutsch, aus dem Notizbuch.
+Wochenweise, aus dem Notizbuch.
