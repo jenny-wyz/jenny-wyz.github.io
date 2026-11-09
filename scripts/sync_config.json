@@ -65,5 +65,11 @@
       "Jernier’s cafe": "cafe",
       "Jernier's cafe": "cafe"
     }
+  },
+  "essays": {
+    "_comment": "The Notion page \"Jernier 随笔\". Only the subpages under the heading named in publish_heading are published; everything under other headings (Ver 0, the raw drafts) is never read.",
+    "page_id": "413ef088fb8b80ce9e98f8c102384389",
+    "publish_heading": "Ver 1",
+    "output_dir": "content/essays"
   }
 }

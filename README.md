@@ -9,7 +9,7 @@ Everything is a Markdown file under `content/`:
 | Section | Folder | Notes |
 |---|---|---|
 | Journal (German, weekly, synced from Notion, password-protected) | `content/journal/` | name files `YYYY-MM-DD-title.md` to keep them sorted |
-| Essays | `content/essays/` | pieces carry `series: ["Essays"]` and a `series_order` |
+| Essays (password-protected) | `content/essays/` | synced nightly from the Notion page "Jernier 随笔", Ver 1 subpages only (`scripts/sync_essays.py`) |
 | Brain dump (password-protected, see CLAUDE.md) | `content/braindump/` | |
 | Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |
 | Recipes | `content/recipes/<cuisine>/` | synced nightly from the Notion page "Recipes" (`scripts/sync_recipes.py`); one folder per cuisine, one file per recipe |
