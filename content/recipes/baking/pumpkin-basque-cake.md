@@ -6,7 +6,7 @@ notion_id: 411ef088fb8b8042925fc377961293c4
 ---
 
 ## Ingredients
-- Kurbis - 350g
+- Kürbis - 350g
 - Frischkäse - 200g
 - Zucker - 60g
 - Vollrahm - 80g
