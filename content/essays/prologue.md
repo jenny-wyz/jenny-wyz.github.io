@@ -1,7 +1,7 @@
 ---
-title: "Prologue"
+title: "0"
 date: 2026-10-31
-summary: "Where the long version starts."
+summary: "maybe ill get rid of this summary section"
 series: ["Essays"]
 series_order: 1
 ---
