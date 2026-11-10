@@ -47,7 +47,7 @@
       STEP: 4,          // weeks released per pull
       BALL_MAX: 74,     // ball radius with everything wound up
       BALL_MIN: 54,     // ball radius with every past week unrolled (the rest is yarn for weeks to come)
-      THICK: 4.7,       // yarn thickness (also set in custom.css: .yarn-body and friends)
+      THICK: 5,         // yarn thickness (set in custom.css: .yarn-body, .yarn-sheen)
       LANE: 150,        // average vertical distance between two passes across the page
       BEND_EVERY: 430,  // on average one feature (an S-bend or a curl) per this many px of yarn
       CURL_SHARE: 0.15, // how many of those features are full curls; the rest are S and Z bends
@@ -195,7 +195,7 @@
       parts.strands = el("g", {}, clipped);
       // two layers of windings: an older, darker layer underneath, then the top layer
       for (var layer = 0; layer < 2; layer++) {
-        var n = layer ? 62 : 44;   // thinner strands need more windings to cover the ball
+        var n = layer ? 44 : 30;
         for (var i = 0; i < n; i++) {
           var rot = R() * 180, nz = 0.12 + R() * 0.8, up = R() < 0.5 ? 0 : 1, off = (R() - 0.5) * 0.12;
           var d = "M-1.05," + off.toFixed(3) + " A1.05," + nz.toFixed(3) + " 0 0 " + up + " 1.05," + off.toFixed(3);

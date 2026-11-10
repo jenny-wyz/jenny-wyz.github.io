@@ -473,15 +473,14 @@
 .yarn:not(.yarn-ready) .yarn-hint { display: none; }
 
 .yarn-shadow, .yarn-body, .yarn-sheen, .yarn-hit, .yarn-glow { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.yarn-shadow { stroke: rgba(0, 0, 0, 0.2); stroke-width: 4.7px; transform: translate(1px, 2.5px); filter: blur(2px); }
-.yarn-body { stroke: rgb(var(--color-primary-500)); stroke-width: 4.7px; }
-.yarn-sheen { stroke: rgb(var(--color-primary-200)); stroke-width: 1.3px; opacity: 0.45; transform: translate(-0.4px, -0.8px); }
-.dark .yarn-body { stroke: rgb(var(--color-primary-500)); }
-.dark .yarn-sheen { opacity: 0.35; }
+.yarn-shadow { stroke: rgba(0, 0, 0, 0.2); stroke-width: 5px; transform: translate(1px, 2.5px); filter: blur(2px); }
+/* The loose yarn is drawn like one strand of the ball: a darker band with a pale core. */
+.yarn-body { stroke: rgb(var(--color-primary-600)); stroke-width: 5px; }
+.yarn-sheen { stroke: rgb(var(--color-primary-200)); stroke-width: 2.6px; opacity: 0.6; }
 
 .yarn-week { cursor: pointer; }
 .yarn-hit { stroke: transparent; stroke-width: 24px; pointer-events: stroke; }
-.yarn-glow { stroke: #fff; stroke-width: 4.7px; opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
+.yarn-glow { stroke: #fff; stroke-width: 5px; opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
 .yarn-week:hover .yarn-glow, .yarn-week:focus-visible .yarn-glow { opacity: 0.4; }
 .yarn-week:focus-visible { outline: none; }
 .yarn-week.is-crowded .yarn-label { visibility: hidden; }
@@ -500,47 +499,15 @@
 .yarn-ball-shadow { fill: rgba(0, 0, 0, 0.3); filter: blur(5px); }
 .yarn-ball-base { fill: rgb(var(--color-primary-700)); }
 .yarn-strand, .yarn-strand-edge { fill: none; stroke-linecap: round; }
-.yarn-strand-edge { stroke: rgb(var(--color-primary-700)); stroke-width: 5.6px; opacity: 0.9; }
-.yarn-strand { stroke: rgb(var(--color-primary-500)); stroke-width: 4px; }
+.yarn-strand-edge { stroke: rgb(var(--color-primary-700)); stroke-width: 8px; opacity: 0.9; }
+.yarn-strand { stroke: rgb(var(--color-primary-200)); stroke-width: 3.2px; opacity: 0.6; }
 .yarn-strand-edge.is-under { stroke: rgb(var(--color-primary-800)); }
-.yarn-strand.is-under { stroke: rgb(var(--color-primary-600)); }
+.yarn-strand.is-under { stroke: rgb(var(--color-primary-200)); }
 .yarn-ball-shade { pointer-events: none; }
 .yarn-ball:hover .yarn-ball-shade, .yarn-ball:focus-visible .yarn-ball-shade { opacity: 0.85; }
 .yarn-ball.is-empty:hover .yarn-ball-shade { opacity: 1; }
 
 .yarn-hint { display: none; }
-
-.yarn-shadow, .yarn-body, .yarn-ply, .yarn-hit, .yarn-glow { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.yarn-shadow { stroke: rgba(0, 0, 0, 0.22); stroke-width: 11px; transform: translate(2px, 5px); filter: blur(3px); }
-.yarn-body { stroke: rgb(var(--color-primary-600)); stroke-width: 11px; }
-.yarn-ply { stroke: rgb(var(--color-primary-300)); stroke-width: 6.5px; stroke-linecap: butt; opacity: 0.85; }
-.dark .yarn-body { stroke: rgb(var(--color-primary-500)); }
-.dark .yarn-ply { stroke: rgb(var(--color-primary-200)); opacity: 0.7; }
-
-.yarn-week { cursor: pointer; }
-.yarn-hit { stroke: transparent; stroke-width: 30px; pointer-events: stroke; }
-.yarn-glow { stroke: #fff; stroke-width: 11px; opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
-.yarn-week:hover .yarn-glow, .yarn-week:focus-visible .yarn-glow { opacity: 0.38; }
-.yarn-week:focus-visible { outline: none; }
-.yarn-label {
-  font-size: 11.5px; font-weight: 600; letter-spacing: 0.02em; font-variant-numeric: tabular-nums;
-  fill: rgb(var(--color-neutral-500)); pointer-events: none; transition: fill 0.15s ease;
-}
-.dark .yarn-label { fill: rgb(var(--color-neutral-400)); }
-.yarn-week:hover .yarn-label, .yarn-week:focus-visible .yarn-label { fill: rgb(var(--color-primary-600)); }
-.dark .yarn-week:hover .yarn-label, .dark .yarn-week:focus-visible .yarn-label { fill: rgb(var(--color-primary-300)); }
-.yarn-knot { fill: rgb(var(--color-primary-800)); opacity: 0.55; pointer-events: none; }
-.dark .yarn-knot { fill: rgb(var(--color-primary-900)); opacity: 0.7; }
-
-.yarn-ball { cursor: grab; outline: none; }
-.yarn-ball:active { cursor: grabbing; }
-.yarn-ball.is-empty { cursor: default; }
-.yarn-ball-shadow { fill: rgba(0, 0, 0, 0.28); filter: blur(5px); }
-.yarn-strand { fill: none; stroke: rgb(var(--color-primary-200)); stroke-width: 3.2px; opacity: 0.6; }
-.yarn-strand.is-dark { stroke: rgb(var(--color-primary-800)); opacity: 0.4; }
-.yarn-ball-rim { fill: none; stroke: rgba(0, 0, 0, 0.22); stroke-width: 1.5px; }
-.yarn-ball:hover .yarn-ball-rim, .yarn-ball:focus-visible .yarn-ball-rim { stroke: rgb(var(--color-primary-300)); stroke-width: 2px; }
-.yarn-ball.is-empty:hover .yarn-ball-rim { stroke: rgba(0, 0, 0, 0.22); stroke-width: 1.5px; }
 
 .yarn-hint { margin: 0.75rem 0 0; display: flex; gap: 1.25rem; font-size: 0.8rem; }
 .yarn-hint button { border: 0; background: none; padding: 0; cursor: pointer; color: rgb(var(--color-neutral-500)); letter-spacing: 0.04em; transition: color 0.15s ease; }
