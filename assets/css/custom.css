@@ -473,15 +473,15 @@
 .yarn:not(.yarn-ready) .yarn-hint { display: none; }
 
 .yarn-shadow, .yarn-body, .yarn-sheen, .yarn-hit, .yarn-glow { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.yarn-shadow { stroke: rgba(0, 0, 0, 0.2); stroke-width: 7px; transform: translate(1.5px, 3.5px); filter: blur(2.5px); }
-.yarn-body { stroke: rgb(var(--color-primary-500)); stroke-width: 7px; }
-.yarn-sheen { stroke: rgb(var(--color-primary-200)); stroke-width: 2px; opacity: 0.45; transform: translate(-0.6px, -1.2px); }
+.yarn-shadow { stroke: rgba(0, 0, 0, 0.2); stroke-width: 4.7px; transform: translate(1px, 2.5px); filter: blur(2px); }
+.yarn-body { stroke: rgb(var(--color-primary-500)); stroke-width: 4.7px; }
+.yarn-sheen { stroke: rgb(var(--color-primary-200)); stroke-width: 1.3px; opacity: 0.45; transform: translate(-0.4px, -0.8px); }
 .dark .yarn-body { stroke: rgb(var(--color-primary-500)); }
 .dark .yarn-sheen { opacity: 0.35; }
 
 .yarn-week { cursor: pointer; }
-.yarn-hit { stroke: transparent; stroke-width: 26px; pointer-events: stroke; }
-.yarn-glow { stroke: #fff; stroke-width: 7px; opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
+.yarn-hit { stroke: transparent; stroke-width: 24px; pointer-events: stroke; }
+.yarn-glow { stroke: #fff; stroke-width: 4.7px; opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
 .yarn-week:hover .yarn-glow, .yarn-week:focus-visible .yarn-glow { opacity: 0.4; }
 .yarn-week:focus-visible { outline: none; }
 .yarn-week.is-crowded .yarn-label { visibility: hidden; }
@@ -500,8 +500,8 @@
 .yarn-ball-shadow { fill: rgba(0, 0, 0, 0.3); filter: blur(5px); }
 .yarn-ball-base { fill: rgb(var(--color-primary-700)); }
 .yarn-strand, .yarn-strand-edge { fill: none; stroke-linecap: round; }
-.yarn-strand-edge { stroke: rgb(var(--color-primary-700)); stroke-width: 8px; opacity: 0.9; }
-.yarn-strand { stroke: rgb(var(--color-primary-500)); stroke-width: 6px; }
+.yarn-strand-edge { stroke: rgb(var(--color-primary-700)); stroke-width: 5.6px; opacity: 0.9; }
+.yarn-strand { stroke: rgb(var(--color-primary-500)); stroke-width: 4px; }
 .yarn-strand-edge.is-under { stroke: rgb(var(--color-primary-800)); }
 .yarn-strand.is-under { stroke: rgb(var(--color-primary-600)); }
 .yarn-ball-shade { pointer-events: none; }

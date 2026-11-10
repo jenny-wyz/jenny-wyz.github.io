@@ -43,14 +43,16 @@
     var Y = {
       SEG: 92,          // length of one week of yarn, px
       SEG_NARROW: 70,   // the same on phones
-      FIRST: 5,         // weeks lying out at the start (newest + 4)
+      FIRST: 2,         // weeks lying out at the start (a short tail)
       STEP: 4,          // weeks released per pull
       BALL_MAX: 74,     // ball radius with everything wound up
       BALL_MIN: 54,     // ball radius with every past week unrolled (the rest is yarn for weeks to come)
-      THICK: 7,         // yarn thickness
+      THICK: 4.7,       // yarn thickness (also set in custom.css: .yarn-body and friends)
       LANE: 150,        // average vertical distance between two passes across the page
-      LOOP_EVERY: 450,  // on average one curl per this many px of yarn
-      LOOP_R: [12, 58], // size of a curl, smallest and largest (roughly its radius)
+      BEND_EVERY: 430,  // on average one feature (an S-bend or a curl) per this many px of yarn
+      CURL_SHARE: 0.15, // how many of those features are full curls; the rest are S and Z bends
+      LOOP_R: [12, 52], // size of a curl, smallest and largest (roughly its radius)
+      BEND: [0.55, 1.25], // how far an S-bend swings off course, in radians (1.25 is a lazy Z)
       SEED: 7,          // change for a different (but stable) arrangement
       PULL_MS: 1100     // duration of one pull
     };
@@ -109,10 +111,17 @@
         return v / 1.6 * LANE * 0.42 * ramp;
       }
       // 2. the yarn chases the guide
-      var pts = [[ballX, tableY]], x = ballX, y = tableY, h = 0, j = 0, look = 60;
-      var kMax = 1 / (34 * scale), curl = null, nextCurl = Y.LOOP_EVERY * (0.7 + R());
+      // it starts inside the ball, a little above the table, so its end never shows
+      var lift = 9 * scale;
+      for (var g2 = 0; g2 < guide.length && guide[g2][1] <= tableY + 1; g2++) guide[g2][1] -= lift * Math.max(0, 1 - g2 * step / 500);
+      var pts = [[ballX, tableY - lift]], x = ballX, y = tableY - lift, h = 0, j = 0, look = 84 * scale;
+      var kMax = 1 / (34 * scale), curl = null, nextCurl = Y.BEND_EVERY * (0.7 + R());
       for (var d = 0; d < length; d += step) {
-        while (j < guide.length - 1 && Math.hypot(guide[j][0] - x, guide[j][1] - y) < look) j++;
+        // aim at a guide point comfortably ahead; one that has fallen behind is skipped,
+        // otherwise the yarn would circle back for it and knot itself up
+        var hop = 0;
+        while (j < guide.length - 1 && hop < 60 && (Math.hypot(guide[j][0] - x, guide[j][1] - y) < look ||
+               (guide[j][0] - x) * Math.cos(h) + (guide[j][1] - y) * Math.sin(h) < 0)) { j++; hop++; }
         var off = swell(j), tx2 = guide[j][0] + guide[j][2] * off, ty2 = guide[j][1] + guide[j][3] * off;
         var err = Math.atan2(Math.sin(Math.atan2(ty2 - y, tx2 - x) - h), Math.cos(Math.atan2(ty2 - y, tx2 - x) - h));
         var k = Math.max(-kMax, Math.min(kMax, err * 0.02));
@@ -120,17 +129,26 @@
         var edge = 0, near = 26;
         if (x > W - near) edge = (x - (W - near)) / near; else if (x < near) edge = -(near - x) / near;
         if (edge) { var inward = edge > 0 ? Math.PI : 0, e2 = Math.atan2(Math.sin(inward - h), Math.cos(inward - h)); k += e2 * Math.abs(edge) * 0.03; }
-        if (curl) {                                                 // a curl: turning rises and falls again
+        if (curl) {
           var u = curl.s / curl.len;
-          k = curl.sign * curl.peak * Math.sin(Math.PI * u);
+          // a curl turns one way throughout (rising, then easing off);
+          // an S-bend turns one way and then back, so it ends on its old course
+          k = curl.sign * curl.peak * (curl.s_bend ? Math.sin(2 * Math.PI * u) : Math.sin(Math.PI * u));
           curl.s += step;
           if (curl.s >= curl.len) curl = null;
-        } else if (d > nextCurl && d > 320 && x > m + 110 * scale && x < W - m - 110 * scale && Math.abs(err) < 0.5) {
-          var len = (Y.LOOP_R[0] + R() * (Y.LOOP_R[1] - Y.LOOP_R[0])) * 2 * Math.PI * scale;
-          // total turn of about one full circle (a bit more or less, so curls differ)
-          var turnTotal = 2 * Math.PI * (0.9 + R() * 0.25);
-          curl = { s: 0, len: len, sign: R() < 0.5 ? 1 : -1, peak: turnTotal * Math.PI / (2 * len) };
-          nextCurl = d + Y.LOOP_EVERY * (0.45 + R() * 1.1);
+        } else if (d > nextCurl && d > 240 && x > m + 230 * scale && x < W - m - 230 * scale && Math.abs(err) < 0.3 && Math.abs(Math.sin(h)) < 0.45) {
+          // only on an open, level stretch: never near a page-wide turn, so features do not pile up there
+          if (R() < Y.CURL_SHARE) {
+            var len = (Y.LOOP_R[0] + R() * (Y.LOOP_R[1] - Y.LOOP_R[0])) * 2 * Math.PI * scale;
+            // total turn of about one full circle (a bit more or less, so curls differ)
+            var turnTotal = 2 * Math.PI * (0.9 + R() * 0.25);
+            curl = { s: 0, len: len, sign: R() < 0.5 ? 1 : -1, peak: turnTotal * Math.PI / (2 * len) };
+          } else {
+            var blen = (230 + R() * 230) * scale, swing = Y.BEND[0] + R() * (Y.BEND[1] - Y.BEND[0]);
+            // swinging off by `swing` and back: the first half turns by that much
+            curl = { s: 0, len: blen, sign: R() < 0.5 ? 1 : -1, peak: swing * Math.PI / blen, s_bend: true };
+          }
+          nextCurl = d + curl.len + Y.BEND_EVERY * (0.6 + R() * 0.9);
         }
         h += k * step;
         x += Math.cos(h) * step; y += Math.sin(h) * step;
@@ -177,7 +195,7 @@
       parts.strands = el("g", {}, clipped);
       // two layers of windings: an older, darker layer underneath, then the top layer
       for (var layer = 0; layer < 2; layer++) {
-        var n = layer ? 44 : 30;
+        var n = layer ? 62 : 44;   // thinner strands need more windings to cover the ball
         for (var i = 0; i < n; i++) {
           var rot = R() * 180, nz = 0.12 + R() * 0.8, up = R() < 0.5 ? 0 : 1, off = (R() - 0.5) * 0.12;
           var d = "M-1.05," + off.toFixed(3) + " A1.05," + nz.toFixed(3) + " 0 0 " + up + " 1.05," + off.toFixed(3);
@@ -222,7 +240,7 @@
     }
 
     function draw(out) {
-      var r = ballRadius(out), under = r * 0.9, L = under + out * seg + 10;
+      var r = ballRadius(out), under = r * 0.62, L = under + out * seg + 10;
       var dash = L + " " + (total + 10);
       parts.shadow.setAttribute("stroke-dasharray", dash);
       parts.body.setAttribute("stroke-dasharray", dash);
