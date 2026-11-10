@@ -23,9 +23,6 @@
           <span class="section-icon h-7 w-7 shrink-0" style="color: rgb({{ $accent }});">{{ partial "icon.html" . }}</span>
           {{- end }}{{ end }}
           <span class="text-xl font-bold text-neutral-800 dark:text-neutral-100">{{ $name }}</span>
-          {{- if .Params.protected }}
-          <span class="ms-auto h-4 w-4 shrink-0 opacity-60" title="Password protected" style="color: rgb({{ $accent }});">{{ partial "icon.html" "lock" }}</span>
-          {{- end }}
         </div>
         {{- with $theme }}{{ with .tagline }}
         <p class="text-sm text-neutral-600 dark:text-neutral-300">{{ . }}</p>
