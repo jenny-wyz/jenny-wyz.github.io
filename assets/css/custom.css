@@ -436,3 +436,28 @@
   .jnav-next { margin-left: auto; }
 }
 @media (prefers-reduced-motion: reduce) { .jnav-btn { transition: none; } }
+
+/* Journal: month calendar in the right column (desktop) */
+.jcal { width: 15.5rem; font-size: 0.78rem; user-select: none; }
+.jcal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+.jcal-title { font-weight: 600; font-size: 0.84rem; color: rgb(var(--color-neutral-800)); }
+.dark .jcal-title { color: rgb(var(--color-neutral-100)); }
+.jcal-nav {
+  width: 1.6rem; height: 1.6rem; border-radius: 50%; border: 0; background: transparent; cursor: pointer;
+  font-size: 1.15rem; line-height: 1; color: rgb(var(--color-neutral-500));
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.jcal-nav:hover { background: rgba(var(--color-primary-500), 0.12); color: rgb(var(--color-primary-600)); }
+.dark .jcal-nav:hover { color: rgb(var(--color-primary-400)); }
+.jcal-days, .jcal-week { display: grid; grid-template-columns: repeat(7, 1fr); }
+.jcal-days span { text-align: center; font-size: 0.66rem; letter-spacing: 0.04em; text-transform: uppercase; color: rgb(var(--color-neutral-500)); padding-bottom: 0.3rem; }
+.jcal-week { border-radius: 0.6rem; border: 1px solid transparent; text-decoration: none; padding: 0.05rem; transition: background-color 0.15s ease, border-color 0.15s ease; }
+.jcal-day { display: grid; place-items: center; height: 1.75rem; color: rgb(var(--color-neutral-400)); font-variant-numeric: tabular-nums; }
+.dark .jcal-day { color: rgb(var(--color-neutral-600)); }
+.jcal-day.is-other { opacity: 0.4; }
+.jcal-week.has-entry .jcal-day { color: rgb(var(--color-neutral-700)); font-weight: 500; }
+.dark .jcal-week.has-entry .jcal-day { color: rgb(var(--color-neutral-200)); }
+.jcal-week.has-entry:hover { background: rgba(var(--color-primary-500), 0.1); border-color: rgba(var(--color-primary-500), 0.3); }
+.jcal-week.is-current { border-color: rgb(var(--color-primary-500)); background: rgba(var(--color-primary-500), 0.08); }
+.jcal-week.is-current .jcal-day { color: rgb(var(--color-primary-700)); font-weight: 600; }
+.dark .jcal-week.is-current .jcal-day { color: rgb(var(--color-primary-300)); }

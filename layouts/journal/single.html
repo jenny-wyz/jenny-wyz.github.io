@@ -56,6 +56,11 @@
         </div>
       {{ end }}
 
+      {{/* Week calendar: a small month view in the right column (desktop only).
+           Every week that has an entry is a link; this entry's week is outlined.
+           Data: all entries of the section, rendered by the script in
+           partials/journal-calendar.html. */}}
+      {{ partial "journal-calendar.html" . }}
 
       <div class="min-w-0 min-h-0 max-w-fit">
         {{ partial "series/series.html" . }}

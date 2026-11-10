@@ -1,0 +1,54 @@
+{{- /*
+  Month calendar for journal entries. Weeks run Sunday to Saturday, like the
+  notebook. Rows with an entry are links; the row of the current entry is
+  outlined. Arrows move between months. German labels. Hidden below lg.
+*/ -}}
+{{- $entries := slice -}}
+{{- range .Parent.RegularPages }}
+  {{- $entries = $entries | append (dict "s" (.Date | time.Format "2006-01-02") "e" (.Params.week_end | default (.Date | time.Format "2006-01-02")) "u" .RelPermalink "t" .Title) -}}
+{{- end }}
+<div class="hidden lg:block lg:order-last lg:ms-auto lg:ps-8 print:hidden">
+  <aside class="jcal lg:sticky lg:top-10" data-entries='{{ $entries | jsonify }}' data-current="{{ .RelPermalink }}" data-month="{{ .Date | time.Format "2006-01" }}" aria-label="Kalender">
+  </aside>
+</div>
+<script>
+(function () {
+  var el = document.querySelector(".jcal");
+  if (!el) return;
+  var entries = JSON.parse(el.getAttribute("data-entries")), current = el.getAttribute("data-current");
+  var MONTHS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+  var DAYS = ["So","Mo","Di","Mi","Do","Fr","Sa"];
+  var ym = el.getAttribute("data-month").split("-"), year = +ym[0], month = +ym[1] - 1;
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function entryFor(rowStart) {
+    var end = new Date(rowStart); end.setDate(end.getDate() + 6);
+    var a = iso(rowStart), b = iso(end);
+    for (var i = 0; i < entries.length; i++) if (entries[i].s >= a && entries[i].s <= b) return entries[i];
+    return null;
+  }
+  function render() {
+    var first = new Date(year, month, 1), start = new Date(first); start.setDate(1 - first.getDay());
+    var h = '<div class="jcal-head"><button type="button" class="jcal-nav" data-dir="-1" aria-label="Voriger Monat">&lsaquo;</button>' +
+            '<span class="jcal-title">' + MONTHS[month] + ' ' + year + '</span>' +
+            '<button type="button" class="jcal-nav" data-dir="1" aria-label="Nächster Monat">&rsaquo;</button></div>';
+    h += '<div class="jcal-days">' + DAYS.map(function (d) { return '<span>' + d + '</span>'; }).join("") + '</div>';
+    for (var r = 0; r < 6; r++) {
+      var rowStart = new Date(start); rowStart.setDate(start.getDate() + r * 7);
+      if (r === 5 && rowStart.getMonth() !== month) break;
+      var e = entryFor(rowStart), cls = "jcal-week" + (e ? " has-entry" : "") + (e && e.u === current ? " is-current" : "");
+      var cells = "";
+      for (var c = 0; c < 7; c++) {
+        var d = new Date(rowStart); d.setDate(rowStart.getDate() + c);
+        cells += '<span class="jcal-day' + (d.getMonth() !== month ? " is-other" : "") + '">' + d.getDate() + '</span>';
+      }
+      h += e ? '<a class="' + cls + '" href="' + e.u + '" title="' + e.t.replace(/"/g, "&quot;") + '">' + cells + '</a>'
+             : '<div class="' + cls + '">' + cells + '</div>';
+    }
+    el.innerHTML = h;
+    el.querySelectorAll(".jcal-nav").forEach(function (b) {
+      b.addEventListener("click", function () { month += +b.getAttribute("data-dir"); if (month < 0) { month = 11; year--; } if (month > 11) { month = 0; year++; } render(); });
+    });
+  }
+  render();
+})();
+</script>
