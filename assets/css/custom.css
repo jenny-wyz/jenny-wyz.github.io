@@ -274,14 +274,15 @@
 }
 .journal-entry > p:first-of-type::first-letter { font-size: 1.1em; }
 
-/* Section labels: small, spaced capitals with a hairline. */
-.journal-entry h2 {
+/* Section labels: small, spaced capitals with a hairline. (Notion's H2
+   arrives as an h3 after the sync, so both are styled.) */
+.journal-entry h2, .journal-entry h3 {
   font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
   color: rgb(var(--color-primary-600)); margin: 2.6rem 0 1rem;
   display: flex; align-items: center; gap: 0.9rem;
 }
-.dark .journal-entry h2 { color: rgb(var(--color-primary-400)); }
-.journal-entry h2::after { content: ""; flex: 1; height: 1px; background: rgba(var(--color-primary-500), 0.25); }
+.dark .journal-entry h2, .dark .journal-entry h3 { color: rgb(var(--color-primary-400)); }
+.journal-entry h2::after, .journal-entry h3::after { content: ""; flex: 1; height: 1px; background: rgba(var(--color-primary-500), 0.25); }
 
 /* Wörter der Woche: a quiet two-column glossary, no table chrome. */
 .journal-entry table { width: 100%; border-collapse: collapse; margin: 0; font-size: 0.92rem; }
@@ -294,7 +295,7 @@
 .journal-entry table tr:last-child td { border-bottom: 0; }
 
 /* Originalseiten: the notebook photos, laid out like pages on a desk. */
-.journal-entry h2 ~ p:has(> img), .journal-entry h2 ~ figure { margin: 0; }
+.journal-entry :is(h2, h3) ~ p:has(> img), .journal-entry :is(h2, h3) ~ figure { margin: 0; }
 .journal-entry .journal-pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.6rem 1.4rem; margin-top: 1.2rem; }
 .journal-entry img {
   display: block; width: 100%; height: auto; margin: 0;
@@ -402,3 +403,36 @@
 .rcp-steps > ol > li > ol > li { padding: 0.1rem 0; }
 .rcp-steps > ol + ol { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed rgba(var(--color-neutral-500), 0.3); counter-reset: step; }
 .rcp-steps > ol + ol::before { content: "Another way"; display: block; margin-bottom: 0.8rem; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgb(var(--color-neutral-500)); }
+
+/* Journal: earlier / later chevrons on the page edges */
+.jnav-btn {
+  position: fixed; top: 50%; transform: translateY(-50%); z-index: 20;
+  display: grid; place-items: center;
+  width: 2.75rem; height: 2.75rem; border-radius: 50%;
+  text-decoration: none; font-size: 1.9rem; line-height: 1;
+  color: rgb(var(--color-neutral-500)); opacity: 0.45;
+  border: 1px solid transparent;
+  transition: opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+/* The content column is 64rem wide and centered; the chevrons sit just outside it. */
+.jnav-prev { left: calc((100vw - 64rem) / 2 - 3.75rem); }
+.jnav-next { right: calc((100vw - 64rem) / 2 - 3.75rem); }
+.jnav-btn span { position: relative; top: -0.1em; }
+.jnav-btn:hover, .jnav-btn:focus-visible {
+  opacity: 1; outline: none;
+  color: rgb(var(--color-primary-600));
+  background: rgba(var(--rail-bg, var(--color-neutral)), 0.85);
+  border-color: rgba(var(--color-primary-500), 0.35);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.dark .jnav-btn:hover, .dark .jnav-btn:focus-visible { color: rgb(var(--color-primary-400)); }
+.jnav-prev:hover { transform: translateY(-50%) translateX(-2px); }
+.jnav-next:hover { transform: translateY(-50%) translateX(2px); }
+
+/* No room beside the column: a quiet row under the entry instead. */
+@media (max-width: 1160px) {
+  .jnav { display: flex; justify-content: space-between; margin: 1rem 0 2rem; }
+  .jnav-btn { position: static; transform: none; opacity: 0.7; border-color: rgba(var(--color-neutral-500), 0.25); }
+  .jnav-next { margin-left: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .jnav-btn { transition: none; } }

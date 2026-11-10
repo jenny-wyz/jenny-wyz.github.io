@@ -65,7 +65,7 @@
           <script>
             // Group the notebook photos (everything after the last h2) into one grid.
             (function () {
-              var box = document.currentScript.parentElement, hs = box.querySelectorAll("h2");
+              var box = document.currentScript.parentElement, hs = box.querySelectorAll("h2, h3");
               if (!hs.length) return;
               var h = hs[hs.length - 1], grid = document.createElement("div"), n = h.nextElementSibling, items = [];
               while (n) { var nx = n.nextElementSibling; if (n.querySelector && n.querySelector("img")) items.push(n); n = nx; }
@@ -111,6 +111,22 @@
       {{ partial "article-comments.html" . }}
     </footer>
   </article>
+  {{/* Earlier / later entry: thin chevrons on the page edges (a row under the
+       text on narrow screens), plus the keyboard arrows. */}}
+  {{ $older := .PrevInSection }}{{ $newer := .NextInSection }}
+  {{ if or $older $newer }}
+    <nav class="jnav print:hidden" aria-label="Earlier and later entries">
+      {{ with $older }}<a class="jnav-btn jnav-prev" href="{{ .RelPermalink }}" title="{{ .Title }}" aria-label="Earlier: {{ .Title }}"><span>&lsaquo;</span></a>{{ end }}
+      {{ with $newer }}<a class="jnav-btn jnav-next" href="{{ .RelPermalink }}" title="{{ .Title }}" aria-label="Later: {{ .Title }}"><span>&rsaquo;</span></a>{{ end }}
+    </nav>
+    <script>
+      document.addEventListener("keydown", function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey || /input|textarea|select/i.test(e.target.tagName)) return;
+        var a = e.key === "ArrowLeft" ? document.querySelector(".jnav-prev") : e.key === "ArrowRight" ? document.querySelector(".jnav-next") : null;
+        if (a) location.href = a.href;
+      });
+    </script>
+  {{ end }}
 {{ end }}
 
 {{ define "SingleAuthor" }}
