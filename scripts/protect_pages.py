@@ -92,6 +92,7 @@ PANEL = """
   </div>
 </div>
 <div id="jw-content" hidden></div>
+<span id="scroll-to-top" data-jw-stub hidden></span>
 <script type="application/json" id="jw-vault">__VAULT__</script>
 <style>
 .jw-lock { display: flex; justify-content: center; padding: 4rem 1rem 6rem; }
@@ -143,6 +144,9 @@ PANEL = """
     }).then(function (key) {
       return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(vault.iv) }, key, b64(vault.ct));
     }).then(function (buf) {
+      // The theme's scroll-to-top button lives inside the locked content; a
+      // hidden stand-in keeps its script quiet until the real one arrives.
+      var stub = document.querySelector("[data-jw-stub]"); if (stub) stub.remove();
       out.innerHTML = new TextDecoder().decode(buf);
       lock.hidden = true; out.hidden = false;
       // Run the scripts the page content may carry (e.g. the subject rail).

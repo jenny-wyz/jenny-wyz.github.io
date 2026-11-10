@@ -1,0 +1,298 @@
+{{ define "main" }}
+  {{/*
+    Journal landing page: the timeline as a ball of yarn.
+
+    The newest week is the tip of the loose end; a few more weeks lie on the
+    table behind it; everything older is still wound up. Clicking the ball
+    unrolls it: the ball turns by exactly the length it pays out (angle =
+    length / radius), shrinks a little (its cross-section loses what was
+    paid out; it never empties, the rest is yarn for weeks to come), and the
+    loose yarn slides further
+    along a meandering path, so older weeks come out next to the ball.
+    Each week is a clickable stretch of yarn, labelled with its dates.
+
+    Without JavaScript the plain list below is shown instead.
+    Styles: assets/css/custom.css (.yarn-*). Knobs: the Y object in the script.
+  */}}
+  <header>
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+    {{ with .Description }}<p class="mt-2 text-neutral-500 dark:text-neutral-400">{{ . }}</p>{{ end }}
+  </header>
+
+  {{ $entries := .RegularPages.ByDate.Reverse }}
+  <section class="yarn" aria-label="Wochen">
+    <div class="yarn-stage"></div>
+    <p class="yarn-hint"><button type="button" class="yarn-more">Am Knäuel ziehen: ältere Wochen</button><button type="button" class="yarn-rewind" hidden>aufwickeln</button></p>
+    <ol class="yarn-data">
+      {{ range $entries }}
+        {{ $end := .Date }}{{ with .Params.week_end }}{{ $end = time.AsTime . }}{{ end }}
+        {{ $label := "" }}
+        {{ if eq (.Date.Format "1") ($end.Format "1") }}
+          {{ $label = printf "%s-%s." (.Date.Format "2") ($end.Format "2.1") }}
+        {{ else }}
+          {{ $label = printf "%s.-%s." (.Date.Format "2.1") ($end.Format "2.1") }}
+        {{ end }}
+        <li><a href="{{ .RelPermalink }}" data-label="{{ $label }}" title="{{ .Title }}">{{ .Title }}</a></li>
+      {{ end }}
+    </ol>
+  </section>
+
+  <script>
+  (function () {
+    /* ---------------- knobs ---------------- */
+    var Y = {
+      SEG: 92,          // length of one week of yarn, px
+      SEG_NARROW: 70,   // the same on phones
+      FIRST: 5,         // weeks lying out at the start (newest + 4)
+      STEP: 4,          // weeks released per pull
+      BALL_MAX: 74,     // ball radius with everything wound up
+      BALL_MIN: 54,     // ball radius with every past week unrolled (the rest is yarn for weeks to come)
+      THICK: 7,         // yarn thickness
+      LANE: 150,        // average vertical distance between two passes across the page
+      LOOP_EVERY: 450,  // on average one curl per this many px of yarn
+      LOOP_R: [12, 58], // size of a curl, smallest and largest (roughly its radius)
+      SEED: 7,          // change for a different (but stable) arrangement
+      PULL_MS: 1100     // duration of one pull
+    };
+
+    var root = document.querySelector(".yarn");
+    if (!root) return;
+    var stage = root.querySelector(".yarn-stage");
+    var weeks = Array.prototype.map.call(root.querySelectorAll(".yarn-data a"), function (a) {
+      return { url: a.getAttribute("href"), label: a.getAttribute("data-label"), title: a.getAttribute("title") };
+    });                                                   // newest first
+    if (!weeks.length) return;
+    var NS = "http://www.w3.org/2000/svg";
+    function el(name, attrs, parent) {
+      var n = document.createElementNS(NS, name);
+      for (var k in attrs) n.setAttribute(k, attrs[k]);
+      if (parent) parent.appendChild(n);
+      return n;
+    }
+    function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }; }
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var released = Math.min(Y.FIRST, weeks.length), shown = released;
+    var svg, total, seg, W, tableY, ballX, parts = {}, raf = 0, turn = 0, table = [], scale = 1;
+
+    /* The path the yarn lies along, as a list of points 4 px apart.
+       A loose guide line runs across the page and back in passes (so the yarn
+       always has room to go); the yarn follows it like a thrown rope: it
+       chases a point a little ahead on the guide, which itself drifts to and
+       fro in long, uneven swells, and now and then the yarn throws a curl,
+       big or small, tight or open. Turning is limited, so nothing kinks. */
+    function buildPath(length) {
+      var R = rng(Y.SEED), step = 4, m = 40 * scale, LANE = Y.LANE * scale;
+      // 1. the guide: passes across the page joined by half turns
+      var guide = [], gx = ballX, gy = tableY, dir = 1, lane = LANE;
+      var right = W - m - lane / 2, left = m + lane / 2;
+      while (guide.length * step < length * 1.6 + 400) {
+        var target = dir > 0 ? right : left;
+        while (dir > 0 ? gx < target : gx > target) { gx += dir * step; guide.push([gx, gy, 0, 1]); }
+        var r = lane / 2, n = Math.ceil(Math.PI * r / step);
+        for (var i = 1; i <= n; i++) {
+          var a = -Math.PI / 2 + Math.PI * i / n;
+          guide.push([gx + dir * Math.cos(a) * r, gy + r + Math.sin(a) * r, dir * Math.sin(a + Math.PI / 2), -dir * Math.cos(a + Math.PI / 2)]);
+        }
+        gx = guide[guide.length - 1][0]; gy += lane; dir = -dir;
+        lane = LANE * (0.85 + R() * 0.35);
+      }
+      // normals of the guide (for the swells)
+      for (var g = 0; g < guide.length; g++) {
+        var p0 = guide[Math.max(0, g - 1)], p1 = guide[Math.min(guide.length - 1, g + 1)];
+        var tx = p1[0] - p0[0], ty = p1[1] - p0[1], tl = Math.sqrt(tx * tx + ty * ty) || 1;
+        guide[g][2] = -ty / tl; guide[g][3] = tx / tl;
+      }
+      var swells = [0, 1, 2].map(function () { return { f: (1 + R() * 2.2) / 620, p: R() * 6.3, a: 0.35 + R() * 0.65 }; });
+      function swell(j) {
+        var v = 0; swells.forEach(function (w) { v += Math.sin(j * step * w.f + w.p) * w.a; });
+        var ramp = Math.min(1, j * step / 260);                     // calm near the ball
+        return v / 1.6 * LANE * 0.42 * ramp;
+      }
+      // 2. the yarn chases the guide
+      var pts = [[ballX, tableY]], x = ballX, y = tableY, h = 0, j = 0, look = 60;
+      var kMax = 1 / (34 * scale), curl = null, nextCurl = Y.LOOP_EVERY * (0.7 + R());
+      for (var d = 0; d < length; d += step) {
+        while (j < guide.length - 1 && Math.hypot(guide[j][0] - x, guide[j][1] - y) < look) j++;
+        var off = swell(j), tx2 = guide[j][0] + guide[j][2] * off, ty2 = guide[j][1] + guide[j][3] * off;
+        var err = Math.atan2(Math.sin(Math.atan2(ty2 - y, tx2 - x) - h), Math.cos(Math.atan2(ty2 - y, tx2 - x) - h));
+        var k = Math.max(-kMax, Math.min(kMax, err * 0.02));
+        // the page edge pushes back, gently and early, so the yarn turns rather than leaves
+        var edge = 0, near = 26;
+        if (x > W - near) edge = (x - (W - near)) / near; else if (x < near) edge = -(near - x) / near;
+        if (edge) { var inward = edge > 0 ? Math.PI : 0, e2 = Math.atan2(Math.sin(inward - h), Math.cos(inward - h)); k += e2 * Math.abs(edge) * 0.03; }
+        if (curl) {                                                 // a curl: turning rises and falls again
+          var u = curl.s / curl.len;
+          k = curl.sign * curl.peak * Math.sin(Math.PI * u);
+          curl.s += step;
+          if (curl.s >= curl.len) curl = null;
+        } else if (d > nextCurl && d > 320 && x > m + 110 * scale && x < W - m - 110 * scale && Math.abs(err) < 0.5) {
+          var len = (Y.LOOP_R[0] + R() * (Y.LOOP_R[1] - Y.LOOP_R[0])) * 2 * Math.PI * scale;
+          // total turn of about one full circle (a bit more or less, so curls differ)
+          var turnTotal = 2 * Math.PI * (0.9 + R() * 0.25);
+          curl = { s: 0, len: len, sign: R() < 0.5 ? 1 : -1, peak: turnTotal * Math.PI / (2 * len) };
+          nextCurl = d + Y.LOOP_EVERY * (0.45 + R() * 1.1);
+        }
+        h += k * step;
+        x += Math.cos(h) * step; y += Math.sin(h) * step;
+        pts.push([x, y]);
+      }
+      return pts;
+    }
+    function toD(pts, every) {
+      var p = "M" + pts[0][0].toFixed(1) + "," + pts[0][1].toFixed(1);
+      for (var i = every; i < pts.length; i += every) p += "L" + pts[i][0].toFixed(1) + "," + pts[i][1].toFixed(1);
+      return p;
+    }
+    function at(dist) {
+      var f = Math.max(0, Math.min(table.length - 1.001, dist / 4)), i = Math.floor(f), t = f - i;
+      return { x: table[i][0] + (table[i + 1][0] - table[i][0]) * t, y: table[i][1] + (table[i + 1][1] - table[i][1]) * t };
+    }
+    function stretch(a, b) {
+      var d = "", n = Math.max(1, Math.ceil((b - a) / 5));
+      for (var i = 0; i <= n; i++) { var p = at(a + (b - a) * i / n); d += (i ? "L" : "M") + p.x.toFixed(1) + "," + p.y.toFixed(1); }
+      return d;
+    }
+    function ballRadius(out) {
+      // the ball's cross-section shrinks with the yarn wound off it, so r² falls linearly
+      var left = Math.max(0, weeks.length - out) / weeks.length;
+      return Math.sqrt(Y.BALL_MIN * Y.BALL_MIN + (Y.BALL_MAX * Y.BALL_MAX - Y.BALL_MIN * Y.BALL_MIN) * left) * scale;
+    }
+
+    /* The ball: strands wound along great circles of a sphere. Each strand is
+       the front half of a circle seen at an angle (a half ellipse), drawn with
+       a darker edge so the windings separate; shading on top makes it round. */
+    function buildBall(defs) {
+      var R = rng(Y.SEED * 31 + 5);
+      var shade = el("radialGradient", { id: "yarn-shade", cx: "36%", cy: "30%", r: "78%" }, defs);
+      el("stop", { offset: "0", "stop-color": "#fff", "stop-opacity": "0.14" }, shade);
+      el("stop", { offset: "0.45", "stop-color": "#000", "stop-opacity": "0" }, shade);
+      el("stop", { offset: "0.85", "stop-color": "#000", "stop-opacity": "0.32" }, shade);
+      el("stop", { offset: "1", "stop-color": "#000", "stop-opacity": "0.6" }, shade);
+      var clip = el("clipPath", { id: "yarn-ball-c" }, defs);
+      parts.clipCircle = el("circle", { cx: 0, cy: 0, r: 10 }, clip);
+
+      parts.ball = el("g", { class: "yarn-ball", tabindex: "0", role: "button", "aria-label": "Knäuel abrollen: ältere Wochen zeigen" }, svg);
+      parts.ballBase = el("circle", { cx: 0, cy: 0, r: 10, class: "yarn-ball-base" }, parts.ball);
+      var clipped = el("g", { "clip-path": "url(#yarn-ball-c)" }, parts.ball);
+      parts.strands = el("g", {}, clipped);
+      // two layers of windings: an older, darker layer underneath, then the top layer
+      for (var layer = 0; layer < 2; layer++) {
+        var n = layer ? 44 : 30;
+        for (var i = 0; i < n; i++) {
+          var rot = R() * 180, nz = 0.12 + R() * 0.8, up = R() < 0.5 ? 0 : 1, off = (R() - 0.5) * 0.12;
+          var d = "M-1.05," + off.toFixed(3) + " A1.05," + nz.toFixed(3) + " 0 0 " + up + " 1.05," + off.toFixed(3);
+          var g = el("g", { transform: "rotate(" + rot.toFixed(1) + ")" }, parts.strands);
+          el("path", { d: d, class: "yarn-strand-edge" + (layer ? "" : " is-under"), "vector-effect": "non-scaling-stroke" }, g);
+          el("path", { d: d, class: "yarn-strand" + (layer ? "" : " is-under"), "vector-effect": "non-scaling-stroke" }, g);
+        }
+      }
+      parts.ballShade = el("circle", { cx: 0, cy: 0, r: 10, fill: "url(#yarn-shade)", class: "yarn-ball-shade" }, parts.ball);
+      parts.ball.addEventListener("click", pull);
+      parts.ball.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pull(); } });
+    }
+
+    function build() {
+      W = stage.clientWidth;
+      if (!W) return;
+      scale = W < 560 ? 0.72 : 1;
+      seg = W < 560 ? Y.SEG_NARROW : Y.SEG;
+      ballX = Y.BALL_MAX * scale + 14; tableY = Y.BALL_MAX * scale * 2 + 30;
+      stage.innerHTML = "";
+      svg = el("svg", { class: "yarn-svg", width: W, height: 10, role: "img" }, stage);
+      var defs = el("defs", {}, svg);
+      table = buildPath(weeks.length * seg + Y.BALL_MAX + 60);
+      total = (table.length - 1) * 4;
+      var d = toD(table, 2);
+      parts.shadow = el("path", { d: d, class: "yarn-shadow" }, svg);
+      parts.body = el("path", { d: d, class: "yarn-body" }, svg);
+      parts.sheen = el("path", { d: d, class: "yarn-sheen" }, svg);
+      parts.weeks = weeks.map(function (w) {
+        var a = el("a", { href: w.url, class: "yarn-week" }, svg);
+        a.setAttributeNS("http://www.w3.org/1999/xlink", "href", w.url);
+        el("title", {}, a).textContent = w.title;
+        var hit = el("path", { class: "yarn-hit" }, a);
+        var glow = el("path", { class: "yarn-glow" }, a);
+        var text = el("text", { class: "yarn-label", "text-anchor": "middle" }, a);
+        text.textContent = w.label;
+        return { a: a, hit: hit, glow: glow, text: text };
+      });
+      parts.ballShadow = el("ellipse", { class: "yarn-ball-shadow" }, svg);
+      buildBall(defs);
+      draw(shown);
+    }
+
+    function draw(out) {
+      var r = ballRadius(out), under = r * 0.9, L = under + out * seg + 10;
+      var dash = L + " " + (total + 10);
+      parts.shadow.setAttribute("stroke-dasharray", dash);
+      parts.body.setAttribute("stroke-dasharray", dash);
+      parts.sheen.setAttribute("stroke-dasharray", dash);
+      var maxY = tableY;
+      for (var q = 0; q < Math.min(table.length, L / 4); q += 3) maxY = Math.max(maxY, table[q][1]);
+      var placed = [];
+      parts.weeks.forEach(function (p, i) {
+        var w = weeks[i];
+        var b = L - 10 - i * seg, a = b - seg;
+        var vis = b > under + 4;
+        p.a.style.display = vis ? "" : "none";
+        if (!vis) return;
+        var a2 = Math.max(under, a), len = b - a2;
+        var piece = stretch(a2, b);
+        p.hit.setAttribute("d", piece); p.glow.setAttribute("d", piece);
+        var mid = at(a2 + len / 2), ahead = at(Math.min(total, a2 + len / 2 + 6));
+        var tx = ahead.x - mid.x, ty = ahead.y - mid.y, tl = Math.sqrt(tx * tx + ty * ty) || 1;
+        var nx = -ty / tl, ny = tx / tl;
+        if (ny > 0.25 || (Math.abs(ny) <= 0.25 && (nx > 0) === (mid.x > W / 2))) { nx = -nx; ny = -ny; }
+        var half = w.label.length * 3.3 + 2;
+        var lx = Math.max(half + 2, Math.min(W - half - 2, mid.x + nx * 16)), ly = mid.y + ny * 16 + 4;
+        p.text.setAttribute("x", lx.toFixed(1));
+        p.text.setAttribute("y", ly.toFixed(1));
+        // a label that would land on another one waits for a hover instead
+        var w2 = w.label.length * 3.3 + 4, crowded = false;
+        placed.forEach(function (q) { if (Math.abs(q[0] - lx) < q[2] + w2 && Math.abs(q[1] - ly) < 13) crowded = true; });
+        if (!crowded) placed.push([lx, ly, w2]);
+        p.a.classList.toggle("is-crowded", crowded);
+        p.text.style.opacity = Math.max(0, Math.min(1, len / seg * 2 - 1));
+      });
+      parts.clipCircle.setAttribute("r", r); parts.ballBase.setAttribute("r", r); parts.ballShade.setAttribute("r", r);
+      parts.strands.setAttribute("transform", "rotate(" + turn.toFixed(2) + ") scale(" + r + ")");
+      parts.ball.setAttribute("transform", "translate(" + ballX + "," + (tableY - r + 2) + ")");
+      parts.ballShadow.setAttribute("cx", ballX + r * 0.1); parts.ballShadow.setAttribute("cy", tableY + 4);
+      parts.ballShadow.setAttribute("rx", r * 0.95); parts.ballShadow.setAttribute("ry", r * 0.14);
+      svg.setAttribute("height", Math.ceil(maxY + 50));
+      var more = root.querySelector(".yarn-more"), rew = root.querySelector(".yarn-rewind");
+      var done = released >= weeks.length;
+      more.hidden = done; rew.hidden = released <= Math.min(Y.FIRST, weeks.length);
+      parts.ball.classList.toggle("is-empty", done);
+    }
+
+    function animateTo(target) {
+      var from = shown, t0 = performance.now(), turn0 = turn;
+      cancelAnimationFrame(raf);
+      if (reduce) { shown = target; draw(shown); return; }
+      (function frame(now) {
+        var t = Math.min(1, (now - t0) / Y.PULL_MS);
+        var e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        shown = from + (target - from) * e;
+        // the ball turns by the length it pays out: angle = length / radius
+        turn = turn0 - ((shown - from) * seg / ((ballRadius(from) + ballRadius(shown)) / 2)) * 180 / Math.PI;
+        draw(shown);
+        if (t < 1) raf = requestAnimationFrame(frame);
+      })(t0);
+    }
+    function pull() {
+      if (released >= weeks.length) return;
+      released = Math.min(weeks.length, released + Y.STEP);
+      animateTo(released);
+    }
+    root.querySelector(".yarn-more").addEventListener("click", pull);
+    root.querySelector(".yarn-rewind").addEventListener("click", function () {
+      released = Math.min(Y.FIRST, weeks.length); animateTo(released);
+    });
+
+    root.classList.add("yarn-ready");
+    build();
+    var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(build, 150); });
+  })();
+  </script>
+{{ end }}
