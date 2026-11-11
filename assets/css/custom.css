@@ -466,29 +466,29 @@
 /* Journal landing page: the ball of yarn (layouts/journal/list.html)   */
 /* ------------------------------------------------------------------ */
 
-.yarn { margin-top: 1.5rem; }
+.yarn { margin-top: 1.5rem; --yarn-w: 5px; }   /* --yarn-w: thickness of the loose yarn; change this one number */
 .yarn-svg { display: block; overflow: visible; transition: height 0.5s ease; }
 .yarn-data { margin: 1rem 0; padding-left: 1.2rem; }
 .yarn-ready .yarn-data { display: none; }
 .yarn:not(.yarn-ready) .yarn-hint { display: none; }
 
 .yarn-shadow, .yarn-body, .yarn-sheen, .yarn-hit, .yarn-glow { fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.yarn-shadow { stroke: rgba(0, 0, 0, 0.2); stroke-width: 5px; transform: translate(1px, 2.5px); filter: blur(2px); }
+.yarn-shadow { stroke: rgba(0, 0, 0, 0.2); stroke-width: var(--yarn-w); transform: translate(1px, 2.5px); filter: blur(2px); }
 /* The loose yarn is drawn like one strand of the ball: a darker band with a pale core. */
-.yarn-body { stroke: rgb(var(--color-primary-600)); stroke-width: 5px; }
-.yarn-sheen { stroke: rgb(var(--color-primary-200)); stroke-width: 2.6px; opacity: 0.6; }
+.yarn-body { stroke: rgb(var(--color-primary-600)); stroke-width: var(--yarn-w); }
+.yarn-sheen { stroke: rgb(var(--color-primary-200)); stroke-width: calc(var(--yarn-w) * 0.52); opacity: 0.6; }
 
 .yarn-week { cursor: pointer; }
 .yarn-hit { stroke: transparent; stroke-width: 24px; pointer-events: stroke; }
-.yarn-glow { stroke: #fff; stroke-width: 5px; opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
+.yarn-glow { stroke: #fff; stroke-width: var(--yarn-w); opacity: 0; transition: opacity 0.15s ease; pointer-events: none; }
 .yarn-week:hover .yarn-glow, .yarn-week:focus-visible .yarn-glow { opacity: 0.4; }
 .yarn-week:focus-visible { outline: none; }
-.yarn-week.is-crowded .yarn-label { visibility: hidden; }
-.yarn-week.is-crowded:hover .yarn-label, .yarn-week.is-crowded:focus-visible .yarn-label { visibility: visible; }
 .yarn-label {
   font-size: 11px; font-weight: 600; letter-spacing: 0.02em; font-variant-numeric: tabular-nums;
-  fill: rgb(var(--color-neutral-500)); pointer-events: none; transition: fill 0.15s ease;
+  fill: rgb(var(--color-neutral-500)); pointer-events: none;
+  opacity: 0; transition: opacity 0.15s ease;      /* dates show only while a stretch is hovered */
 }
+.yarn-week:hover .yarn-label, .yarn-week:focus-visible .yarn-label { opacity: 1; }
 .dark .yarn-label { fill: rgb(var(--color-neutral-400)); }
 .yarn-week:hover .yarn-label, .yarn-week:focus-visible .yarn-label { fill: rgb(var(--color-primary-600)); }
 .dark .yarn-week:hover .yarn-label, .dark .yarn-week:focus-visible .yarn-label { fill: rgb(var(--color-primary-300)); }
