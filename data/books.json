@@ -62,7 +62,8 @@
       "author": "Agatha Christie",
       "body": "- And then there were none\n\n- Death on the nile\n\n- Murder on the orient express\n\n- the murder of roger ackroyd\n\n- the abc murders\n\n- five little pigs\n\n- evil under the sun\n\n- a murder is announced\n\n- the murder on the links\n\n- the big four\n\n- peril at the house\n\n- death in the clouds\n\n- the mysterious affair at styles\n\n- three act tragedy\n\n- after the funeral\n\n- elephants can remember\n\n- appointment with death\n\n- hercule poirot’s christmas\n\n- hickory dickory dock\n\n- …",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": true,
       "completed": null,
@@ -316,6 +317,23 @@
       "title": "Frankenstein"
     },
     {
+      "added": "2026-11-10",
+      "author": "Annie Ernaux",
+      "categories": [
+        "Personal Essays"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "414ef088fb8b80b9a627defaa99d5ce7",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Reading",
+      "title": "Getting Lost"
+    },
+    {
       "added": "2026-09-01",
       "author": "Jonathan Swift",
       "categories": [
@@ -511,23 +529,6 @@
       "title": "Meditations"
     },
     {
-      "added": "2026-09-01",
-      "author": "Franz Kafka",
-      "categories": [
-        "Fiction"
-      ],
-      "collection": false,
-      "completed": null,
-      "id": "3ceef088fb8b8089af4af5aefb109eea",
-      "lang": "en",
-      "notes": [],
-      "rating": null,
-      "review": "",
-      "started": null,
-      "status": "Completed",
-      "title": "Metamorphosis"
-    },
-    {
       "added": "2026-11-06",
       "author": "Ovid",
       "categories": [
@@ -536,6 +537,23 @@
       "collection": false,
       "completed": null,
       "id": "410ef088fb8b80d9addde8e5fcb91f28",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Metamorphoses"
+    },
+    {
+      "added": "2026-09-01",
+      "author": "Franz Kafka",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "3ceef088fb8b8089af4af5aefb109eea",
       "lang": "en",
       "notes": [],
       "rating": null,
@@ -703,7 +721,8 @@
       "author": "Arthur Conan Doyle",
       "body": "- …",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": true,
       "completed": null,
@@ -823,7 +842,6 @@
       "added": "2026-09-01",
       "author": "Eric Jorgenson",
       "categories": [
-        "Business & Money",
         "Self-improvement"
       ],
       "collection": false,
@@ -1017,7 +1035,8 @@
       "added": "2026-09-01",
       "author": "Raymond Chandler",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": false,
       "completed": null,
@@ -1488,7 +1507,8 @@
       "added": "2026-09-01",
       "author": "东野圭吾",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": false,
       "completed": null,
@@ -1520,10 +1540,28 @@
       "title": "封神演义"
     },
     {
+      "added": "2026-11-09",
+      "author": "金庸",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "413ef088fb8b80f3aef3e4f77f5b2e33",
+      "lang": "zh",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "射雕英雄传"
+    },
+    {
       "added": "2026-09-01",
       "author": "东野圭吾",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": false,
       "completed": null,
@@ -1660,7 +1698,6 @@
       "added": "2025-06-25",
       "author": "当年明月",
       "categories": [
-        "Fiction",
         "History"
       ],
       "collection": false,
@@ -1678,7 +1715,8 @@
       "added": "2026-09-01",
       "author": "东野圭吾",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": false,
       "completed": null,
@@ -1832,7 +1870,8 @@
       "added": "2025-06-25",
       "author": "叶真中显",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": false,
       "completed": null,
@@ -1849,7 +1888,8 @@
       "added": "2026-11-01",
       "author": "大山诚一郎",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": false,
       "completed": null,
@@ -1952,7 +1992,8 @@
       "added": "2026-11-01",
       "author": "大山诚一郎",
       "categories": [
-        "Fiction"
+        "Fiction",
+        "Mystery"
       ],
       "collection": false,
       "completed": null,
