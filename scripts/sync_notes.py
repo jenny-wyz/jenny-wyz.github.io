@@ -101,6 +101,21 @@ def slugify(title: str) -> str:
     return s or "note"
 
 
+LIST_LINE = re.compile(r"^\s*(?:[-*]|\d+\.)\s")
+
+
+def join_blocks(parts: list[str]) -> str:
+    """Blank line between blocks, but consecutive list items stay on adjacent
+    lines so the list is tight, as in Notion."""
+    out = ""
+    for i, part in enumerate(parts):
+        if i:
+            tight = LIST_LINE.match(parts[i - 1]) and LIST_LINE.match(part)
+            out += "\n" if tight else "\n\n"
+        out += part
+    return out
+
+
 class Converter:
     """Turns a page's block tree into Markdown, collecting image downloads."""
 
@@ -161,9 +176,13 @@ class Converter:
             body = [text.replace("\n", "\\\n> ")] + nested(0)
             return ["> " + "\n> ".join(body)]
         if t == "callout":
+            # A box like Notion's (layouts/shortcodes/callout.html), not a quote.
+            # Its own text and each child block stay separate Markdown blocks, so
+            # a paragraph after a list is not swallowed by the last bullet.
             icon = (p.get("icon") or {}).get("emoji", "")
-            body = [(icon + " " + text).strip().replace("\n", "\\\n> ")] + nested(0)
-            return ["> " + "\n> ".join(body)]
+            body = ([text.replace("\n", "\\\n")] if text else []) + nested(0)
+            opening = f'{{{{< callout icon="{icon}" >}}}}' if icon else "{{< callout >}}"
+            return [opening + "\n" + join_blocks(body) + "\n{{< /callout >}}"]
         if t == "toggle":
             return [f"**{text}**"] + nested(0)
         if t == "code":

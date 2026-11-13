@@ -1,0 +1,14 @@
+{{- /*
+  A Notion callout: a box outlined in the section's accent color, with the
+  callout's emoji (if any) on the left. Written by the Notion syncs
+  (scripts/sync_notes.py), usable by hand too:
+    {{< callout icon="💡" >}}
+    Some **Markdown**.
+    {{< /callout >}}
+  Styles: .callout in assets/css/custom.css.
+*/ -}}
+{{- $icon := .Get "icon" -}}
+<div class="callout">
+  {{- with $icon }}<span class="callout-icon" aria-hidden="true">{{ . }}</span>{{ end }}
+  <div class="callout-body">{{ .Inner | .Page.RenderString (dict "display" "block") }}</div>
+</div>

@@ -90,6 +90,18 @@ class BlockTests(unittest.TestCase):
         q = blk("quote", "line one\nline two", "q2")
         self.assertEqual(md([q]), "> line one\\\n> line two")
 
+    def test_callout_keeps_blocks_apart(self):
+        c = blk("callout", "Life ends.", "c1", icon={"type": "emoji", "emoji": "💡"}, children=[
+            blk("bulleted_list_item", "keep it", "l1"),
+            blk("bulleted_list_item", "end it", "l2"),
+            blk("paragraph", "No bullet here.", "p3"),
+        ])
+        self.assertEqual(md([c]), '{{< callout icon="💡" >}}\nLife ends.\n\n- keep it\n- end it\n\n'
+                                  'No bullet here.\n{{< /callout >}}')
+
+    def test_callout_without_icon(self):
+        self.assertEqual(md([blk("callout", "Hi", "c2")]), "{{< callout >}}\nHi\n{{< /callout >}}")
+
     def test_image_is_collected(self):
         conv = FakeConverter([])
         b = {"id": "i1", "type": "image", "has_children": False,
