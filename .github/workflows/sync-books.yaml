@@ -39,7 +39,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0   # full history, so a rebase before the push always works
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -91,7 +91,14 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           n=$(python3 -c "import json;print(len(json.load(open('data/books.json'))['books']))")
           git commit -m "Sync reading list from Notion ($n books)"
-          git push
+          # Another sync, or a push of yours, may have landed on main while this
+          # ran. Put this commit on top of the latest main and try again.
+          for i in 1 2 3 4 5; do
+            if git pull --rebase --autostash --quiet origin main && git push origin HEAD:main; then break; fi
+            git rebase --abort 2>/dev/null || true
+            if [ "$i" = 5 ]; then echo "::error::Could not push after 5 tries"; exit 1; fi
+            sleep $((i * 5))
+          done
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Deploy the site
