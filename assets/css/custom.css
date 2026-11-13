@@ -466,7 +466,7 @@
 /* Journal landing page: the ball of yarn (layouts/journal/list.html)   */
 /* ------------------------------------------------------------------ */
 
-.yarn { margin-top: 1.5rem; --yarn-w: 5px; }   /* --yarn-w: thickness of the loose yarn; change this one number */
+.yarn { margin-top: 1.5rem; --yarn-w: 5.5px; }   /* --yarn-w: thickness of the loose yarn; change this one number */
 .yarn-svg { display: block; overflow: visible; transition: height 0.5s ease; }
 .yarn-data { margin: 1rem 0; padding-left: 1.2rem; }
 .yarn-ready .yarn-data { display: none; }

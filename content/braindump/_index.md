@@ -1,6 +1,6 @@
 ---
 title: "Brain dump"
-description: "Unsorted thoughts, half-formed ideas and things I want to come back to."
+description: "Unsorted thoughts, half-formed ideas."
 # Password-protected section. The build encrypts every page in it (see
 # scripts/protect_pages.py). Everything below keeps the content out of the
 # search index, RSS feeds, sitemap and "related" blocks, so nothing leaks.
@@ -20,4 +20,4 @@ cascade:
     list: local
 ---
 
-Unsorted thoughts, half-formed ideas and things I want to come back to.
+Unsorted thoughts, half-formed ideas.
