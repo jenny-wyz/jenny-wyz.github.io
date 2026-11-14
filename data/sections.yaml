@@ -21,13 +21,13 @@ journal:
   primary:
     50: "254, 252, 234"
     100: "254, 246, 197"
-    200: "254, 235, 138"   # L: bang
-    300: "252, 218, 74"    # D: calendar 123
-    400: "250, 198, 28"    # D: WörterDW; hover; <>s
-    500: "240, 168, 10"    # L&D: / ; calendar box+bkg; <>bkg
-    600: "210, 128, 5"     # L: WörterDW; hover; <>s
-    700: "170, 90, 8"      # L: calendar 123
-    800: "140, 70, 14"     # D: bang
+    200: "247, 227, 195"   # L: bang
+    300: "252, 222, 187"   # D: calendar 123
+    400: "224, 176, 53"    # D: WörterDW; hover; <>s
+    500: "219, 172, 78"    # L&D: / ; calendar box+bkg; <>bkg
+    600: "204, 144, 15"    # L: WörterDW; hover; <>s
+    700: "163, 88, 13"     # L: calendar 123
+    800: "139, 76, 22"     # D: bang
     900: "116, 58, 16"
   dark_bg: "32, 29, 24"
   dark_deep: "24, 19, 12"
@@ -40,17 +40,17 @@ reading:
   primary:
     50: "247, 245, 253"
     100: "240, 237, 250"
-    200: "226, 222, 246"     # L: bang
+    200: "218, 208, 247"     # L: bang
     300: "204, 195, 239"
-    400: "178, 161, 228"     # D: 'All' bkg + outline; stats bars; hovers
+    400: "166, 148, 219"     # D: 'All' bkg + outline; stats bars; hovers
     500: "151, 123, 215"
-    600: "133, 94, 201"      # L: 'All' bkg + outline; stats bars; hovers
+    600: "100, 68, 184"      # L: 'All' bkg + outline; stats bars; hovers
     700: "117, 75, 182"
     800: "98, 63, 152"       # D: bang
     900: "81, 53, 125"
   dark_bg: "30, 28, 46"
-  dark_deep: "14, 11, 34"
-  dark_edge: "52, 47, 87"
+  dark_deep: "14, 11, 28"    # D: cards, search, 'Shelf, RA' bkg
+  dark_edge: "59, 53, 97"
   light_bg: "251, 250, 255"
 
 notes:
@@ -80,11 +80,11 @@ essays:
     100: "254, 236, 242"
     200: "252, 218, 229"   # L: bang
     300: "249, 196, 214"   # D: 
-    400: "244, 170, 196"   # D: contents_underlines; hover.  D: callout outline
-    500: "234, 140, 175"   # L&D: / ; entry_underline.       L: callout outline
-    600: "212, 108, 148"   # L: contents_underlines; hover
+    400: "199, 155, 173"   # D: contents_underlines; hover.  D: callout outline
+    500: "214, 161, 184"   # L&D: / ; entry_underline.       L: callout outline
+    600: "207, 136, 164"   # L: contents_underlines; hover
     700: "180, 80, 118"    # L: 
-    800: "146, 62, 95"     # D: bang
+    800: "148, 82, 105"     # D: bang
     900: "117, 50, 77"
   dark_bg: "41, 32, 37"
   dark_deep: "27, 18, 22"
