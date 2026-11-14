@@ -232,8 +232,26 @@
       "title": "Discourse on Method and Meditations"
     },
     {
+      "added": "2026-11-14",
+      "author": "Bram Stoker",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "418ef088fb8b80878320ffa8199b1d56",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Dracula"
+    },
+    {
       "added": "2026-09-01",
       "author": "James Joyce",
+      "body": "always at night\n\ncommon theme: ‘truth’ (gradually) revealed; epiphany at the end\n\n- need to read beyond the words… too advanced for my shallowness\n\n- i.e. writing about A but actually talking about Aerthgnjbfdvseeghkv\n\n萧瑟 (desolate)，麻木，萎靡，rotten, paralyzed，绝望\n\nintricate writings, descriptions, emotions\n\ncan capture some very subtle, intricate, indescribable yet universal (?) feelings and with ultra precision",
       "categories": [
         "Classic Literature"
       ],
@@ -319,6 +337,7 @@
     {
       "added": "2026-11-10",
       "author": "Annie Ernaux",
+      "body": "damn\n\nraw, honest, authentic\n\nsimilarities:\n\n- self-aware and futilely self-analytical, reflective\n\n- 清醒地沉沦 (maybe not)\n\n- in relationship(s): complete lack of self-worth, agency, outsourcing of all validation and happiness.\n\nwarning + inspiration",
       "categories": [
         "Personal Essays"
       ],
@@ -329,7 +348,7 @@
       "notes": [],
       "rating": null,
       "review": "",
-      "started": null,
+      "started": "2026-11-10",
       "status": "Reading",
       "title": "Getting Lost"
     },
@@ -385,6 +404,23 @@
       "title": "Hamlet"
     },
     {
+      "added": "2026-11-14",
+      "author": "Gary Paulsen",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "418ef088fb8b8051bf38e9b87eb5b3d6",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "Hatchet"
+    },
+    {
       "added": "2026-09-02",
       "author": "",
       "categories": [
@@ -417,6 +453,23 @@
       "started": null,
       "status": "Completed",
       "title": "How to be a Stoic"
+    },
+    {
+      "added": "2026-11-14",
+      "author": "Sherwin B. Nuland",
+      "categories": [
+        "Science"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "418ef088fb8b804fac95cea87b8e5df0",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "How We Die"
     },
     {
       "added": "2026-09-01",
@@ -645,7 +698,7 @@
       "rating": null,
       "review": "",
       "started": "2026-09-01",
-      "status": "Reading",
+      "status": "Paused",
       "title": "Of Human Bondage"
     },
     {
@@ -1244,6 +1297,23 @@
       "started": null,
       "status": "To Read",
       "title": "The Sorrows of Young Werther"
+    },
+    {
+      "added": "2026-11-14",
+      "author": "H. G. Wells",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "418ef088fb8b8069bc76fd6b043dd7e1",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "Completed",
+      "title": "The Time Machine"
     },
     {
       "added": "2026-11-01",

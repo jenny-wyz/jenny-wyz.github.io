@@ -631,5 +631,29 @@
     "status": "miss",
     "checked": "2026-11-13",
     "title": "Getting Lost"
+  },
+  "418ef088fb8b804fac95cea87b8e5df0": {
+    "status": "ok",
+    "cover_i": 417544,
+    "checked": "2026-11-14",
+    "title": "How We Die"
+  },
+  "418ef088fb8b8051bf38e9b87eb5b3d6": {
+    "status": "ok",
+    "cover_i": 11240448,
+    "checked": "2026-11-14",
+    "title": "Hatchet"
+  },
+  "418ef088fb8b8069bc76fd6b043dd7e1": {
+    "status": "ok",
+    "cover_i": 9009316,
+    "checked": "2026-11-14",
+    "title": "The Time Machine"
+  },
+  "418ef088fb8b80878320ffa8199b1d56": {
+    "status": "ok",
+    "cover_i": 12216503,
+    "checked": "2026-11-14",
+    "title": "Dracula"
   }
 }
