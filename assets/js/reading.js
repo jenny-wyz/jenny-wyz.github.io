@@ -321,12 +321,11 @@
 
   /* ---------- detail panel ---------- */
   var lastFocus = null;
-  function openBook(id, viaNav) {
-    var b = null, pos = -1;
-    for (var i = 0; i < currentList.length; i++) if (currentList[i].id === id) { b = currentList[i]; pos = i; break; }
-    if (!b) for (i = 0; i < books.length; i++) if (books[i].id === id) { b = books[i]; break; }
+  function openBook(id) {
+    var b = null;
+    for (var i = 0; i < books.length; i++) if (books[i].id === id) { b = books[i]; break; }
     if (!b) return;
-    if (!viaNav) lastFocus = document.activeElement;
+    lastFocus = document.activeElement;
     var html = '<div class="rd-panel-top">' + cover(b, 'lg') + '<div><h2 class="rd-panel-title" id="rd-panel-title">' + esc(b.title) + '</h2>' +
       (b.author ? '<p class="rd-panel-author">' + esc(b.author) + '</p>' : '') + statusTag(b.status) + (b.rating ? '<div style="margin-top:.5rem">' + stars(b.rating, true) + '</div>' : '') + '</div></div>';
     html += '<dl class="rd-meta">';
@@ -343,10 +342,6 @@
     }
     if (b.body) html += '<h3 class="rd-section-h">From the page</h3><div class="rd-notes">' + md(b.body) + '</div>';
     if (b.page) html += '<a class="rd-link" href="' + esc(b.page) + '">Read the full write-up →</a>';
-    if (pos >= 0 && currentList.length > 1) {
-      var prev = currentList[(pos - 1 + currentList.length) % currentList.length], next = currentList[(pos + 1) % currentList.length];
-      html += '<div class="rd-panel-nav"><button type="button" data-nav="' + esc(prev.id) + '">← ' + esc(prev.title) + '</button><button type="button" data-nav="' + esc(next.id) + '">' + esc(next.title) + ' →</button></div>';
-    }
     panelBody.innerHTML = html;
     panel.hidden = false; backdrop.hidden = false;
     requestAnimationFrame(function () { panel.classList.add('rd-open'); backdrop.classList.add('rd-open'); });
@@ -365,7 +360,6 @@
   closeBtn.addEventListener('click', closePanel);
   backdrop.addEventListener('click', closePanel);
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) closePanel(); });
-  panelBody.addEventListener('click', function (e) { var b = e.target.closest('[data-nav]'); if (b) openBook(b.getAttribute('data-nav'), true); });
 
   /* ---------- events ---------- */
   root.addEventListener('click', function (e) {

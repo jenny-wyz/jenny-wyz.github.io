@@ -211,10 +211,6 @@
 .rd-note-date { font-size: 0.72rem; color: rgb(var(--rd-ink-faint)); margin: 0 0 0.3rem; }
 .rd-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.2rem; font-size: 0.9rem; font-weight: 600; color: rgb(var(--rd-accent)); text-decoration: none; }
 .rd-link:hover { text-decoration: underline; }
-.rd-panel-nav { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgb(var(--rd-line)); }
-.rd-panel-nav button { font: inherit; font-size: 0.82rem; background: none; border: 0; color: rgb(var(--rd-ink-soft)); cursor: pointer; padding: 0.3rem 0; max-width: 48%; text-align: left; }
-.rd-panel-nav button:hover { color: rgb(var(--rd-accent)); }
-.rd-panel-nav button:last-child { text-align: right; }
 @media (max-width: 640px) {
   .rd-panel { top: auto; width: 100vw; max-height: 88vh; border-radius: 18px 18px 0 0; transform: translateY(100%); box-shadow: 0 -20px 60px -30px rgb(0 0 0 / .6); }
   .rd-panel-top .rd-cover { width: 92px; }

@@ -467,8 +467,8 @@
 /* ------------------------------------------------------------------ */
 
 .yarn { margin-top: 1.5rem; --yarn-w: 5.5px;    /* --yarn-w: thickness of the loose yarn; change this one number */
-  --yarn-200: 254, 235, 138; --yarn-300: 252, 218, 74; --yarn-600: 210, 128, 5;   /* the yarn's color palette, change here */
-  --yarn-700: 170, 90, 8; --yarn-800: 140, 70, 14; }
+  --yarn-200: 254, 235, 138; --yarn-300: 252, 230, 129; --yarn-350: 250, 226, 119; 
+  --yarn-600: 210, 128, 5; --yarn-700: 170, 90, 8; --yarn-800: 140, 70, 14; }     /* the yarn's color palette, change here */
 .yarn-svg { display: block; overflow: visible; transition: height 0.5s ease; }
 .yarn-data { margin: 1rem 0; padding-left: 1.2rem; }
 .yarn-ready .yarn-data { display: none; }
@@ -477,8 +477,8 @@
 .yarn-shadow, .yarn-body, .yarn-sheen, .yarn-hit, .yarn-glow { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .yarn-shadow { stroke: rgba(0, 0, 0, 0.2); stroke-width: var(--yarn-w); transform: translate(1px, 2.5px); filter: blur(2px); }
 /* The loose yarn is drawn like one strand of the ball: a darker band with a pale core. */
-.yarn-body { stroke: rgb(var(--yarn-600)); stroke-width: var(--yarn-w); }
-.yarn-sheen { stroke: rgb(var(--yarn-200)); stroke-width: calc(var(--yarn-w) * 0.52); opacity: 0.6; }
+.yarn-body { stroke: rgb(var(--yarn-700)); stroke-width: var(--yarn-w); }
+.yarn-sheen { stroke: rgb(var(--yarn-300)); stroke-width: calc(var(--yarn-w) * 0.56); opacity: 0.63; }
 
 .yarn-week { cursor: pointer; }
 .yarn-hit { stroke: transparent; stroke-width: 24px; pointer-events: stroke; }
@@ -558,3 +558,7 @@ html.dark {
 
 /* Dark mode: bold text uses neutral-200 instead of neutral (the title color) */
 .dark .prose { --tw-prose-invert-bold: rgba(var(--color-neutral-200), 1); }
+
+/* Dark mode: no pale highlight line along the loose yarn */
+.dark .yarn-body { stroke: rgb(var(--yarn-800)); stroke-width: calc(var(--yarn-w) * 1.3); }
+.dark .yarn-sheen { stroke: rgb(var(--yarn-350)); stroke-width: calc(var(--yarn-w) * 0.58); opacity: 0.6; }
