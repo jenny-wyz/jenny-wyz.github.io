@@ -466,7 +466,9 @@
 /* Journal landing page: the ball of yarn (layouts/journal/list.html)   */
 /* ------------------------------------------------------------------ */
 
-.yarn { margin-top: 1.5rem; --yarn-w: 5.5px; }   /* --yarn-w: thickness of the loose yarn; change this one number */
+.yarn { margin-top: 1.5rem; --yarn-w: 5.5px;    /* --yarn-w: thickness of the loose yarn; change this one number */
+  --yarn-200: 254, 235, 138; --yarn-300: 252, 218, 74; --yarn-600: 210, 128, 5;   /* the yarn's color palette, change here */
+  --yarn-700: 170, 90, 8; --yarn-800: 140, 70, 14; }
 .yarn-svg { display: block; overflow: visible; transition: height 0.5s ease; }
 .yarn-data { margin: 1rem 0; padding-left: 1.2rem; }
 .yarn-ready .yarn-data { display: none; }
@@ -475,8 +477,8 @@
 .yarn-shadow, .yarn-body, .yarn-sheen, .yarn-hit, .yarn-glow { fill: none; stroke-linecap: round; stroke-linejoin: round; }
 .yarn-shadow { stroke: rgba(0, 0, 0, 0.2); stroke-width: var(--yarn-w); transform: translate(1px, 2.5px); filter: blur(2px); }
 /* The loose yarn is drawn like one strand of the ball: a darker band with a pale core. */
-.yarn-body { stroke: rgb(var(--color-primary-600)); stroke-width: var(--yarn-w); }
-.yarn-sheen { stroke: rgb(var(--color-primary-200)); stroke-width: calc(var(--yarn-w) * 0.52); opacity: 0.6; }
+.yarn-body { stroke: rgb(var(--yarn-600)); stroke-width: var(--yarn-w); }
+.yarn-sheen { stroke: rgb(var(--yarn-200)); stroke-width: calc(var(--yarn-w) * 0.52); opacity: 0.6; }
 
 .yarn-week { cursor: pointer; }
 .yarn-hit { stroke: transparent; stroke-width: 24px; pointer-events: stroke; }
@@ -490,19 +492,19 @@
 }
 .yarn-week:hover .yarn-label, .yarn-week:focus-visible .yarn-label { opacity: 1; }
 .dark .yarn-label { fill: rgb(var(--color-neutral-400)); }
-.yarn-week:hover .yarn-label, .yarn-week:focus-visible .yarn-label { fill: rgb(var(--color-primary-600)); }
-.dark .yarn-week:hover .yarn-label, .dark .yarn-week:focus-visible .yarn-label { fill: rgb(var(--color-primary-300)); }
+.yarn-week:hover .yarn-label, .yarn-week:focus-visible .yarn-label { fill: rgb(var(--yarn-600)); }
+.dark .yarn-week:hover .yarn-label, .dark .yarn-week:focus-visible .yarn-label { fill: rgb(var(--yarn-300)); }
 
 .yarn-ball { cursor: grab; outline: none; }
 .yarn-ball:active { cursor: grabbing; }
 .yarn-ball.is-empty { cursor: default; }
 .yarn-ball-shadow { fill: rgba(0, 0, 0, 0.3); filter: blur(5px); }
-.yarn-ball-base { fill: rgb(var(--color-primary-700)); }
+.yarn-ball-base { fill: rgb(var(--yarn-700)); }
 .yarn-strand, .yarn-strand-edge { fill: none; stroke-linecap: round; }
-.yarn-strand-edge { stroke: rgb(var(--color-primary-700)); stroke-width: 8px; opacity: 0.9; }
-.yarn-strand { stroke: rgb(var(--color-primary-200)); stroke-width: 3.2px; opacity: 0.6; }
-.yarn-strand-edge.is-under { stroke: rgb(var(--color-primary-800)); }
-.yarn-strand.is-under { stroke: rgb(var(--color-primary-200)); }
+.yarn-strand-edge { stroke: rgb(var(--yarn-700)); stroke-width: 8px; opacity: 0.9; }
+.yarn-strand { stroke: rgb(var(--yarn-200)); stroke-width: 3.2px; opacity: 0.6; }
+.yarn-strand-edge.is-under { stroke: rgb(var(--yarn-800)); }
+.yarn-strand.is-under { stroke: rgb(var(--yarn-200)); }
 .yarn-ball-shade { pointer-events: none; }
 .yarn-ball:hover .yarn-ball-shade, .yarn-ball:focus-visible .yarn-ball-shade { opacity: 0.85; }
 .yarn-ball.is-empty:hover .yarn-ball-shade { opacity: 1; }
@@ -511,8 +513,8 @@
 
 .yarn-hint { margin: 0.75rem 0 0; display: flex; gap: 1.25rem; font-size: 0.8rem; }
 .yarn-hint button { border: 0; background: none; padding: 0; cursor: pointer; color: rgb(var(--color-neutral-500)); letter-spacing: 0.04em; transition: color 0.15s ease; }
-.yarn-hint button:hover { color: rgb(var(--color-primary-600)); }
-.dark .yarn-hint button:hover { color: rgb(var(--color-primary-400)); }
+.yarn-hint button:hover { color: rgb(var(--yarn-600)); }
+.dark .yarn-hint button:hover { color: rgb(var(--yarn-400)); }
 .yarn-hint button[hidden] { display: none; }
 
 /* ------------------------------------------------------------------ */

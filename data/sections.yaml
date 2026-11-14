@@ -21,36 +21,36 @@ journal:
   primary:
     50: "254, 252, 234"
     100: "254, 246, 197"
-    200: "254, 235, 138"
-    300: "252, 218, 74"
-    400: "250, 198, 28"
-    500: "240, 168, 10"
-    600: "210, 128, 5"
-    700: "170, 90, 8"
-    800: "140, 70, 14"
+    200: "254, 235, 138"   # L: bang
+    300: "252, 218, 74"    # D: calendar 123
+    400: "250, 198, 28"    # D: WörterDW; hover; <>s
+    500: "240, 168, 10"    # L&D: / ; calendar box+bkg; <>bkg
+    600: "210, 128, 5"     # L: WörterDW; hover; <>s
+    700: "170, 90, 8"      # L: calendar 123
+    800: "140, 70, 14"     # D: bang
     900: "116, 58, 16"
-  dark_bg: "36, 30, 20"
+  dark_bg: "32, 29, 24"
   dark_deep: "24, 19, 12"
   dark_edge: "66, 56, 38"
-  light_bg: "255, 252, 240"
+  light_bg: "250, 249, 245"
 
 reading:
   tagline: "jernier's library"
   icon: "book"
   primary:
-    50: "245, 243, 255"
-    100: "237, 233, 254"
-    200: "221, 214, 254"
-    300: "196, 181, 253"
-    400: "167, 139, 250"
-    500: "139, 92, 246"
-    600: "124, 58, 237"
-    700: "109, 40, 217"
-    800: "91, 33, 182"
-    900: "76, 29, 149"
-  dark_bg: "24, 20, 52"
+    50: "247, 245, 253"
+    100: "240, 237, 250"
+    200: "226, 222, 246"     # L: bang
+    300: "204, 195, 239"
+    400: "178, 161, 228"     # D: 'All' bkg + outline; stats bars; hovers
+    500: "151, 123, 215"
+    600: "133, 94, 201"      # L: 'All' bkg + outline; stats bars; hovers
+    700: "117, 75, 182"
+    800: "98, 63, 152"       # D: bang
+    900: "81, 53, 125"
+  dark_bg: "30, 28, 46"
   dark_deep: "14, 11, 34"
-  dark_edge: "48, 42, 90"
+  dark_edge: "52, 47, 87"
   light_bg: "251, 250, 255"
 
 notes:
@@ -59,18 +59,18 @@ notes:
   primary:
     50: "240, 253, 250"
     100: "204, 251, 241"
-    200: "153, 246, 228"
-    300: "94, 234, 212"
-    400: "45, 212, 191"
-    500: "20, 184, 166"
-    600: "13, 148, 136"
-    700: "15, 118, 110"
-    800: "17, 94, 89"
+    200: "153, 246, 228"   # L: bang
+    300: "94, 234, 212"    # D: rail's this note
+    400: "45, 212, 191"    # D: tags; 'All notes', `subjects 7`, contents_underlines; hover.  L: tag outline
+    500: "20, 184, 166"    # L&D: / ; pill & rail outline+bkg; entry_underline; rail bullets
+    600: "13, 148, 136"    # L: 'All notes', `subjects 7`, contents_underlines; hover.        D: tag outline
+    700: "15, 118, 110"    # L: tags; rail's this note
+    800: "17, 94, 89"      # D: bang
     900: "19, 78, 74"
   dark_bg: "14, 34, 38"
   dark_deep: "8, 24, 27"
   dark_edge: "34, 66, 72"
-  light_bg: "246, 253, 253"
+  light_bg: "248, 251, 251"
 
 essays:
   tagline: "know thyself"
@@ -78,15 +78,15 @@ essays:
   primary:
     50: "255, 245, 248"
     100: "254, 236, 242"
-    200: "252, 218, 229"
-    300: "249, 196, 214"
-    400: "244, 170, 196"
-    500: "234, 140, 175"
-    600: "212, 108, 148"
-    700: "180, 80, 118"
-    800: "146, 62, 95"
+    200: "252, 218, 229"   # L: bang
+    300: "249, 196, 214"   # D: 
+    400: "244, 170, 196"   # D: contents_underlines; hover.  D: callout outline
+    500: "234, 140, 175"   # L&D: / ; entry_underline.       L: callout outline
+    600: "212, 108, 148"   # L: contents_underlines; hover
+    700: "180, 80, 118"    # L: 
+    800: "146, 62, 95"     # D: bang
     900: "117, 50, 77"
-  dark_bg: "40, 28, 33"
+  dark_bg: "41, 32, 37"
   dark_deep: "27, 18, 22"
   dark_edge: "72, 52, 60"
   light_bg: "255, 250, 252"
@@ -108,7 +108,7 @@ braindump:
   dark_bg: "16, 32, 30"
   dark_deep: "9, 22, 20"
   dark_edge: "36, 62, 58"
-  light_bg: "247, 254, 251"
+  light_bg: "249, 252, 251"
 
 recipes:
   tagline: "jernier's kitchen"
@@ -116,15 +116,15 @@ recipes:
   primary:
     50: "255, 247, 237"
     100: "255, 237, 213"
-    200: "254, 215, 170"
-    300: "253, 186, 116"
-    400: "251, 146, 60"
-    500: "249, 115, 22"
-    600: "234, 88, 12"
-    700: "194, 65, 12"
-    800: "154, 52, 18"
-    900: "124, 45, 18"
-  dark_bg: "40, 26, 16"
+    200: "254, 215, 170"   # L: bang
+    300: "253, 186, 116"   # D: procedure 123
+    400: "251, 146, 60"    # D: 'ingredients, procedure'; nums per category; hover
+    500: "249, 115, 22"    # L&D: / ; cards + ingredients/procedure-num bkg + outline
+    600: "234, 88, 12"     # L: 'ingredients, procedure'; nums per category; hover
+    700: "194, 65, 12"     # L: procedure 123
+    800: "154, 52, 18"     # D: bang
+    900: "124, 245, 18"
+  dark_bg: "36, 29, 23"
   dark_deep: "28, 17, 9"
   dark_edge: "74, 52, 36"
-  light_bg: "255, 251, 246"
+  light_bg: "252, 251, 249"
