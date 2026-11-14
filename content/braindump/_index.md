@@ -1,6 +1,8 @@
 ---
 title: "Brain dump"
 description: "Unsorted thoughts, half-formed ideas."
+# Synced nightly from the Notion page "Absolute dump" (scripts/sync_braindump.py):
+# every subpage is an entry, the heading above it is its group.
 # Password-protected section. The build encrypts every page in it (see
 # scripts/protect_pages.py). Everything below keeps the content out of the
 # search index, RSS feeds, sitemap and "related" blocks, so nothing leaks.
@@ -12,6 +14,11 @@ sitemap:
   disable: true
 cascade:
   protected: true
+  showPagination: false
+  showSummary: false
+  showZenMode: false
+  showReadingTime: false
+  showTableOfContents: false
   excludeFromSearch: true
   showRelatedContent: false
   sitemap:

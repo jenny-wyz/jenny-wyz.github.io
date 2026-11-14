@@ -71,5 +71,10 @@
     "page_id": "413ef088fb8b80ce9e98f8c102384389",
     "publish_heading": "Ver 1",
     "output_dir": "content/essays"
+  },
+  "braindump": {
+    "_comment": "The Notion page \"Absolute dump\". Every subpage is published; the heading it sits under (Recyclable, Not recyclable) becomes its group.",
+    "page_id": "418ef088fb8b80b7946cd9262e288008",
+    "output_dir": "content/braindump"
   }
 }

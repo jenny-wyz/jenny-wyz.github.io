@@ -10,7 +10,7 @@ Everything is a Markdown file under `content/`:
 |---|---|---|
 | Journal (German, weekly, synced from Notion, password-protected) | `content/journal/` | name files `YYYY-MM-DD-title.md` to keep them sorted |
 | Essays (password-protected) | `content/essays/` | synced nightly from the Notion page "Jernier 随笔", Ver 1 subpages only (`scripts/sync_essays.py`) |
-| Brain dump (password-protected, see CLAUDE.md) | `content/braindump/` | |
+| Brain dump (password-protected) | `content/braindump/` | synced nightly from the Notion page "Absolute dump" (`scripts/sync_braindump.py`); the heading above an entry is its group |
 | Reading | `data/books.json` | synced from Notion, see below; optional write-up pages in `content/reading/` |
 | Recipes | `content/recipes/<cuisine>/` | synced nightly from the Notion page "Recipes" (`scripts/sync_recipes.py`); one folder per cuisine, one file per recipe |
 | Notes | `content/notes/` | synced nightly from Notion ("Jernier's Notes on Stuff", `scripts/sync_notes.py`); subjects are a taxonomy (`subjects:` in front matter, pages at `/notes/<subject>/`, titles in `content/subjects/`); hand-written notes without `notion_id` are kept as they are |

@@ -1,0 +1,36 @@
+{{ define "main" }}
+  {{/*
+    Brain dump: entries grouped by the heading they sit under on the Notion
+    page "Absolute dump" (Recyclable, Not recyclable), in that page's order.
+    Content comes from scripts/sync_braindump.py; styles: .dump-* in custom.css.
+  */}}
+  <header>
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+    {{ with .Description }}<p class="mt-2 text-neutral-500 dark:text-neutral-400">{{ . }}</p>{{ end }}
+  </header>
+
+  {{ $pages := .RegularPages.ByWeight }}
+  {{ $groups := slice }}
+  {{ range $pages }}
+    {{ $g := .Params.group | default "" }}
+    {{ if not (in $groups $g) }}{{ $groups = $groups | append $g }}{{ end }}
+  {{ end }}
+  {{ if not $pages }}
+    <p class="dump-empty">Nothing here yet.</p>
+  {{ end }}
+  {{ range $g := $groups }}
+    <section class="dump-group">
+      {{ with $g }}<h2 class="dump-label">{{ . }}</h2>{{ end }}
+      <ul class="dump-list">
+        {{ range $pages }}{{ if eq (.Params.group | default "") $g }}
+          <li>
+            <a class="dump-item" href="{{ .RelPermalink }}">
+              <span class="dump-title">{{ .Title }}</span>
+              <time class="dump-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2.1.2006" }}</time>
+            </a>
+          </li>
+        {{ end }}{{ end }}
+      </ul>
+    </section>
+  {{ end }}
+{{ end }}
