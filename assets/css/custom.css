@@ -542,16 +542,19 @@
 /* ------------------------------------------------------------------ */
 /* Lower numbers = dimmer text. Keep the order: neutral brightest, 300 dimmest. */
 html.dark {
-  --color-neutral:     210, 212, 217;   /* page titles, nav, bold text */
-  --color-neutral-50:  201, 204, 209;   /* headings, book titles */
-  --color-neutral-100: 193, 195, 201;   /* recipe names, calendar, hovers */
-  --color-neutral-200: 181, 184, 191;   /* quotes, code */
-  --color-neutral-300: 167, 171, 180;   /* body text */
+  --color-neutral:     200, 202, 207;   /* page titles, nav */
+  --color-neutral-50:  186, 188, 194;   /* headings, book titles */
+  --color-neutral-100: 186, 188, 194;   /* recipe names, calendar, hovers */
+  --color-neutral-200: 173, 176, 184;   /* quotes, code */
+  --color-neutral-300: 159, 162, 171;   /* body text */
 }
 
 /* Dark mode: dates and other small meta text under titles (dimmer than body text) */
-.dark .text-neutral-500.dark\:text-neutral-400 { color: rgb(112, 121, 138); }
+.dark .text-neutral-500.dark\:text-neutral-400 { color: rgb(105, 114, 130); }
 
 /* Dark mode: table of contents on the side */
-.dark .toc a { color: rgb(137, 141, 150); }
+.dark .toc a { color: rgb(127, 131, 140); }
 .dark .toc a:hover { color: rgb(var(--color-neutral-200)); }   /* brightens on hover */
+
+/* Dark mode: bold text uses neutral-200 instead of neutral (the title color) */
+.dark .prose { --tw-prose-invert-bold: rgba(var(--color-neutral-200), 1); }
