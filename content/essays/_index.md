@@ -24,5 +24,8 @@ cascade:
     list: local
 ---
 
-一些随笔。
-Memories that require a deep breath before touching.
+一些随笔。 Some memories that require a deep breath before touching.
+
+P.S. I acknowledge that due to the faulty nature of human brains, my accounts may be inaccurate and may differ from the truth.
+
+(P.P.S. whether there *is* an objective truth is another topic for debate.)

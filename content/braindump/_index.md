@@ -20,4 +20,4 @@ cascade:
     list: local
 ---
 
-Unsorted thoughts, half-formed ideas.
+random .¥~!<_+£:&!~)?@>• idk
