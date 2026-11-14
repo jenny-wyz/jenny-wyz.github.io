@@ -85,14 +85,9 @@ One number: `--yarn-w` on `.yarn` (now `5px`). The band, the pale core (52 % of 
 - `.yarn-hit`  `stroke-width` (24px): how far from the yarn the mouse still counts as “on” it.
 - `.yarn-label`: the dates. Size via `font-size`; they are invisible until hover (`opacity: 0`, then 1). To show them always, delete `opacity: 0;` there. Distance of the dates from the yarn: the two `16` values in `nx * 16` / `ny * 16` in the script.
 
-#### Colours
+#### Colours in general
 
-Here:
-```
-.yarn { margin-top: 1.5rem; --yarn-w: 5.5px;    /* --yarn-w: thickness of the loose yarn; change this one number */
-  --yarn-200: 254, 235, 138; --yarn-300: 252, 218, 74; --yarn-600: 210, 128, 5;   /* the yarn's color palette, change here */
-  --yarn-700: 170, 90, 8; --yarn-800: 140, 70, 14; }
-  ```
+All `--color-primary-*` values come from the Journal palette in `data/sections.yaml` (key `journal`). Changing that palette recolours the whole yarn, the calendar and the section at once.
 
 ### Texts
 
