@@ -42,7 +42,7 @@ reading:
     100: "240, 237, 250"
     200: "218, 208, 247"     # L: bang
     300: "204, 195, 239"
-    400: "166, 148, 219"     # D: 'All' bkg + outline; stats bars; hovers
+    400: "132, 125, 184"     # D: 'All' bkg + outline; stats bars; hovers
     500: "151, 123, 215"
     600: "100, 68, 184"      # L: 'All' bkg + outline; stats bars; hovers
     700: "117, 75, 182"

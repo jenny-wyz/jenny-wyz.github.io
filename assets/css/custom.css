@@ -536,3 +536,22 @@
 .callout-body > :last-child { margin-bottom: 0; }
 /* In the journal, callout text uses the same notebook serif as the entry. */
 .journal-entry .callout-body > p { font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif; font-size: 1.12rem; line-height: 1.75; }
+
+/* ------------------------------------------------------------------ */
+/* Dark mode text: softer, grayer, less contrast                        */
+/* ------------------------------------------------------------------ */
+/* Lower numbers = dimmer text. Keep the order: neutral brightest, 300 dimmest. */
+html.dark {
+  --color-neutral:     210, 212, 217;   /* page titles, nav, bold text */
+  --color-neutral-50:  201, 204, 209;   /* headings, book titles */
+  --color-neutral-100: 193, 195, 201;   /* recipe names, calendar, hovers */
+  --color-neutral-200: 181, 184, 191;   /* quotes, code */
+  --color-neutral-300: 167, 171, 180;   /* body text */
+}
+
+/* Dark mode: dates and other small meta text under titles (dimmer than body text) */
+.dark .text-neutral-500.dark\:text-neutral-400 { color: rgb(112, 121, 138); }
+
+/* Dark mode: table of contents on the side */
+.dark .toc a { color: rgb(137, 141, 150); }
+.dark .toc a:hover { color: rgb(var(--color-neutral-200)); }   /* brightens on hover */
