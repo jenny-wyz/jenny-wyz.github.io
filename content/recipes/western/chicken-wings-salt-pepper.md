@@ -1,7 +1,7 @@
 ---
 title: "🕊️ Chicken wings - salt & pepper"
 date: 2025-11-29
-weight: 21
+weight: 22
 group: "Roasted"
 group_weight: 4
 notion_id: 2baef088fb8b80d7b393e379628b0f72

@@ -1,7 +1,7 @@
 ---
 title: "🕊️ Chicken wings - honey"
 date: 2025-11-29
-weight: 20
+weight: 21
 group: "Roasted"
 group_weight: 4
 notion_id: 2baef088fb8b805384e8c119ab89bee6
