@@ -1,6 +1,6 @@
 ---
 title: "Brain dump"
-description: "Unsorted thoughts, half-formed ideas."
+description: "random .¥~!<_+£:&!~)?@>• idk   Unsorted thoughts, half-formed ideas."
 # Synced nightly from the Notion page "Absolute dump" (scripts/sync_braindump.py):
 # every subpage is an entry, the heading above it is its group.
 # Password-protected section. The build encrypts every page in it (see

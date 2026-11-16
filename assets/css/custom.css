@@ -566,26 +566,100 @@ html.dark {
 /* Brain dump list (layouts/braindump/list.html)                        */
 /* ------------------------------------------------------------------ */
 
-.dump-group { margin-top: 2.5rem; }
-.dump-label {
-  display: flex; align-items: center; gap: 0.9rem; margin: 0 0 0.4rem;
-  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
-  color: rgb(var(--color-primary-600));
+/* A stream by day: the date once per day on the left, every entry one line
+   (opening words, then a dimmer glimpse) that unfolds in place on click. */
+.dump-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+.dump-filter { display: flex; gap: 1.1rem; padding-bottom: 0.2rem; }
+.dump-filter button {
+  font: inherit; font-size: 0.82rem; padding: 0.15rem 0; background: none; border: 0; cursor: pointer;
+  color: rgb(var(--color-neutral-400)); border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
-.dark .dump-label { color: rgb(var(--color-primary-400)); }
-.dump-label::after { content: ""; flex: 1; height: 1px; background: rgba(var(--color-primary-500), 0.25); }
-.dump-list { list-style: none; margin: 0; padding: 0; }
-.dump-item {
-  display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem;
-  padding: 0.7rem 0.6rem; margin: 0 -0.6rem; border-radius: 0.6rem; text-decoration: none;
-  border-bottom: 1px dotted rgba(var(--color-neutral-500), 0.25);
-  transition: background-color 0.15s ease;
+.dark .dump-filter button { color: rgb(var(--color-neutral-500)); }
+.dump-filter button:hover { color: rgb(var(--color-neutral-700)); }
+.dark .dump-filter button:hover { color: rgb(var(--color-neutral-300)); }
+.dump-filter button.is-on { color: rgb(var(--color-primary-600)); border-bottom-color: currentColor; }
+.dark .dump-filter button.is-on { color: rgb(var(--color-primary-400)); }
+
+.dump { margin-top: 2.5rem; }
+.dump-month {
+  margin: 2.2rem 0 0.7rem; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgb(var(--color-neutral-400));
 }
-.dump-list li:last-child .dump-item { border-bottom: 0; }
-.dump-item:hover { background: rgba(var(--color-primary-500), 0.08); }
-.dump-title { font-weight: 600; color: rgb(var(--color-neutral-800)); }
-.dark .dump-title { color: rgb(var(--color-neutral-100)); }
-.dump-item:hover .dump-title { color: rgb(var(--color-primary-600)); }
-.dark .dump-item:hover .dump-title { color: rgb(var(--color-primary-400)); }
-.dump-date { font-size: 0.8rem; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-500)); white-space: nowrap; }
+.dark .dump-month { color: rgb(var(--color-neutral-500)); }
+.dump-month:first-child { margin-top: 0; }
+.dump-day {
+  display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); column-gap: 1.25rem;
+  padding: 1.1rem 0; border-top: 1px solid rgba(var(--color-neutral-500), 0.18);
+}
+.dump-stamp time { display: flex; flex-direction: column; position: sticky; top: 5.5rem; }
+.dump-num { font-size: 1.9rem; line-height: 1.15; font-weight: 300; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-800)); }
+.dark .dump-num { color: rgb(var(--color-neutral-200)); }
+.dump-wd { margin-top: 0.15rem; font-size: 0.74rem; letter-spacing: 0.04em; color: rgb(var(--color-neutral-400)); }
+.dark .dump-wd { color: rgb(var(--color-neutral-500)); }
+
+/* One entry: the row (time + glimpse) and the full text share one grid cell,
+   so the glimpse turns into the text in place. */
+.dump-entry { display: grid; grid-template-columns: 3rem minmax(0, 1fr); align-items: start; }
+.dump-entry[hidden], .dump-day[hidden], .dump-month[hidden] { display: none; }
+.dump-row {
+  grid-column: 1 / -1; grid-row: 1; display: grid; grid-template-columns: subgrid; align-items: baseline;
+  font: inherit; text-align: left; background: none; border: 0; padding: 0.42rem 0; margin: 0;
+  color: inherit; cursor: pointer; border-radius: 0.4rem; min-width: 0;
+}
+.dump-row:focus-visible, .dump-fold:focus-visible { outline: 2px solid rgba(var(--color-primary-500), 0.6); outline-offset: 2px; }
+.dump-time { font-size: 0.74rem; line-height: 1.75rem; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-400)); transition: color 0.2s ease; }
+.dark .dump-time { color: rgb(var(--color-neutral-500)); }
+.dump-dot { display: inline-block; width: 0.7rem; height: 1px; vertical-align: middle; background: currentColor; opacity: 0.7; }
+.dump-row:hover .dump-time, .dump-entry.is-open .dump-time { color: rgb(var(--color-primary-600)); }
+.dark .dump-row:hover .dump-time, .dark .dump-entry.is-open .dump-time { color: rgb(var(--color-primary-400)); }
+.dump-peek {
+  display: block; min-width: 0; line-height: 1.75rem; white-space: nowrap; overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, #000 72%, transparent); mask-image: linear-gradient(to right, #000 72%, transparent);
+  transition: opacity 0.2s ease;
+}
+.dump-lead { color: rgb(var(--color-neutral-700)); }
+.dark .dump-lead { color: rgb(var(--color-neutral-300)); }
+.dump-rest { color: rgba(var(--color-neutral-500), 0.7); transition: color 0.2s ease; }
+.dark .dump-rest { color: rgba(var(--color-neutral-400), 0.5); }
+.dump-row:hover .dump-rest { color: rgba(var(--color-neutral-500), 1); }
+.dark .dump-row:hover .dump-rest { color: rgba(var(--color-neutral-400), 0.85); }
+
+.dump-body { grid-column: 2; grid-row: 1; min-width: 0; padding: 0.42rem 0; position: relative; }
+.dump-body-inner { min-width: 0; }
+.dump-peek, .dump-body .prose { font-size: 1rem; }
+.dump-body .prose { line-height: 1.75rem; max-width: none; }
+.dump-body .prose > :first-child { margin-top: 0; }
+.dump-body .prose > :last-child { margin-bottom: 0; }
+.dump-fold {
+  display: flex; margin: 0.5rem 0 0.3rem auto; padding: 0.25rem; background: none; border: 0; cursor: pointer;
+  border-radius: 0.4rem; color: rgb(var(--color-neutral-400)); transition: color 0.15s ease, background-color 0.15s ease;
+}
+.dump-fold:hover { color: rgb(var(--color-primary-600)); background: rgba(var(--color-primary-500), 0.1); }
+.dark .dump-fold:hover { color: rgb(var(--color-primary-400)); }
+
+/* Folding (only once the script is running; without it everything is shown).
+   The height animates through grid rows 0fr -> 1fr, no measuring needed. */
+.dump:not(.dump-js) .dump-peek, .dump:not(.dump-js) .dump-fold { display: none; }
+.dump-js .dump-body {
+  display: grid; grid-template-rows: 0fr; padding-top: 0; padding-bottom: 0; opacity: 0; visibility: hidden; pointer-events: none;
+  transition: grid-template-rows 0.38s cubic-bezier(0.32, 0.72, 0.24, 1), padding 0.38s cubic-bezier(0.32, 0.72, 0.24, 1),
+              opacity 0.18s ease, visibility 0s linear 0.38s;
+}
+.dump-js .dump-body-inner { overflow: hidden; min-height: 0; }
+.dump-js .dump-entry.is-open .dump-body {
+  grid-template-rows: 1fr; padding-top: 0.42rem; padding-bottom: 0.42rem; opacity: 1; visibility: visible; pointer-events: auto;
+  transition: grid-template-rows 0.38s cubic-bezier(0.32, 0.72, 0.24, 1), padding 0.38s cubic-bezier(0.32, 0.72, 0.24, 1),
+              opacity 0.3s ease 0.08s, visibility 0s;
+}
+.dump-js .dump-entry.is-open .dump-peek { opacity: 0; }
+.dump-js .dump-entry.is-open .dump-row { align-self: stretch; align-items: start; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) {
+  .dump-js .dump-body, .dump-js .dump-entry.is-open .dump-body, .dump-peek { transition: none; }
+}
+@media (max-width: 640px) {
+  .dump-day { grid-template-columns: 2.3rem minmax(0, 1fr); column-gap: 0.7rem; }
+  .dump-num { font-size: 1.5rem; }
+  .dump-entry { grid-template-columns: 2.5rem minmax(0, 1fr); }
+}
 .dump-empty { margin-top: 2rem; color: rgb(var(--color-neutral-500)); }

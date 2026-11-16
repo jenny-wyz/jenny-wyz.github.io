@@ -8,10 +8,25 @@ heading becomes the entry's `group`, in the order the headings appear.
 Subpages above the first heading have no group. Loose text on the page is
 ignored.
 
-Each entry becomes content/braindump/<slug>.md with its title, the page's
-creation date, its group and its content. Reuses the block converter and
-file writer from sync_notes.py: only files with a `notion_id` are managed,
-hand-written files are left alone, no-change runs make no git diff.
+Entries are named by date in Notion, optionally with a time or a counter:
+
+    20261116            one entry that day
+    20261116-1          a counter, when the day has several (-0, -1, ...)
+    20261116 01:20      the time it was thought (also 20261116-0120)
+
+Notion's own "created" time cannot be edited and is often later than the
+thought, so date and time come from the title. The site never shows the raw
+title: the entry's `title` becomes the written-out date ("Monday, 16 November
+2026 · 01:20"), `date` the day and `time` the time, if given. A title that
+is not a date is kept as it is and dated by the page's creation date.
+
+`weight` is the display order of layouts/braindump/list.html: newest day
+first; within a day, entries without a time (by counter, then by their order
+in Notion), then the timed ones from early to late.
+
+Each entry becomes content/braindump/<slug>.md. Reuses the block converter
+and file writer from sync_notes.py: only files with a `notion_id` are
+managed, hand-written files are left alone, no-change runs make no git diff.
 
 Usage:
     NOTION_TOKEN=secret_xxx python3 scripts/sync_braindump.py [--dry-run] [--verbose]
@@ -24,6 +39,7 @@ import json
 import os
 import re
 import sys
+from datetime import date
 from typing import Optional
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -37,8 +53,53 @@ def plain(rich) -> str:
     return "".join(p.get("plain_text", "") for p in (rich or [])).strip()
 
 
+# A line break typed at the very end of a paragraph would show as a stray "\".
+TRAILING_BREAK = re.compile(r"\\(?=\n\n|\n?\Z)")
+TITLE_RE = re.compile(r"^(\d{4})[-./]?(\d{2})[-./]?(\d{2})(?:[\s_-]+(.*))?$")
+WEEKDAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+MONTHS = ("January", "February", "March", "April", "May", "June", "July",
+          "August", "September", "October", "November", "December")
+
+
+def parse_title(title: str) -> Optional[dict]:
+    """'20261116', '20261116-1', '20261116 01:20', '20261116-0120' ->
+    {"date": "2026-11-16", "time": "01:20" or "", "seq": 1 or None, "title": written-out date}.
+    None when the title is not a date."""
+    m = TITLE_RE.match(title.strip())
+    if not m:
+        return None
+    try:
+        d = date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+    except ValueError:
+        return None
+    rest, time, seq = (m.group(4) or "").strip(), "", None
+    t = re.fullmatch(r"(\d{1,2})[:.h](\d{2})|(\d{2})(\d{2})", rest)
+    if t:
+        hh, mm = int(t.group(1) or t.group(3)), int(t.group(2) or t.group(4))
+        if hh < 24 and mm < 60:
+            time = f"{hh:02d}:{mm:02d}"
+    elif re.fullmatch(r"\d{1,3}", rest):
+        seq = int(rest)
+    nice = f"{WEEKDAYS[d.weekday()]}, {d.day} {MONTHS[d.month - 1]} {d.year}"
+    return {"date": d.isoformat(), "time": time, "seq": seq, "title": nice + (f" \u00b7 {time}" if time else "")}
+
+
+def display_order(entries: list[dict]) -> None:
+    """Set each entry's weight: newest day first; inside a day the untimed
+    entries (by counter, then Notion order), then the timed ones, early to late."""
+    def key(e: dict):
+        y, m, d = (int(x) for x in (e["date"] or "1970-01-01").split("-"))
+        seq = e.get("seq")
+        return (-date(y, m, d).toordinal(), e.get("time") or "", 999 if seq is None else seq, e["pos"])
+    for w, e in enumerate(sorted(entries, key=key), start=1):
+        e["weight"] = w
+
+
 def front_matter(e: dict) -> str:
-    lines = ["---", f"title: {sn.yaml_str(e['title'])}", f"date: {e['date']}", f"weight: {e['weight']}"]
+    lines = ["---", f"title: {sn.yaml_str(e['title'])}", f"date: {e['date']}"]
+    if e.get("time"):
+        lines.append(f"time: {sn.yaml_str(e['time'])}")
+    lines.append(f"weight: {e['weight']}")
     if e.get("group"):
         lines += [f"group: {sn.yaml_str(e['group'])}", f"group_weight: {e['group_weight']}"]
     lines += [f"notion_id: {e['id']}", "---"]
@@ -92,17 +153,22 @@ def main(argv: Optional[list[str]] = None) -> int:
         conv = sn.Converter(client)
         body = "\n\n".join(conv.convert(conv.children(block["id"])))
         body = re.sub(r"\n\n(?=(?:\s*(?:-|\d+\.) ))", "\n", body)
+        body = TRAILING_BREAK.sub("", body)
         slug = sn.slugify(title)
         # dump titles repeat easily ("0", "1", "idea"): keep every slug unique
         taken[slug] = taken.get(slug, 0) + 1
         if taken[slug] > 1:
             slug = f"{slug}-{compact_id(block['id'])[:6]}"
+        named = parse_title(title) or {}
         entries.append({
             "id": compact_id(block["id"]),
-            "title": title,
+            "title": named.get("title", title),
             "slug": slug,
             "subjects": [],
-            "date": (block.get("created_time") or "")[:10],
+            "date": named.get("date") or (block.get("created_time") or "")[:10],
+            "time": named.get("time", ""),
+            "seq": named.get("seq"),
+            "pos": pos,
             "group": group,
             "group_weight": order,
             "weight": pos + 1,
@@ -110,6 +176,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             "images": conv.images,
         })
     print(f"  {len(entries)} entr(y/ies)", file=sys.stderr)
+    display_order(entries)
 
     sn.front_matter = front_matter
     written, removed = sn.write_notes(entries, root, args.dry_run, log)

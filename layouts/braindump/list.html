@@ -1,36 +1,152 @@
 {{ define "main" }}
   {{/*
-    Brain dump: entries grouped by the heading they sit under on the Notion
-    page "Absolute dump" (Recyclable, Not recyclable), in that page's order.
-    Content comes from scripts/sync_braindump.py; styles: .dump-* in custom.css.
+    Brain dump: a stream of thoughts by day, newest day first. The date is
+    shown once per day (a small stamp on the left); each entry is one line,
+    its opening words followed by a dimmer glimpse of what comes next, and
+    unfolds in place when clicked. No titles: in Notion the entries are named
+    by date, and scripts/sync_braindump.py turns that name into `date`,
+    `time` and `weight` (the display order).
+    The headings on the Notion page (`group`) are the small filter on top.
+    Styles: .dump-* in assets/css/custom.css. Script: end of this file.
   */}}
-  <header>
-    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
-    {{ with .Description }}<p class="mt-2 text-neutral-500 dark:text-neutral-400">{{ . }}</p>{{ end }}
-  </header>
-
   {{ $pages := .RegularPages.ByWeight }}
   {{ $groups := slice }}
-  {{ range $pages }}
-    {{ $g := .Params.group | default "" }}
-    {{ if not (in $groups $g) }}{{ $groups = $groups | append $g }}{{ end }}
+  {{ range sort $pages "Params.group_weight" }}
+    {{ with .Params.group }}{{ if not (in $groups .) }}{{ $groups = $groups | append . }}{{ end }}{{ end }}
   {{ end }}
+
+  <header class="dump-head">
+    <div>
+      <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+      {{ with .Description }}<p class="mt-2 text-neutral-500 dark:text-neutral-400">{{ . }}</p>{{ end }}
+    </div>
+    {{ if gt (len $groups) 1 }}
+      <div class="dump-filter" role="group" aria-label="Filter entries">
+        <button type="button" class="is-on" data-dump-filter="" aria-pressed="true">All</button>
+        {{ range $groups }}<button type="button" data-dump-filter="{{ . }}" aria-pressed="false">{{ . }}</button>{{ end }}
+      </div>
+    {{ end }}
+  </header>
+
   {{ if not $pages }}
     <p class="dump-empty">Nothing here yet.</p>
   {{ end }}
-  {{ range $g := $groups }}
-    <section class="dump-group">
-      {{ with $g }}<h2 class="dump-label">{{ . }}</h2>{{ end }}
-      <ul class="dump-list">
-        {{ range $pages }}{{ if eq (.Params.group | default "") $g }}
-          <li>
-            <a class="dump-item" href="{{ .RelPermalink }}">
-              <span class="dump-title">{{ .Title }}</span>
-              <time class="dump-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2.1.2006" }}</time>
-            </a>
-          </li>
-        {{ end }}{{ end }}
-      </ul>
-    </section>
-  {{ end }}
+
+  <div class="dump" data-dump>
+    {{ $month := "" }}
+    {{ $day := "" }}
+    {{ range $i, $p := $pages }}
+      {{ $d := .Date.Format "2006-01-02" }}
+      {{ if ne $d $day }}
+        {{ if $day }}</div></section>{{ end }}
+        {{ $m := .Date.Format "January 2006" }}
+        {{ if ne $m $month }}<p class="dump-month">{{ $m }}</p>{{ $month = $m }}{{ end }}
+        <section class="dump-day">
+          <div class="dump-stamp">
+            <time datetime="{{ $d }}"><span class="dump-num">{{ .Date.Format "2" }}</span><span class="dump-wd">{{ .Date.Format "Mon" }}</span></time>
+          </div>
+          <div class="dump-entries">
+        {{ $day = $d }}
+      {{ end }}
+
+      {{/* The glimpse: the first line is the lead, what follows is the dim rest. */}}
+      {{ $raw := .RawContent | replaceRE `\{\{[<%][^>%]*[>%]\}\}` "" | replaceRE `\\\s*\n` "\n" | strings.TrimSpace }}
+      {{ $lines := split $raw "\n" }}
+      {{ $lead := "" }}{{ $rest := "" }}
+      {{ if $raw }}
+        {{ $lead = index $lines 0 | $p.RenderString | plainify | htmlUnescape | strings.TrimSpace }}
+        {{ $rest = delimit (after 1 $lines) " " | $p.RenderString | plainify | htmlUnescape | replaceRE `\s+` " " | strings.TrimSpace }}
+        {{ $words := split $lead " " }}
+        {{ if gt (len $words) 10 }}
+          {{ $lead = delimit (first 7 $words) " " }}
+          {{ $rest = printf "%s %s" (delimit (after 7 $words) " ") $rest }}
+        {{ end }}
+        {{ $rest = $rest | truncate 200 "" }}
+      {{ end }}
+      {{ $id := .File.ContentBaseName | urlize }}
+
+      <article class="dump-entry" id="d-{{ $id }}" data-group="{{ .Params.group }}">
+        <button type="button" class="dump-row" data-dump-toggle aria-expanded="false" aria-controls="b-{{ $id }}">
+          <span class="dump-time">{{ with .Params.time }}{{ . }}{{ else }}<span class="dump-dot" aria-hidden="true"></span>{{ end }}</span>
+          <span class="dump-peek">
+            {{- if $lead }}<span class="dump-lead">{{ $lead }}</span>{{ with $rest }} <span class="dump-rest">{{ . }}</span>{{ end }}
+            {{- else }}<span class="dump-rest">(empty)</span>{{ end -}}
+          </span>
+        </button>
+        <div class="dump-body" id="b-{{ $id }}">
+          <div class="dump-body-inner">
+            <div class="prose dark:prose-invert max-w-none">{{ .Content }}</div>
+            <button type="button" class="dump-fold" data-dump-toggle aria-label="Fold this entry">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    {{ end }}
+    {{ if $day }}</div></section>{{ end }}
+  </div>
+
+  <script>
+  (function () {
+    var root = document.querySelector("[data-dump]");
+    if (!root) return;
+    root.classList.add("dump-js");   // without this class every entry is simply shown in full
+
+    function setOpen(entry, open) {
+      entry.classList.toggle("is-open", open);
+      entry.querySelector(".dump-row").setAttribute("aria-expanded", open ? "true" : "false");
+      var body = entry.querySelector(".dump-body");
+      if (open) body.removeAttribute("inert"); else body.setAttribute("inert", "");
+    }
+    Array.prototype.forEach.call(root.querySelectorAll(".dump-entry"), function (e) { setOpen(e, false); });
+
+    function headerOffset() {
+      var h = document.querySelector("header") || document.querySelector(".main-menu");
+      return (h ? Math.min(h.getBoundingClientRect().height, 120) : 0) + 16;
+    }
+    root.addEventListener("click", function (ev) {
+      var t = ev.target.closest("[data-dump-toggle]");
+      if (!t || !root.contains(t)) return;
+      var entry = t.closest(".dump-entry"), open = !entry.classList.contains("is-open");
+      setOpen(entry, open);
+      history.replaceState(null, "", open ? "#" + entry.id : location.pathname + location.search);
+      // Folding a long entry from its end: bring its line back into view.
+      if (!open) {
+        var top = entry.getBoundingClientRect().top, off = headerOffset();
+        if (top < off) window.scrollTo({ top: window.scrollY + top - off, behavior: "smooth" });
+      }
+    });
+
+    // The filter on top: All, or one of the headings from the Notion page.
+    var filter = document.querySelector(".dump-filter");
+    if (filter) filter.addEventListener("click", function (ev) {
+      var b = ev.target.closest("[data-dump-filter]");
+      if (!b) return;
+      var g = b.getAttribute("data-dump-filter");
+      Array.prototype.forEach.call(filter.querySelectorAll("button"), function (x) {
+        x.classList.toggle("is-on", x === b); x.setAttribute("aria-pressed", x === b ? "true" : "false");
+      });
+      Array.prototype.forEach.call(root.querySelectorAll(".dump-entry"), function (e) {
+        e.hidden = !!g && e.getAttribute("data-group") !== g;
+      });
+      Array.prototype.forEach.call(root.querySelectorAll(".dump-day"), function (d) {
+        d.hidden = !d.querySelector(".dump-entry:not([hidden])");
+      });
+      Array.prototype.forEach.call(root.querySelectorAll(".dump-month"), function (m) {
+        var n = m.nextElementSibling, any = false;
+        while (n && !n.classList.contains("dump-month")) { if (!n.hidden) any = true; n = n.nextElementSibling; }
+        m.hidden = !any;
+      });
+    });
+
+    // A link to one entry (…/braindump/#d-20261116-1) opens it.
+    var target = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target && target.classList.contains("dump-entry")) {
+      setOpen(target, true);
+      setTimeout(function () {
+        window.scrollTo({ top: window.scrollY + target.getBoundingClientRect().top - headerOffset(), behavior: "smooth" });
+      }, 60);
+    }
+  })();
+  </script>
 {{ end }}
