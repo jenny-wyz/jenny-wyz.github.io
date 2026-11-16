@@ -1,7 +1,7 @@
 ---
 title: "Aubergine"
 date: 2026-01-05
-weight: 25
+weight: 26
 group: "Roasted"
 group_weight: 4
 notion_id: 2dfef088fb8b80ae8217dcbf4cee5d32

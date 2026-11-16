@@ -1,7 +1,7 @@
 ---
 title: "🍖 Schweinshaxe"
 date: 2025-11-29
-weight: 15
+weight: 16
 group: "Deutsche"
 group_weight: 3
 notion_id: 2baef088fb8b80f0ad49f1064a248ca2

@@ -1,7 +1,7 @@
 ---
 title: "Milkie 烤鸡翅"
 date: 2026-08-10
-weight: 23
+weight: 24
 group: "Roasted"
 group_weight: 4
 notion_id: 3b8ef088fb8b809bad25c0a14c4d6221
