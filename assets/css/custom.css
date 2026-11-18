@@ -49,15 +49,17 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 :root {
-  /* Chinese, everywhere: the font, then the device's own in case it fails to load */
+  /* Chinese, everywhere: the font, then the device's own in case it fails to load.
+     A section can have its own cut (thinner) and size: data/zh_fonts.yaml; its
+     list below then names "Zh-<section>" right before var(--font-zh). */
   --font-zh: "LXGW WenKai Screen", "Microsoft YaHei", "PingFang SC";
   /* the whole site (menus, titles, notes, recipes, reading, ...) */
   --font-sans: "Twemoji Country Flags", "Satoshi", "Segoe UI", Roboto, "Helvetica Neue", Arial,
     var(--font-zh), sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* Essays pages */
-  --font-essays: "Twemoji Country Flags", "Gambetta", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
+  --font-essays: "Twemoji Country Flags", "Gambetta", "Iowan Old Style", "Palatino Linotype", Georgia, "Zh-essays", var(--font-zh), serif;
   /* Brain dump pages */
-  --font-braindump: "Twemoji Country Flags", "Erode", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
+  --font-braindump: "Twemoji Country Flags", "Erode", "Iowan Old Style", "Palatino Linotype", Georgia, "Zh-braindump", var(--font-zh), serif;
   /* Reading pages */
   --font-reading: "Twemoji Country Flags", "Author", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
 }
@@ -721,7 +723,7 @@ html.dark {
 
 /* Text inside an open entry. Knobs: */
 .dump {
-  --dump-text-lh: 1.3;       /* line height in an open entry = a line break without Enter (Shift+Enter) */
+  --dump-text-lh: 1.36;       /* line height in an open entry = a line break without Enter (Shift+Enter) */
   --dump-para: 0.62em;        /* space between paragraphs = one Enter in Notion */
   --dump-para-blank: 1.97em;  /* space for an empty line = two Enters in Notion */
   --dump-text-line: calc(var(--dump-size) * var(--dump-text-lh));
@@ -776,7 +778,7 @@ html.dark {
 /* Section pages (Journal, Reading, Notes, Essays, Brain dump, Recipes): the
    title sits at the same height everywhere, a touch higher than the theme's.
    Set on the top-level list pages only (class added in each list template). */
-.section-title { margin-top: -0.75rem !important; }
+.section-title { margin-top: -1.75rem !important; }
 /* Where the text under the title comes from the section's own page (Reading,
    Notes, Essays), it is set exactly like the short description elsewhere. */
 .section-intro { margin-top: 0.5rem; }

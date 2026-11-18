@@ -1,0 +1,6 @@
+{{- /* One @font-face per piece of the Chinese font, under the name the
+     section's font list uses. Built by layouts/partials/extend-head-uncached.html
+     from data/zh_fonts.yaml and data/zh/<font>.json. */ -}}
+{{- $d := . -}}
+{{- range .slices }}@font-face{font-family:"{{ $d.family }}";font-style:normal;font-weight:400;font-display:swap;size-adjust:{{ $d.size }}%;src:url("{{ $d.base }}{{ .f }}") format("woff2");unicode-range:{{ .r }}}
+{{ end -}}

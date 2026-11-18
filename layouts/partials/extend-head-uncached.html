@@ -46,6 +46,18 @@
      --font-<section>, --<section>-size, --<section>-lh, --<section>-para in
      assets/css/custom.css ("Fonts", "Text size and spacing"). A section
      without its own value uses the site's. */}}
+{{- /* Chinese in this section in its own cut and size (data/zh_fonts.yaml):
+     a stylesheet that defines the font "Zh-<section>". */}}
+{{- with index hugo.Data.zh_fonts .Section }}
+  {{- $cut := index hugo.Data.zh .font }}
+  {{- if $cut }}
+    {{- $ctx := dict "family" (printf "Zh-%s" $.Section) "size" (.size | default 100) "base" $cut.base "slices" $cut.slices }}
+    {{- $zh := resources.Get "css/zh-font.css" | resources.ExecuteAsTemplate (printf "css/zh-%s.css" $.Section) $ctx | fingerprint }}
+  <link rel="stylesheet" href="{{ $zh.RelPermalink }}" integrity="{{ $zh.Data.Integrity }}">
+  {{- else }}
+    {{- warnf "data/zh_fonts.yaml: unknown font %q for section %q" .font $.Section }}
+  {{- end }}
+{{- end }}
 {{- with .Section }}
   <style>#main-content { font-family: var(--font-{{ . | safeCSS }}, var(--font-sans)); font-weight: var(--{{ . | safeCSS }}-weight, normal); font-size-adjust: var(--{{ . | safeCSS }}-adjust, none); --t-size: var(--{{ . | safeCSS }}-size, var(--text-size)); --t-lh: var(--{{ . | safeCSS }}-lh, var(--text-lh)); --t-para: var(--{{ . | safeCSS }}-para, var(--text-para)); }</style>{{- end }}
 {{- $key := .Params.colors | default .Section -}}

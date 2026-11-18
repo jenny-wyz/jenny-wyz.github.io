@@ -82,4 +82,4 @@ Commit and push to `main`. The workflow in `.github/workflows/hugo.yaml` builds 
 
 Country flag emojis are drawn with the "Twemoji Country Flags" font (`static/fonts/`) from [country-flag-emoji-polyfill](https://github.com/talkjs/country-flag-emoji-polyfill) (MIT); flag art from [Twemoji](https://github.com/twitter/twemoji), CC BY 4.0.
 
-Fonts: Satoshi and Erode by Indian Type Foundry, served from [Fontshare](https://www.fontshare.com) (ITF Free Font License); Newsreader by Production Type (SIL Open Font License), self-hosted in `static/fonts/newsreader/`. Chinese: LXGW WenKai GB Screen (霞鹜文楷) by LXGW (SIL Open Font License), served by jsDelivr from the npm package `lxgw-wenkai-screen-webfont`.
+Fonts: Satoshi and Erode by Indian Type Foundry, served from [Fontshare](https://www.fontshare.com) (ITF Free Font License); Newsreader by Production Type (SIL Open Font License), self-hosted in `static/fonts/newsreader/`. Chinese: LXGW WenKai GB Screen (霞鹜文楷) by LXGW (SIL Open Font License), served by jsDelivr from the npm packages `lxgw-wenkai-screen-webfont` and `lxgw-wenkai-gb-web` (per-section cut and size: `data/zh_fonts.yaml`).

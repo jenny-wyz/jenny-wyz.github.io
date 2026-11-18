@@ -70,6 +70,28 @@ Rules:
 - To use a different Chinese font in one section only, write its name directly in that section’s list instead of `var(--font-zh)`.
 - Do not put a whole Chinese font file in `static/fonts/`: one file is 10 to 20 MB.
 
+### Chinese smaller or thinner in one section
+
+File `data/zh_fonts.yaml`, one line per section:
+
+```yaml
+braindump: { font: screen, size: 92 }
+essays: { font: gb-regular, size: 92 }
+```
+
+| Setting | Values |
+|---|---|
+| `font` | `screen` (the site default, thickest), `gb-medium`, `gb-regular`, `gb-light` (thinnest): four cuts of the same typeface |
+| `size` | percent of the surrounding text: `100` = same size as the Latin text, `92` = a bit smaller |
+
+Only Chinese characters and Chinese punctuation change; Latin text is untouched. A section that is not listed uses the site’s Chinese font at 100%.
+
+To add a section, add its line here **and** name `"Zh-<section>"` in its font list in `custom.css`, right before `var(--font-zh)`:
+
+```css
+--font-notes: "Twemoji Country Flags", "Satoshi", "Segoe UI", Arial, "Zh-notes", var(--font-zh), sans-serif;
+```
+
 ## Give another section its own font
 
 Add one list in `:root` in the “Fonts” section of `custom.css`, named after the section, e.g.

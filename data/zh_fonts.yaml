@@ -1,0 +1,14 @@
+# Chinese text per section: which cut of LXGW WenKai GB, and how large.
+# A section not listed here uses the site's Chinese font as it is
+# (--font-zh in assets/css/custom.css: the "screen" cut at 100%).
+#
+#   font: screen      the site default, sturdy, made for screens (thickest)
+#         gb-medium   a little lighter than screen
+#         gb-regular  thinner
+#         gb-light    thinnest
+#   size: percent of the surrounding text size (100 = same as the Latin text)
+#
+# The section's font list in custom.css must contain "Zh-<section>"
+# (e.g. "Zh-essays") right before var(--font-zh).
+essays: { font: gb-light, size: 98 }    # or  { font: gb-regular, size: 95 }
+braindump: { font: gb-regular, size: 91 }    # or  { font: screen, size: 88 }
