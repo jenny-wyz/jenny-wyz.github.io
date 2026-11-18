@@ -14,7 +14,7 @@ name: Sync essays from Notion
 
 on:
   schedule:
-    - cron: "57 3 * * *"   # every day, 03:57 UTC
+    - cron: "37 3 * * 2"   # every Tuesday, 03:37 UTC
   workflow_dispatch:
 
 permissions:

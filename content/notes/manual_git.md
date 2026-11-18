@@ -11,8 +11,3 @@ The bots commit every night, so always start with `git pull` before applying a p
 ```git config pull.rebase true```
 
 Run that once and every future git pull in this repo will behave that way.
-
-
-## Sync
-
-Edit the time and frequency of Notion syncing in `.github\workflows\sync-[smth].yaml`

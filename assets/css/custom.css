@@ -585,15 +585,16 @@ html.dark {
 .dump {
   --dump-size: 1.09rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
   --dump-time-w: 3.7rem;     /* width of the time column = space between a time and the start of its entry (was 3rem) */
-  --dump-entry-gap: 0.72rem; /* vertical space above and below each entry line; entries of one day sit 2x this apart (was 0.42rem) */
+  --dump-entry-gap: 0.88rem; /* vertical space above and below each entry line; entries of one day sit 2x this apart (was 0.42rem) */
   --dump-fade-from: 7%;      /* where along the line the glimpse starts to fade */
-  --dump-fade-mid: 0.42;     /* how visible the text still is halfway along (0 = gone, 1 = full) */
+  --dump-fade-mid: 0.44;     /* how visible the text still is halfway along (0 = gone, 1 = full) */
    --dump-fade-end: 0.05;        /* ... and at the right end */
-  --dump-hover-mid: 0.74;    /* the same two, while the mouse is on the line: a darker fade */
-  --dump-hover-end: 0.3;
+  --dump-hover-mid: 0.7;    /* the same two, while the mouse is on the line: a darker fade */
+  --dump-hover-end: 0.25;
   --dump-day-line: 0.3;     /* strength of the line between days (0 = invisible, 1 = solid; was 0.18) */
-  --dump-entry-line: 0.15;   /* strength of the thin line between entries of one day (0 = no line) */
+  --dump-entry-line: 0.2;   /* strength of the thin line between entries of one day (0 = no line) */
   --dump-day-pad: 0.5rem;   /* extra space on each side of the line between days (was 1.1rem) */
+  --dump-others: 0.45;       /* while an entry is open, how visible the other entries' lines stay (1 = no dimming) */
   --dump-line: calc(var(--dump-size) * 1.75);
   margin-top: 2.5rem; font-size: var(--dump-size);
 }
@@ -683,6 +684,11 @@ html.dark {
               opacity 0.3s ease 0.08s, visibility 0s;
 }
 .dump-js .dump-entry.is-open .dump-peek { opacity: 0; }
+/* While one entry is open, the others step back; hovering one brings it forward. */
+.dump-row { transition: opacity 0.3s ease; }
+.dump.has-open .dump-entry:not(.is-open) .dump-row { opacity: var(--dump-others); }
+.dump.has-open .dump-entry:not(.is-open) .dump-row:hover,
+.dump.has-open .dump-entry:not(.is-open) .dump-row:focus-visible { opacity: 1; }
 .dump-js .dump-entry.is-open .dump-row { align-self: stretch; align-items: start; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   .dump-js .dump-body, .dump-js .dump-entry.is-open .dump-body, .dump-peek { transition: none; }

@@ -16,7 +16,7 @@ name: Sync reading list from Notion
 
 on:
   schedule:
-    - cron: "17 3 * * 1"   # every Monday, 03:17 UTC (04:17 / 05:17 Zurich)
+    - cron: "19 3 * * 1"   # every Monday, 03:19 UTC (04:19 / 05:19 Zurich)
   workflow_dispatch:
     inputs:
       covers:

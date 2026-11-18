@@ -95,6 +95,7 @@
       entry.querySelector(".dump-row").setAttribute("aria-expanded", open ? "true" : "false");
       var body = entry.querySelector(".dump-body");
       if (open) body.removeAttribute("inert"); else body.setAttribute("inert", "");
+      root.classList.toggle("has-open", !!root.querySelector(".dump-entry.is-open"));
     }
     Array.prototype.forEach.call(root.querySelectorAll(".dump-entry"), function (e) { setOpen(e, false); });
 

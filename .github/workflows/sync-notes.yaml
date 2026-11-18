@@ -14,7 +14,7 @@ name: Sync notes from Notion
 
 on:
   schedule:
-    - cron: "41 3 * * *"   # every day, 03:41 UTC (04:41 / 05:41 Zurich)
+    - cron: "39 3 * * 1"   # every Monday, 03:39 UTC (04:39 / 05:39 Zurich)
   workflow_dispatch:
 
 permissions:

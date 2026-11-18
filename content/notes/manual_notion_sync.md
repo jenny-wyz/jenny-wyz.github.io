@@ -14,6 +14,4 @@ In Github repo, Actions  → Sync ... from Notion → Run workflow  → Run work
 
 ### Automatically
 
-nightly at 03:53 UTC
-(changed to weekly, 03:53 UTC every Monday!)
-where config?
+Edit the time and frequency of Notion syncing in `.github\workflows\sync-[smth].yaml`
