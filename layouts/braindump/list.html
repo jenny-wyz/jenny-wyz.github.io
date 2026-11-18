@@ -3,7 +3,8 @@
     Brain dump: a stream of thoughts by day, newest day first. The date is
     shown once per day (a small stamp on the left); each entry is one line,
     its opening words followed by a dimmer glimpse of what comes next, and
-    unfolds in place when clicked. No titles: in Notion the entries are named
+    unfolds in place when clicked (one open at a time; a click on the open
+    entry folds it again). No titles: in Notion the entries are named
     by date, and scripts/sync_braindump.py turns that name into `date`,
     `time` and `weight` (the display order).
     The headings on the Notion page (`group`) are the small filter on top.
@@ -104,17 +105,44 @@
       var h = document.querySelector("header") || document.querySelector(".main-menu");
       return (h ? Math.min(h.getBoundingClientRect().height, 120) : 0) + 16;
     }
+    // While entries fold and unfold, keep `entry` where it is on screen, so
+    // the line that was clicked does not slide away when one above it folds.
+    function holdInPlace(entry) {
+      var top0 = entry.getBoundingClientRect().top, t0 = performance.now();
+      (function step() {
+        var d = entry.getBoundingClientRect().top - top0;
+        if (Math.abs(d) > 0.5) window.scrollBy(0, d);
+        if (performance.now() - t0 < 480) requestAnimationFrame(step);
+      })();
+    }
+    function fold(entry) {
+      setOpen(entry, false);
+      history.replaceState(null, "", location.pathname + location.search);
+      // Folded from far down a long entry: bring its line back into view.
+      var top = entry.getBoundingClientRect().top, off = headerOffset();
+      if (top < off) window.scrollTo({ top: window.scrollY + top - off, behavior: "smooth" });
+    }
     root.addEventListener("click", function (ev) {
       var t = ev.target.closest("[data-dump-toggle]");
-      if (!t || !root.contains(t)) return;
-      var entry = t.closest(".dump-entry"), open = !entry.classList.contains("is-open");
-      setOpen(entry, open);
-      history.replaceState(null, "", open ? "#" + entry.id : location.pathname + location.search);
-      // Folding a long entry from its end: bring its line back into view.
-      if (!open) {
-        var top = entry.getBoundingClientRect().top, off = headerOffset();
-        if (top < off) window.scrollTo({ top: window.scrollY + top - off, behavior: "smooth" });
+      if (t && root.contains(t)) {
+        var entry = t.closest(".dump-entry");
+        if (entry.classList.contains("is-open")) { fold(entry); return; }
+        // Only one entry is open at a time: the others fold as this one unfolds.
+        var others = root.querySelectorAll(".dump-entry.is-open");
+        if (others.length) holdInPlace(entry);
+        Array.prototype.forEach.call(others, function (e) { setOpen(e, false); });
+        setOpen(entry, true);
+        history.replaceState(null, "", "#" + entry.id);
+        return;
       }
+      // A click anywhere in the open entry's text folds it, unless it was on a
+      // link, image or other control, or it ended a text selection.
+      var body = ev.target.closest(".dump-body");
+      if (!body || !root.contains(body)) return;
+      if (ev.target.closest("a, button, input, textarea, select, summary, img, video, audio, pre")) return;
+      var sel = window.getSelection && window.getSelection();
+      if (sel && !sel.isCollapsed && String(sel).trim()) return;
+      fold(body.closest(".dump-entry"));
     });
 
     // The filter on top: All, or one of the headings from the Notion page.
