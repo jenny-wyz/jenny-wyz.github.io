@@ -735,3 +735,5 @@ html.dark {
   .dump { --dump-time-w: 2.9rem; }
 }
 .dump-empty { margin-top: 2rem; color: rgb(var(--color-neutral-500)); }
+
+#main-content .article-content { font-size: 1.18rem; }
