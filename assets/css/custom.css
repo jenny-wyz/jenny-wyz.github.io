@@ -55,9 +55,11 @@
   --font-sans: "Twemoji Country Flags", "Satoshi", "Segoe UI", Roboto, "Helvetica Neue", Arial,
     var(--font-zh), sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* Essays pages */
-  --font-essays: "Twemoji Country Flags", "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
+  --font-essays: "Twemoji Country Flags", "Gambetta", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
   /* Brain dump pages */
   --font-braindump: "Twemoji Country Flags", "Erode", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
+  /* Reading pages */
+  --font-reading: "Twemoji Country Flags", "Author", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
 }
 
 /* ------------------------------------------------------------------ */
@@ -74,10 +76,15 @@
   --text-lh: 1.75;       /* line height = space between lines, as a multiple of the text size */
   --text-para: 1.25em;   /* space between paragraphs */
 
-  --journal-size: 1.12rem;   /* the journal reads a little larger */
-  --essays-size: 1.16rem;    /* the essays read a little larger */
-  --essays-lh: 1.5;          /* line height: space between lines, as a multiple of the text size */
-  --essays-para: 1em;        /* space between paragraphs */
+  --journal-size: 1.07rem;   /* the journal reads a little larger */
+
+  --essays-size: 1.09rem;    /* the essays read a little larger */
+  --essays-lh: 1.69;          /* line height: space between lines, as a multiple of the text size */
+  --essays-para: 1.24em;       /* space between paragraphs */
+  --essays-weight: 400;      /* Gambetta Medium: a touch thicker (400 = regular) */
+
+  --reading-text: 1.13;      /* text of the Reading page: 1 = as designed, 1.12 = 12% larger */
+  --reading-bold: 600;       /* weight of bold text in the Reading section: 500 medium, 600 semibold, 700 bold */
 }
 #main-content .article-content { font-size: var(--t-size, var(--text-size)); line-height: var(--t-lh, var(--text-lh)); }
 #main-content .article-content :where(p) { margin-top: var(--t-para, var(--text-para)); margin-bottom: var(--t-para, var(--text-para)); }

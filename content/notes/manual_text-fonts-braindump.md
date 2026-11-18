@@ -194,5 +194,6 @@ Section “Dark mode text: softer, grayer, less contrast”. The five `--color-n
 - Crimson Pro
 - Alpino
 - Clash Display
+- Zodiak
 - Newsreader
 - Source Serif 4

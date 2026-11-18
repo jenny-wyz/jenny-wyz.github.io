@@ -300,7 +300,7 @@
         var c = byRating[String(r)] || 0, mx = max(sortedEntries(byRating));
         return '<div class="rd-bar" style="cursor:default">' + stars(r) + '<span class="rd-bar-track"><span class="rd-bar-fill" style="width:' + Math.round(c / mx * 100) + '%"></span></span><span class="rd-bar-n">' + c + '</span></div>';
       }).join('') + '</div>' +
-      (rated.length ? '<p class="rd-muted" style="font-size:.8rem;margin:.9rem 0 0">Average ' + (rated.reduce(function (s, b) { return s + b.rating; }, 0) / rated.length).toFixed(1) + ' of 5</p>' : '') + '</div>';
+      (rated.length ? '<p class="rd-muted" style="font-size:calc(.8rem * var(--reading-text, 1));margin:.9rem 0 0">Average ' + (rated.reduce(function (s, b) { return s + b.rating; }, 0) / rated.length).toFixed(1) + ' of 5</p>' : '') + '</div>';
     // authors
     if (byAuthor.length) html += '<div class="rd-panel-card"><h3>Most read authors</h3>' + bars(byAuthor, 'q') + '</div>';
     // years
