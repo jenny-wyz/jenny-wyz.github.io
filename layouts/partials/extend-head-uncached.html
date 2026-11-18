@@ -11,10 +11,16 @@
   <meta name="jw-protected" content="1">
 {{- end }}
 {{- /* Fonts (see assets/css/custom.css, "Fonts"): Satoshi and Erode come
-     from Fontshare's servers, Newsreader is self-hosted in static/fonts/. */}}
+     from Fontshare's servers, Newsreader is self-hosted in static/fonts/,
+     the Chinese font comes from jsDelivr. */}}
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,401,500,700,701&f[]=erode@400,401,600,601,700&display=swap">
+{{- /* Chinese: LXGW WenKai GB Screen (霞鹜文楷 GB 屏幕阅读版, OFL), from the npm
+     package lxgw-wenkai-screen-webfont on jsDelivr. It is cut into ~100
+     small files; a page only downloads the ones for the characters on it. */}}
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.7.0/lxgwwenkaigbscreen.css">
 {{- /* A section's own font, text size, line height and paragraph space:
      --font-<section>, --<section>-size, --<section>-lh, --<section>-para in
      assets/css/custom.css ("Fonts", "Text size and spacing"). A section

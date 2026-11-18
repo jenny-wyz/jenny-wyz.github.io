@@ -61,7 +61,7 @@
 .rd-spine-collection .rd-spine-title { margin-top: 1.5rem; }
 .rd-spine-author { font-size: clamp(0.55rem, 0.6vw + 0.3rem, 0.7rem); letter-spacing: 0.08em; text-transform: uppercase; opacity: .78; margin-left: 6%;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.rd-spine-zh .rd-spine-title { font-family: "Noto Serif SC", "Noto Serif CJK SC", "Songti SC", "SimSun", "Source Han Serif SC", serif; font-size: clamp(0.85rem, 1.3vw + 0.4rem, 1.2rem); letter-spacing: 0.05em; }
+.rd-spine-zh .rd-spine-title { font-family: var(--font-zh), "Noto Serif SC", "Songti SC", "SimSun", serif; font-size: clamp(0.85rem, 1.3vw + 0.4rem, 1.2rem); letter-spacing: 0.05em; }
 .rd-spine-zh .rd-spine-author { text-transform: none; letter-spacing: 0.15em; }
 .rd-spine-collection::after { content: "collection"; position: absolute; right: 8%; top: 7%; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: .7;
   border: 1px solid currentColor; border-radius: 999px; padding: 0.1rem 0.4rem; }

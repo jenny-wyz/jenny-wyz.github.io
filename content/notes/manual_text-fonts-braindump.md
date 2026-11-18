@@ -15,8 +15,8 @@ Almost everything here is in one file: `assets/css/custom.css`. Search (Ctrl+F) 
 | Essays pages | **Newsreader** | self-hosted, `static/fonts/newsreader/` |
 | Brain dump pages | **Erode** | Fontshare (linked) |
 | Journal entry text | a system book serif: Palatino Linotype (Windows), Iowan Old Style (Mac, iPhone) | the device |
-| Book spines on the Reading shelf | Georgia; Songti for Chinese titles | the device |
-| Chinese text, everywhere | Microsoft YaHei (Windows), PingFang (Apple): none of the fonts above has Chinese | the device |
+| Book spines on the Reading shelf | Georgia; the Chinese font for Chinese titles | the device |
+| Chinese text, everywhere | **LXGW WenKai GB Screen** (霞鹜文楷 GB 屏幕阅读版) | jsDelivr (linked) |
 | Country flags | Twemoji Country Flags | self-hosted, `static/fonts/` |
 
 Three places decide this:
@@ -41,6 +41,34 @@ A font list names several fonts: the browser uses the first one it can, so the l
 3. Use the name in a font list.
 
 **A font already on most devices** needs no files: `Georgia`, `"Palatino Linotype"`, `"Segoe UI"`, `Arial`.
+
+## The Chinese font
+
+None of the Latin fonts has Chinese characters, so one Chinese font serves the whole site. Two places:
+
+1. **The link** in `extend-head-uncached.html`, under the Fontshare link (`cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont…`). A Chinese font is cut into about a hundred small files, and a page only downloads the ones for the characters on it. Pages without Chinese download nothing.
+2. **The name**, one line in the “Fonts” section of `custom.css`:
+   ```css
+   --font-zh: "LXGW WenKai Screen", "Microsoft YaHei", "PingFang SC";
+   ```
+   Every font list contains `var(--font-zh)`, so this line changes Chinese everywhere.
+
+To switch to another Chinese font, replace the link and the first name. From Google Fonts (set Language to Chinese (Simplified) there):
+
+```html
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&display=swap">
+```
+
+```css
+--font-zh: "Noto Serif SC", "Microsoft YaHei", "PingFang SC";
+```
+
+Rules:
+
+- In a font list, `var(--font-zh)` goes **after all the Latin fonts** and before `serif` / `sans-serif`. Chinese fonts also contain Latin letters and would otherwise take over English text.
+- LXGW WenKai has one weight. Bold Chinese (titles) is thickened by the browser, which is fine at title sizes.
+- To use a different Chinese font in one section only, write its name directly in that section’s list instead of `var(--font-zh)`.
+- Do not put a whole Chinese font file in `static/fonts/`: one file is 10 to 20 MB.
 
 ## Give another section its own font
 

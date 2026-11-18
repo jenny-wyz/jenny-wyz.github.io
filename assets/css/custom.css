@@ -22,7 +22,12 @@
    A section uses --font-<section> if that list exists (folder name under
    content/), otherwise --font-sans.
    Each list: flags first, then the font, then fallbacks if it fails to load.
-   Chinese has no glyphs in these fonts and uses YaHei / PingFang. */
+   Chinese: none of these fonts has it, so every list contains var(--font-zh).
+   It comes AFTER all the Latin fonts of the list (the Chinese font has Latin
+   letters too and would otherwise take over English text while the main font
+   is still loading) and before the generic serif / sans-serif. Change the
+   Chinese font for the whole site in that one line; the font itself is
+   linked in the same partial. */
 @font-face {
   font-family: "Newsreader"; font-style: normal; font-weight: 200 800; font-display: swap;
   src: url("/fonts/newsreader/newsreader-latin-opsz-normal.woff2") format("woff2");
@@ -44,16 +49,15 @@
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 :root {
+  /* Chinese, everywhere: the font, then the device's own in case it fails to load */
+  --font-zh: "LXGW WenKai Screen", "Microsoft YaHei", "PingFang SC";
   /* the whole site (menus, titles, notes, recipes, reading, ...) */
-  --font-sans: "Twemoji Country Flags", "Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", "Microsoft YaHei", "PingFang SC", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Twemoji Country Flags", "Satoshi", "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    var(--font-zh), sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* Essays pages */
-  --font-essays: "Twemoji Country Flags", "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia,
-    "Microsoft YaHei", "PingFang SC", serif;
+  --font-essays: "Twemoji Country Flags", "Newsreader", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
   /* Brain dump pages */
-  --font-braindump: "Twemoji Country Flags", "Erode", "Iowan Old Style", "Palatino Linotype", Georgia,
-    "Microsoft YaHei", "PingFang SC", serif;
+  --font-braindump: "Twemoji Country Flags", "Erode", "Iowan Old Style", "Palatino Linotype", Georgia, var(--font-zh), serif;
 }
 
 /* ------------------------------------------------------------------ */
@@ -330,7 +334,7 @@
 /* The entry text: a serif, a little larger and airier, like a notebook. */
 /* (Its size and line spacing: --journal-size etc. in "Text size and spacing".) */
 .journal-entry > p, .journal-entry > blockquote {
-  font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif;
+  font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, var(--font-zh), serif;
 }
 .journal-entry > p:first-of-type::first-letter { font-size: 1.1em; }
 
@@ -595,7 +599,7 @@
 .callout-body > :first-child { margin-top: 0; }
 .callout-body > :last-child { margin-bottom: 0; }
 /* In the journal, callout text uses the same notebook serif as the entry. */
-.journal-entry .callout-body > p { font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif; }
+.journal-entry .callout-body > p { font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, var(--font-zh), serif; }
 
 /* ------------------------------------------------------------------ */
 /* Dark mode text: softer, grayer, less contrast                        */
@@ -643,7 +647,7 @@ html.dark {
 
 /* ---- Knobs: tune the Brain dump page here ---- */
 .dump {
-  --dump-size: 1.12rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
+  --dump-size: 1.13rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
   --dump-time-w: 3.7rem;     /* width of the time column = space between a time and the start of its entry (was 3rem) */
   --dump-entry-gap: 0.88rem; /* vertical space above and below each entry line; entries of one day sit 2x this apart (was 0.42rem) */
   --dump-fade-from: 7%;      /* where along the line the glimpse starts to fade */
