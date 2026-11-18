@@ -49,6 +49,12 @@ class DumpTests(unittest.TestCase):
         self.assertIsNone(sb.parse_title("idea"))
         self.assertIsNone(sb.parse_title("20261340"))                    # not a date
 
+    def test_apostrophe_hides_an_entry(self):
+        for t in ("20261116-0659\u2019", "20261116-0659'", "20261116 01:20 \u2018", "20261116`", "idea' "):
+            self.assertTrue(sb.is_hidden(t), t)
+        for t in ("20261116-0659", "20261116 01:20", "don't", ""):
+            self.assertFalse(sb.is_hidden(t), t)
+
     def test_display_order(self):
         es = [
             {"id": "old", "date": "2026-11-14", "time": "", "seq": 0, "pos": 0},

@@ -14,6 +14,11 @@ Entries are named by date in Notion, optionally with a time or a counter:
     20261116-1          a counter, when the day has several (-0, -1, ...)
     20261116 01:20      the time it was thought (also 20261116-0120)
 
+An entry is published unless its name ends with an apostrophe:
+
+    20261116-0659'      hidden: not written to the site, and removed from it
+                        if it was there (\u2019, \u2018, ' and ` all count)
+
 Notion's own "created" time cannot be edited and is often later than the
 thought, so date and time come from the title. The site never shows the raw
 title: the entry's `title` becomes the written-out date ("Monday, 16 November
@@ -59,6 +64,14 @@ TITLE_RE = re.compile(r"^(\d{4})[-./]?(\d{2})[-./]?(\d{2})(?:[\s_-]+(.*))?$")
 WEEKDAYS = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 MONTHS = ("January", "February", "March", "April", "May", "June", "July",
           "August", "September", "October", "November", "December")
+
+
+HIDE_MARKS = "'\u2019\u2018\u02bc`\u00b4\u2032"
+
+
+def is_hidden(title: str) -> bool:
+    """A name ending with an apostrophe keeps the entry off the site."""
+    return title.strip()[-1:] in HIDE_MARKS if title.strip() else False
 
 
 def parse_title(title: str) -> Optional[dict]:
@@ -148,8 +161,12 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     entries: list[dict] = []
     taken: dict[str, int] = {}
+    hidden = 0
     for pos, (block, group, order) in enumerate(collect(top)):
         title = block["child_page"]["title"].strip() or "Untitled"
+        if is_hidden(title):   # never fetched, never written
+            hidden += 1
+            continue
         conv = sn.Converter(client)
         body = "\n\n".join(conv.convert(conv.children(block["id"])))
         body = re.sub(r"\n\n(?=(?:\s*(?:-|\d+\.) ))", "\n", body)
@@ -175,7 +192,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             "body": body.strip() + "\n",
             "images": conv.images,
         })
-    print(f"  {len(entries)} entr(y/ies)", file=sys.stderr)
+    print(f"  {len(entries)} entr(y/ies), {hidden} hidden", file=sys.stderr)
     display_order(entries)
 
     sn.front_matter = front_matter
