@@ -48,14 +48,11 @@ except ImportError:  # pragma: no cover
 MARKER_RE = re.compile(r'<meta\s+name=["\']?jw-protected["\']?\s+content=["\']?1["\']?\s*/?>', re.I)
 ITERATIONS = 250_000
 MAIN_RE = re.compile(r"(<main\b[^>]*>)(.*?)(</main>)", re.S)
-DESC_RE = re.compile(
-    r'<meta\s+(?:name|property)=["\']?(?:description|og:description|twitter:description)["\']?\s+content=["\']?[^>]*?>',
-    re.I,
-)
-DESC_RE2 = re.compile(
-    r'<meta\s+content=["\']?[^>]*?["\']?\s+(?:name|property)=["\']?(?:description|og:description|twitter:description)["\']?[^>]*>',
-    re.I,
-)
+# An attribute value: quoted (may contain ">", "<" or the other quote) or bare.
+_ATTR = r"""(?:"[^"]*"|'[^']*'|[^\s"'>]+)"""
+_DESC_NAME = r"""["']?(?:description|og:description|twitter:description)["']?"""
+DESC_RE = re.compile(r"<meta\s+(?:name|property)=" + _DESC_NAME + r"\s+content=" + _ATTR + r"\s*/?>", re.I)
+DESC_RE2 = re.compile(r"<meta\s+content=" + _ATTR + r"\s+(?:name|property)=" + _DESC_NAME + r"\s*/?>", re.I)
 LDJSON_RE = re.compile(r'<script type=["\']?application/ld\+json["\']?>.*?</script>', re.S | re.I)
 
 

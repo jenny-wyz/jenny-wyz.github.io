@@ -581,9 +581,18 @@ html.dark {
 .dump-filter button.is-on { color: rgb(var(--color-primary-600)); border-bottom-color: currentColor; }
 .dark .dump-filter button.is-on { color: rgb(var(--color-primary-400)); }
 
-.dump { margin-top: 2.5rem; }
+/* ---- Knobs: tune the Brain dump page here ---- */
+.dump {
+  --dump-size: 1.09rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
+  --dump-time-w: 3.7rem;     /* width of the time column = space between a time and the start of its entry (was 3rem) */
+  --dump-entry-gap: 0.55rem; /* vertical space above and below each entry line; entries of one day sit 2x this apart (was 0.42rem) */
+  --dump-fade-from: 9%;      /* where along the line the glimpse starts to fade */
+  --dump-fade-mid: 0.42;     /* how visible the text still is halfway along (0 = gone, 1 = full) */
+  --dump-line: calc(var(--dump-size) * 1.75);
+  margin-top: 2.5rem; font-size: var(--dump-size);
+}
 .dump-month {
-  margin: 2.2rem 0 0.7rem; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+  margin: 2.2rem 0 0.7rem; font-size: 0.72em; letter-spacing: 0.16em; text-transform: uppercase;
   color: rgb(var(--color-neutral-400));
 }
 .dark .dump-month { color: rgb(var(--color-neutral-500)); }
@@ -593,42 +602,42 @@ html.dark {
   padding: 1.1rem 0; border-top: 1px solid rgba(var(--color-neutral-500), 0.18);
 }
 .dump-stamp time { display: flex; flex-direction: column; position: sticky; top: 5.5rem; }
-.dump-num { font-size: 1.9rem; line-height: 1.15; font-weight: 300; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-800)); }
+.dump-num { font-size: 1.9em; line-height: 1.15; font-weight: 300; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-800)); }
 .dark .dump-num { color: rgb(var(--color-neutral-200)); }
-.dump-wd { margin-top: 0.15rem; font-size: 0.74rem; letter-spacing: 0.04em; color: rgb(var(--color-neutral-400)); }
+.dump-wd { margin-top: 0.15rem; font-size: 0.74em; letter-spacing: 0.04em; color: rgb(var(--color-neutral-400)); }
 .dark .dump-wd { color: rgb(var(--color-neutral-500)); }
 
 /* One entry: the row (time + glimpse) and the full text share one grid cell,
    so the glimpse turns into the text in place. */
-.dump-entry { display: grid; grid-template-columns: 3rem minmax(0, 1fr); align-items: start; }
+.dump-entry { display: grid; grid-template-columns: var(--dump-time-w) minmax(0, 1fr); align-items: start; }
 .dump-entry[hidden], .dump-day[hidden], .dump-month[hidden] { display: none; }
 .dump-row {
   grid-column: 1 / -1; grid-row: 1; display: grid; grid-template-columns: subgrid; align-items: baseline;
-  font: inherit; text-align: left; background: none; border: 0; padding: 0.42rem 0; margin: 0;
+  font: inherit; text-align: left; background: none; border: 0; padding: var(--dump-entry-gap) 0; margin: 0;
   color: inherit; cursor: pointer; border-radius: 0.4rem; min-width: 0;
 }
 .dump-row:focus-visible, .dump-fold:focus-visible { outline: 2px solid rgba(var(--color-primary-500), 0.6); outline-offset: 2px; }
-.dump-time { font-size: 0.74rem; line-height: 1.75rem; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-400)); transition: color 0.2s ease; }
+.dump-time { font-size: 0.74em; line-height: var(--dump-line); font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-400)); transition: color 0.2s ease; }
 .dark .dump-time { color: rgb(var(--color-neutral-500)); }
 .dump-dot { display: inline-block; width: 0.7rem; height: 1px; vertical-align: middle; background: currentColor; opacity: 0.7; }
 .dump-row:hover .dump-time, .dump-entry.is-open .dump-time { color: rgb(var(--color-primary-600)); }
 .dark .dump-row:hover .dump-time, .dark .dump-entry.is-open .dump-time { color: rgb(var(--color-primary-400)); }
+/* The glimpse: one line that fades out gradually from left to right (a mask,
+   so it works on any background). Hovering pulls the fade further right. */
 .dump-peek {
-  display: block; min-width: 0; line-height: 1.75rem; white-space: nowrap; overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, #000 72%, transparent); mask-image: linear-gradient(to right, #000 72%, transparent);
-  transition: opacity 0.2s ease;
+  display: block; min-width: 0; line-height: var(--dump-line); white-space: nowrap; overflow: hidden;
+  color: rgb(var(--color-neutral-700));
+  --dump-mask: linear-gradient(to right, #000 var(--dump-fade-from), rgba(0, 0, 0, var(--dump-fade-mid)) 50%, transparent 100%);
+  -webkit-mask-image: var(--dump-mask); mask-image: var(--dump-mask);
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  transition: opacity 0.2s ease, -webkit-mask-size 0.35s ease, mask-size 0.35s ease;
 }
-.dump-lead { color: rgb(var(--color-neutral-700)); }
-.dark .dump-lead { color: rgb(var(--color-neutral-300)); }
-.dump-rest { color: rgba(var(--color-neutral-500), 0.7); transition: color 0.2s ease; }
-.dark .dump-rest { color: rgba(var(--color-neutral-400), 0.5); }
-.dump-row:hover .dump-rest { color: rgba(var(--color-neutral-500), 1); }
-.dark .dump-row:hover .dump-rest { color: rgba(var(--color-neutral-400), 0.85); }
+.dark .dump-peek { color: rgb(var(--color-neutral-300)); }
+.dump-row:hover .dump-peek, .dump-row:focus-visible .dump-peek { -webkit-mask-size: 150% 100%; mask-size: 150% 100%; }
 
-.dump-body { grid-column: 2; grid-row: 1; min-width: 0; padding: 0.42rem 0; position: relative; }
+.dump-body { grid-column: 2; grid-row: 1; min-width: 0; padding: var(--dump-entry-gap) 0; position: relative; }
 .dump-body-inner { min-width: 0; }
-.dump-peek, .dump-body .prose { font-size: 1rem; }
-.dump-body .prose { line-height: 1.75rem; max-width: none; }
+.dump-body .prose { font-size: 1em; line-height: var(--dump-line); max-width: none; }
 .dump-body .prose > :first-child { margin-top: 0; }
 .dump-body .prose > :last-child { margin-bottom: 0; }
 .dump-fold {
@@ -648,7 +657,7 @@ html.dark {
 }
 .dump-js .dump-body-inner { overflow: hidden; min-height: 0; }
 .dump-js .dump-entry.is-open .dump-body {
-  grid-template-rows: 1fr; padding-top: 0.42rem; padding-bottom: 0.42rem; opacity: 1; visibility: visible; pointer-events: auto;
+  grid-template-rows: 1fr; padding-top: var(--dump-entry-gap); padding-bottom: var(--dump-entry-gap); opacity: 1; visibility: visible; pointer-events: auto;
   transition: grid-template-rows 0.38s cubic-bezier(0.32, 0.72, 0.24, 1), padding 0.38s cubic-bezier(0.32, 0.72, 0.24, 1),
               opacity 0.3s ease 0.08s, visibility 0s;
 }
@@ -659,7 +668,7 @@ html.dark {
 }
 @media (max-width: 640px) {
   .dump-day { grid-template-columns: 2.3rem minmax(0, 1fr); column-gap: 0.7rem; }
-  .dump-num { font-size: 1.5rem; }
-  .dump-entry { grid-template-columns: 2.5rem minmax(0, 1fr); }
+  .dump-num { font-size: 1.5em; }
+  .dump { --dump-time-w: 2.9rem; }
 }
 .dump-empty { margin-top: 2rem; color: rgb(var(--color-neutral-500)); }

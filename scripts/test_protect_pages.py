@@ -37,6 +37,15 @@ class ProtectTests(unittest.TestCase):
         vault = json.loads(re.search(r'id="jw-vault">(.*?)</script>', out, re.S).group(1))
         self.assertIn("<p>top secret body</p>", pp.decrypt("hunter22", vault))
 
+    def test_description_with_angle_brackets_is_removed_whole(self):
+        # a ">" inside the quoted text must not end the tag early and spill the rest onto the page
+        page = PAGE.replace('content="the summary leaks"', 'content="odd <_+ chars >\u2022 the tail leaks"') \
+                   .replace("</head>", '<meta content="x > tail two" name=twitter:description></head>')
+        out, _ = pp.lock_html(page, "hunter22", "/shabi/")
+        self.assertNotIn("tail leaks", out)
+        self.assertNotIn("tail two", out)
+        self.assertIn("<meta name=jw-protected content=1>", out)
+
     def test_images_are_folded_in(self):
         import tempfile
         with tempfile.TemporaryDirectory() as d:
