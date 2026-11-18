@@ -15,9 +15,12 @@
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,401,500,700,701&f[]=erode@400,401,600,601,700&display=swap">
-{{- /* A section's own text font: everything inside <main> on its pages. */}}
-{{- with index (dict "essays" "--font-essays" "braindump" "--font-braindump") .Section }}
-  <style>#main-content { font-family: var({{ . | safeCSS }}); }</style>
+{{- /* A section's own font, text size, line height and paragraph space:
+     --font-<section>, --<section>-size, --<section>-lh, --<section>-para in
+     assets/css/custom.css ("Fonts", "Text size and spacing"). A section
+     without its own value uses the site's. */}}
+{{- with .Section }}
+  <style>#main-content { font-family: var(--font-{{ . | safeCSS }}, var(--font-sans)); --t-size: var(--{{ . | safeCSS }}-size, var(--text-size)); --t-lh: var(--{{ . | safeCSS }}-lh, var(--text-lh)); --t-para: var(--{{ . | safeCSS }}-para, var(--text-para)); }</style>
 {{- end }}
 {{- $key := .Params.colors | default .Section -}}
 {{- if eq .Type "subjects" }}{{ $key = "notes" }}{{ end -}}

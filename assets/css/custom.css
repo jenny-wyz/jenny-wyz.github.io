@@ -19,7 +19,8 @@
 /* Satoshi (site) and Erode (Brain dump) load from Fontshare, linked in
    layouts/partials/extend-head-uncached.html (weights listed in that link).
    Newsreader (Essays) is self-hosted: static/fonts/newsreader/, OFL license.
-   Which section uses which list: the small map in that same partial.
+   A section uses --font-<section> if that list exists (folder name under
+   content/), otherwise --font-sans.
    Each list: flags first, then the font, then fallbacks if it fails to load.
    Chinese has no glyphs in these fonts and uses YaHei / PingFang. */
 @font-face {
@@ -54,6 +55,29 @@
   --font-braindump: "Twemoji Country Flags", "Erode", "Iowan Old Style", "Palatino Linotype", Georgia,
     "Microsoft YaHei", "PingFang SC", serif;
 }
+
+/* ------------------------------------------------------------------ */
+/* Text size and spacing (pages with an article: notes, essays,          */
+/* journal, recipes, books, Brain dump entries)                          */
+/* ------------------------------------------------------------------ */
+/* Site defaults, then one optional line per section to differ from them:
+   --<section>-size, --<section>-lh, --<section>-para, where <section> is
+   the folder name under content/ (journal, essays, braindump, notes,
+   recipes, reading). Brain dump's own page (the stream) has its own
+   knobs further down ("Knobs: tune the Brain dump page here"). */
+:root {
+  --text-size: 1.18rem;  /* text size (theme default: 1rem) */
+  --text-lh: 1.75;       /* line height = space between lines, as a multiple of the text size */
+  --text-para: 1.25em;   /* space between paragraphs */
+
+  --journal-size: 1.12rem;   /* the journal reads a little larger */
+  --essays-size: 1.16rem;    /* the essays read a little larger */
+  --essays-lh: 1.5;          /* line height: space between lines, as a multiple of the text size */
+  --essays-para: 1em;        /* space between paragraphs */
+}
+#main-content .article-content { font-size: var(--t-size, var(--text-size)); line-height: var(--t-lh, var(--text-lh)); }
+#main-content .article-content :where(p) { margin-top: var(--t-para, var(--text-para)); margin-bottom: var(--t-para, var(--text-para)); }
+#main-content .article-content :where(h1, h2, h3, h4, h5, h6) + :where(p) { margin-top: 0; }
 
 /* Header: the home icon (assets/img/home.svg) replaces the site title. */
 .logo svg {
@@ -304,9 +328,9 @@
 .journal-week { display: none; }   /* the title already names the week */
 
 /* The entry text: a serif, a little larger and airier, like a notebook. */
+/* (Its size and line spacing: --journal-size etc. in "Text size and spacing".) */
 .journal-entry > p, .journal-entry > blockquote {
   font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif;
-  font-size: 1.12rem; line-height: 1.75;
 }
 .journal-entry > p:first-of-type::first-letter { font-size: 1.1em; }
 
@@ -571,7 +595,7 @@
 .callout-body > :first-child { margin-top: 0; }
 .callout-body > :last-child { margin-bottom: 0; }
 /* In the journal, callout text uses the same notebook serif as the entry. */
-.journal-entry .callout-body > p { font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif; font-size: 1.12rem; line-height: 1.75; }
+.journal-entry .callout-body > p { font-family: "Twemoji Country Flags", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, "Noto Serif CJK SC", serif; }
 
 /* ------------------------------------------------------------------ */
 /* Dark mode text: softer, grayer, less contrast                        */
@@ -619,7 +643,7 @@ html.dark {
 
 /* ---- Knobs: tune the Brain dump page here ---- */
 .dump {
-  --dump-size: 1.09rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
+  --dump-size: 1.12rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
   --dump-time-w: 3.7rem;     /* width of the time column = space between a time and the start of its entry (was 3rem) */
   --dump-entry-gap: 0.88rem; /* vertical space above and below each entry line; entries of one day sit 2x this apart (was 0.42rem) */
   --dump-fade-from: 7%;      /* where along the line the glimpse starts to fade */
@@ -628,7 +652,7 @@ html.dark {
   --dump-hover-mid: 0.7;    /* the same two, while the mouse is on the line: a darker fade */
   --dump-hover-end: 0.25;
   --dump-day-line: 0.3;     /* strength of the line between days (0 = invisible, 1 = solid; was 0.18) */
-  --dump-entry-line: 0.2;   /* strength of the thin line between entries of one day (0 = no line) */
+  --dump-entry-line: 0.17;   /* strength of the thin line between entries of one day (0 = no line) */
   --dump-day-pad: 0.5rem;   /* extra space on each side of the line between days (was 1.1rem) */
   --dump-others: 0.45;       /* while an entry is open, how visible the other entries' lines stay (1 = no dimming) */
   --dump-line: calc(var(--dump-size) * 1.75);
@@ -684,9 +708,9 @@ html.dark {
 
 /* Text inside an open entry. Knobs: */
 .dump {
-  --dump-text-lh: 1.62;      /* line height in an open entry = a line break without Enter (Shift+Enter) (was 1.75) */
-  --dump-para: 0.7em;        /* space between paragraphs = one Enter in Notion (was 1.25em) */
-  --dump-para-blank: 1.45em; /* space for an empty line = two Enters in Notion (was 1.25em, the same as one) */
+  --dump-text-lh: 1.3;       /* line height in an open entry = a line break without Enter (Shift+Enter) */
+  --dump-para: 0.62em;        /* space between paragraphs = one Enter in Notion */
+  --dump-para-blank: 1.97em;  /* space for an empty line = two Enters in Notion */
   --dump-text-line: calc(var(--dump-size) * var(--dump-text-lh));
   /* the open text's first line must sit exactly where the one-line glimpse was */
   --dump-body-pad: calc(var(--dump-entry-gap) - (var(--dump-text-line) - var(--dump-line)) / 2);
@@ -735,5 +759,3 @@ html.dark {
   .dump { --dump-time-w: 2.9rem; }
 }
 .dump-empty { margin-top: 2rem; color: rgb(var(--color-neutral-500)); }
-
-#main-content .article-content { font-size: 1.18rem; }

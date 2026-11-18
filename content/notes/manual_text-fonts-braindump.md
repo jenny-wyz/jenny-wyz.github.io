@@ -21,9 +21,8 @@ Almost everything here is in one file: `assets/css/custom.css`. Search (Ctrl+F) 
 
 Three places decide this:
 
-1. **`assets/css/custom.css`, section “Fonts”** (at the top): the three font lists `--font-sans` (site), `--font-essays` and `--font-braindump`, and the `@font-face` blocks of the self-hosted Newsreader.
-2. **`layouts/partials/extend-head-uncached.html`**, at the top: the Fontshare link (which fonts and weights are loaded) and a small map saying which section uses which list:
-   `dict "essays" "--font-essays" "braindump" "--font-braindump"`.
+1. **`assets/css/custom.css`, section “Fonts”** (at the top): the font lists `--font-sans` (site), `--font-essays` and `--font-braindump`, and the `@font-face` blocks of the self-hosted Newsreader. A section uses `--font-<section>` if it exists, otherwise `--font-sans`.
+2. **`layouts/partials/extend-head-uncached.html`**, at the top: the Fontshare link (which fonts and weights are loaded).
 3. **The Journal**: its own rule in `custom.css`, section “Journal entries”, `.journal-entry > p, .journal-entry > blockquote`.
 
 A font list names several fonts: the browser uses the first one it can, so the later ones are fallbacks in case a font fails to load. Keep `"Twemoji Country Flags"` first (it only draws flags) and end with `serif` or `sans-serif`.
@@ -45,10 +44,13 @@ A font list names several fonts: the browser uses the first one it can, so the l
 
 ## Give another section its own font
 
-1. Add a list in `:root` in the “Fonts” section of `custom.css`, e.g. `--font-notes: "Twemoji Country Flags", "Erode", Georgia, serif;`
-2. Add the section to the map in `extend-head-uncached.html`: `dict "essays" "--font-essays" "braindump" "--font-braindump" "notes" "--font-notes"`.
+Add one list in `:root` in the “Fonts” section of `custom.css`, named after the section, e.g.
 
-The section names are the folder names under `content/`: `journal`, `reading`, `notes`, `essays`, `braindump`, `recipes`. The section font covers everything below the menu; menu and footer stay in the site font.
+```css
+  --font-notes: "Twemoji Country Flags", "Erode", Georgia, serif;
+```
+
+Nothing else is needed. The section names are the folder names under `content/`: `journal`, `reading`, `notes`, `essays`, `braindump`, `recipes`. The section font covers everything below the menu; menu and footer stay in the site font. Delete the line to go back to the site font.
 
 ## Change the font in one smaller place
 
@@ -63,22 +65,34 @@ Add a `font-family` to that area’s rule at the end of `custom.css` (later rule
 
 You can reuse a list: `font-family: var(--font-essays);`.
 
-## Text size and spacing, site-wide
+## Text size and line spacing
 
-Article text (notes, essays, recipes) uses the theme’s defaults: size `1rem`, line height `1.75`, `1.25em` between paragraphs. To change them, add to the end of `custom.css`:
+Section “Text size and spacing” in `custom.css`, right below “Fonts”. It covers the text of every page with an article: notes, essays, journal entries, recipes, books, and single Brain dump entries.
+
+| Knob | Now | Means |
+|---|---|---|
+| `--text-size` | `1.18rem` | text size (the theme default is `1rem`) |
+| `--text-lh` | `1.75` | line height: space between lines, as a multiple of the text size |
+| `--text-para` | `1.25em` | space between paragraphs |
+
+These are the site’s values. To make one section different, add a line with the section’s name in front, in the same `:root { … }` block:
 
 ```css
-.article-content { font-size: 1.05rem; line-height: 1.7; }
-.article-content p { margin-top: 1em; margin-bottom: 1em; }
+  --journal-size: 1.12rem;    /* already there: the journal reads a little larger */
+  --essays-size: 1.08rem;
+  --essays-lh: 1.7;
+  --essays-para: 1em;
 ```
 
-To scale everything on the site at once (text, spacing, menus), change the base size:
+Any of the three can be set per section (`--<section>-size`, `--<section>-lh`, `--<section>-para`); what you leave out follows the site. Section names: `journal`, `essays`, `braindump`, `notes`, `recipes`, `reading`.
+
+Headings, lists and quotes scale with the text size. The Brain dump’s own page (the stream of days) has separate knobs, below.
+
+To scale everything on the site at once (text, menus, spacing):
 
 ```css
 html { font-size: 17px; }   /* browsers default to 16px */
 ```
-
-Journal text has its own size and line height in its rule: `font-size: 1.12rem; line-height: 1.75;`.
 
 ## Brain dump: the knobs
 
@@ -120,7 +134,6 @@ The empty line reaches the site as an invisible marker written by `scripts/sync_
 | `20261116` | dated, no time |
 | `20261116-1` | no time; the number orders entries within the day |
 | `20261116 01:20` or `20261116-0120` | shows 01:20 |
-| any name ending with an apostrophe, `20261116-0659’` | hidden from the site |
 
 ## Dark mode text
 
