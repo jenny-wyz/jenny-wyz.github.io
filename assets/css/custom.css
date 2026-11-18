@@ -81,10 +81,10 @@
   --essays-size: 1.09rem;    /* the essays read a little larger */
   --essays-lh: 1.69;          /* line height: space between lines, as a multiple of the text size */
   --essays-para: 1.24em;       /* space between paragraphs */
-  --essays-weight: 400;      /* Gambetta Medium: a touch thicker (400 = regular) */
+  --essays-weight: 410;      /* Gambetta Medium: a touch thicker (400 = regular) */
 
-  --reading-text: 1.13;      /* text of the Reading page: 1 = as designed, 1.12 = 12% larger */
-  --reading-bold: 600;       /* weight of bold text in the Reading section: 500 medium, 600 semibold, 700 bold */
+  --reading-text: 1.18;      /* text of the Reading page: 1 = as designed, 1.12 = 12% larger */
+  --reading-bold: 567;       /* weight of bold text in the Reading section: 500 medium, 600 semibold, 700 bold */
 }
 #main-content .article-content { font-size: var(--t-size, var(--text-size)); line-height: var(--t-lh, var(--text-lh)); }
 #main-content .article-content :where(p) { margin-top: var(--t-para, var(--text-para)); margin-bottom: var(--t-para, var(--text-para)); }
