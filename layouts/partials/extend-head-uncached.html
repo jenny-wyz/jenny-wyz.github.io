@@ -10,6 +10,15 @@
        content gets encrypted and replaced by the password prompt. */}}
   <meta name="jw-protected" content="1">
 {{- end }}
+{{- /* Fonts (see assets/css/custom.css, "Fonts"): Satoshi and Erode come
+     from Fontshare's servers, Newsreader is self-hosted in static/fonts/. */}}
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,401,500,700,701&f[]=erode@400,401,600,601,700&display=swap">
+{{- /* A section's own text font: everything inside <main> on its pages. */}}
+{{- with index (dict "essays" "--font-essays" "braindump" "--font-braindump") .Section }}
+  <style>#main-content { font-family: var({{ . | safeCSS }}); }</style>
+{{- end }}
 {{- $key := .Params.colors | default .Section -}}
 {{- if eq .Type "subjects" }}{{ $key = "notes" }}{{ end -}}
 {{- $theme := index hugo.Data.sections $key -}}

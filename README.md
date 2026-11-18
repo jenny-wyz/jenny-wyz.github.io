@@ -81,3 +81,5 @@ Commit and push to `main`. The workflow in `.github/workflows/hugo.yaml` builds 
 ## Credits
 
 Country flag emojis are drawn with the "Twemoji Country Flags" font (`static/fonts/`) from [country-flag-emoji-polyfill](https://github.com/talkjs/country-flag-emoji-polyfill) (MIT); flag art from [Twemoji](https://github.com/twitter/twemoji), CC BY 4.0.
+
+Fonts: Satoshi and Erode by Indian Type Foundry, served from [Fontshare](https://www.fontshare.com) (ITF Free Font License); Newsreader by Production Type (SIL Open Font License), self-hosted in `static/fonts/newsreader/`.
