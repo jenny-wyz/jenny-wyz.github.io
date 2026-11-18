@@ -81,7 +81,7 @@
   --essays-size: 1.09rem;    /* the essays read a little larger */
   --essays-lh: 1.69;          /* line height: space between lines, as a multiple of the text size */
   --essays-para: 1.24em;       /* space between paragraphs */
-  --essays-weight: 410;      /* Gambetta Medium: a touch thicker (400 = regular) */
+  --essays-weight: 345;      /* Gambetta Medium: a touch thicker (400 = regular) */
 
   --reading-text: 1.18;      /* text of the Reading page: 1 = as designed, 1.12 = 12% larger */
   --reading-bold: 567;       /* weight of bold text in the Reading section: 500 medium, 600 semibold, 700 bold */
@@ -380,8 +380,10 @@
 .dark .journal-entry img { box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 14px 30px -12px rgba(0, 0, 0, 0.8); }
 @media (prefers-reduced-motion: reduce) { .journal-entry img, .journal-entry img:hover { transform: none; } }
 
-/* The pill at the top right of /notes/ ("All notes") and /notes/all/ ("Bubbles"). */
-.all-link { margin: 0 0 0.5rem; text-align: right; }
+/* The pill at the top right of /notes/ ("All notes") and /notes/all/ ("Bubbles"):
+   the same spot on both pages, floating, so it never pushes the title down. */
+#main-content { position: relative; }
+.all-link { position: absolute; top: 0; right: 0; margin: 0; z-index: 5; }
 .all-link a {
   display: inline-flex; align-items: center; gap: 0.4rem;
   padding: 0.45rem 0.95rem; border-radius: 999px;
@@ -654,7 +656,7 @@ html.dark {
 
 /* ---- Knobs: tune the Brain dump page here ---- */
 .dump {
-  --dump-size: 1.13rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
+  --dump-size: 1.12rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
   --dump-time-w: 3.7rem;     /* width of the time column = space between a time and the start of its entry (was 3rem) */
   --dump-entry-gap: 0.88rem; /* vertical space above and below each entry line; entries of one day sit 2x this apart (was 0.42rem) */
   --dump-fade-from: 7%;      /* where along the line the glimpse starts to fade */
@@ -770,3 +772,14 @@ html.dark {
   .dump { --dump-time-w: 2.9rem; }
 }
 .dump-empty { margin-top: 2rem; color: rgb(var(--color-neutral-500)); }
+
+/* Section pages (Journal, Reading, Notes, Essays, Brain dump, Recipes): the
+   title sits at the same height everywhere, a touch higher than the theme's.
+   Set on the top-level list pages only (class added in each list template). */
+.section-title { margin-top: -0.75rem !important; }
+/* Where the text under the title comes from the section's own page (Reading,
+   Notes, Essays), it is set exactly like the short description elsewhere. */
+.section-intro { margin-top: 0.5rem; }
+.section-intro p { margin: 0 0 0.5rem; font-size: 1.125rem; line-height: 1.75rem; color: rgb(var(--color-neutral-500)); }
+.dark .section-intro p { color: rgb(105, 114, 130); }   /* same as the description colour set further down (.dark .text-neutral-500.dark\:text-neutral-400) */
+.section-intro p:first-of-type { margin-top: 0 !important; }

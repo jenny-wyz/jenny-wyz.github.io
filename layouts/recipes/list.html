@@ -10,7 +10,7 @@
     {{ if .Params.showBreadcrumbs | default (.Site.Params.list.showBreadcrumbs | default false) }}
       {{ partial "breadcrumbs.html" . }}
     {{ end }}
-    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral{{ with .Parent }}{{ if .IsHome }} section-title{{ end }}{{ end }}">
       {{ with .Params.icon }}<span class="rcp-title-icon">{{ . }}</span>{{ end }}{{ .Title }}
     </h1>
     {{ with .Description }}<p class="mt-2 text-neutral-500 dark:text-neutral-400">{{ . }}</p>{{ end }}

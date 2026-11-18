@@ -35,13 +35,16 @@
     {{ if .Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}
       {{ partial "breadcrumbs.html" . }}
     {{ end }}
-    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title | emojify }}</h1>
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral{{ with .Parent }}{{ if .IsHome }} section-title{{ end }}{{ end }}">{{ .Title | emojify }}</h1>
+    {{ $top := false }}{{ with .Parent }}{{ if .IsHome }}{{ $top = true }}{{ end }}{{ end }}
+    {{ if not $top }}
     <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
       {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
     </div>
+    {{ end }}
   </header>
 
-  <section class="prose dark:prose-invert max-w-prose mb-6">
+  <section class="prose dark:prose-invert max-w-prose mb-6{{ with .Parent }}{{ if .IsHome }} section-intro{{ end }}{{ end }}">
     {{ .Content }}
   </section>
 

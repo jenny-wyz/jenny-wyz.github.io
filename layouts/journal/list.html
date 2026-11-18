@@ -15,7 +15,7 @@
     Styles: assets/css/custom.css (.yarn-*). Knobs: the Y object in the script.
   */}}
   <header>
-    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral{{ with .Parent }}{{ if .IsHome }} section-title{{ end }}{{ end }}">{{ .Title }}</h1>
     {{ with .Description }}<p class="mt-2 text-neutral-500 dark:text-neutral-400">{{ . }}</p>{{ end }}
   </header>
 

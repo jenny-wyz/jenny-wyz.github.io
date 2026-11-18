@@ -8,19 +8,32 @@
   */}}
   {{ .Scratch.Set "scope" "list" }}
 
+{{/* A quiet link to the full list, top right of the page (same spot as "Bubbles" on /notes/all/). */}}
+  {{ with .Params.allLink }}
+    {{ $all := site.GetPage . }}
+    {{ if not $all }}{{ $all = site.GetPage (printf "%s.md" .) }}{{ end }}
+    {{ with $all }}
+      <p class="all-link"><a href="{{ .RelPermalink }}">{{ .Params.linkText | default .Title }} <span aria-hidden="true">&rarr;</span></a></p>
+    {{ else }}
+      <p class="all-link"><a href="{{ . | relURL }}/">All notes <span aria-hidden="true">&rarr;</span></a></p>
+    {{ end }}
+  {{ end }}
   <header>
     {{ if .Params.showBreadcrumbs | default (site.Params.list.showBreadcrumbs | default false) }}
       {{ partial "breadcrumbs.html" . }}
     {{ end }}
-    <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral{{ with .Parent }}{{ if .IsHome }} section-title{{ end }}{{ end }}">
       {{ .Title | emojify }}
     </h1>
+    {{ $top := false }}{{ with .Parent }}{{ if .IsHome }}{{ $top = true }}{{ end }}{{ end }}
+    {{ if not $top }}
     <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
       {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
     </div>
+    {{ end }}
   </header>
 
-  <section class="mt-0 prose flex max-w-full flex-col dark:prose-invert lg:flex-row mb-6">
+  <section class="mt-0 prose flex max-w-full flex-col dark:prose-invert lg:flex-row mb-6{{ with .Parent }}{{ if .IsHome }} section-intro{{ end }}{{ end }}">
     <div class="min-w-0 min-h-0 max-w-prose w-full">
       {{ .Content }}
     </div>
@@ -55,16 +68,6 @@
     {{ if gt (len $subs) 0 }}{{ $pages = .RegularPagesRecursive }}{{ end }}
   {{ end }}
   {{ if and $cardTaxonomy (gt (len $cards) 0) }}
-    {{/* A quiet link to the full list, top right, when the section names an "all" page. */}}
-    {{ with .Params.allLink }}
-      {{ $all := site.GetPage . }}
-      {{ if not $all }}{{ $all = site.GetPage (printf "%s.md" .) }}{{ end }}
-      {{ with $all }}
-        <p class="all-link"><a href="{{ .RelPermalink }}">{{ .Params.linkText | default .Title }} <span aria-hidden="true">&rarr;</span></a></p>
-      {{ else }}
-        <p class="all-link"><a href="{{ . | relURL }}/">All notes <span aria-hidden="true">&rarr;</span></a></p>
-      {{ end }}
-    {{ end }}
     {{ partial "bubbles.html" $cards }}
   {{ else if gt (len $cards) 0 }}
     <section class="not-prose grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style="margin-bottom: 3rem;">

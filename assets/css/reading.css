@@ -241,3 +241,13 @@ body.rd-lock { overflow: hidden; }
 .rd-plain th, .rd-plain td { text-align: left; padding: 0.4rem 0.5rem; border-bottom: 1px solid rgb(var(--rd-line)); }
 
 @media (prefers-reduced-motion: reduce) { .rd *, .rd-panel, .rd-backdrop { transition: none !important; } }
+
+/* ---- Reading: small tweaks (later rules win over the ones above) ---- */
+.rd-stars { font-size: calc(0.57rem * var(--reading-text, 1)); }              /* stars under covers and in lists (was 0.7rem) */
+.rd-stars.rd-stars-lg { font-size: calc(0.69rem * var(--reading-text, 1)); }  /* stars in the side panel (was 1rem) */
+.rd-review { font-size: calc(0.91rem * var(--reading-text, 1)); }             /* your comment in the side panel (was 1rem) */
+.rd-notes { font-size: calc(0.88rem * var(--reading-text, 1)); }              /* your notes in the side panel (was 0.93rem) */
+.rd-card-meta .rd-status {                                                    /* "Paused" / "Reading" under a cover */
+  font-size: calc(0.64rem * var(--reading-text, 1));                          /* (was 0.68rem) */
+  position: relative; top: -0.24rem;                                          /* lifts it toward the cover; more negative = closer */
+}
