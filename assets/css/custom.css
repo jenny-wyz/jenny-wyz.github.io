@@ -585,11 +585,15 @@ html.dark {
 .dump {
   --dump-size: 1.09rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
   --dump-time-w: 3.7rem;     /* width of the time column = space between a time and the start of its entry (was 3rem) */
-  --dump-entry-gap: 0.85rem; /* vertical space above and below each entry line; entries of one day sit 2x this apart (was 0.42rem) */
-  --dump-fade-from: 9%;      /* where along the line the glimpse starts to fade */
+  --dump-entry-gap: 0.72rem; /* vertical space above and below each entry line; entries of one day sit 2x this apart (was 0.42rem) */
+  --dump-fade-from: 7%;      /* where along the line the glimpse starts to fade */
   --dump-fade-mid: 0.42;     /* how visible the text still is halfway along (0 = gone, 1 = full) */
+   --dump-fade-end: 0.05;        /* ... and at the right end */
+  --dump-hover-mid: 0.74;    /* the same two, while the mouse is on the line: a darker fade */
+  --dump-hover-end: 0.3;
   --dump-day-line: 0.3;     /* strength of the line between days (0 = invisible, 1 = solid; was 0.18) */
   --dump-entry-line: 0.15;   /* strength of the thin line between entries of one day (0 = no line) */
+  --dump-day-pad: 0.5rem;   /* extra space on each side of the line between days (was 1.1rem) */
   --dump-line: calc(var(--dump-size) * 1.75);
   margin-top: 2.5rem; font-size: var(--dump-size);
 }
@@ -601,7 +605,7 @@ html.dark {
 .dump-month:first-child { margin-top: 0; }
 .dump-day {
   display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); column-gap: 1.25rem;
-  padding: 1.1rem 0; border-top: 1px solid rgba(var(--color-neutral-500), var(--dump-day-line));
+  padding: var(--dump-day-pad) 0; border-top: 1px solid rgba(var(--color-neutral-500), var(--dump-day-line));
 }
 .dump-stamp time { display: flex; flex-direction: column; position: sticky; top: 5.5rem; }
 .dump-num { font-size: 1.9em; line-height: 1.15; font-weight: 300; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-800)); }
@@ -619,25 +623,27 @@ html.dark {
   font: inherit; text-align: left; background: none; border: 0; padding: var(--dump-entry-gap) 0; margin: 0;
   color: inherit; cursor: pointer; border-radius: 0.4rem; min-width: 0;
 }
-.dump-row:focus-visible, .dump-fold:focus-visible { outline: 2px solid rgba(var(--color-primary-500), 0.6); outline-offset: 2px; }
+.dump-row:focus-visible { outline: 2px solid rgba(var(--color-primary-500), 0.6); outline-offset: 2px; }
 .dump-time { font-size: 0.74em; line-height: var(--dump-line); font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-400)); transition: color 0.2s ease; }
 .dark .dump-time { color: rgb(var(--color-neutral-500)); }
 .dump-dot { display: inline-block; width: 0.7rem; height: 1px; vertical-align: middle; background: currentColor; opacity: 0.7; }
 .dump-row:hover .dump-time, .dump-entry.is-open .dump-time { color: rgb(var(--color-primary-600)); }
 .dark .dump-row:hover .dump-time, .dark .dump-entry.is-open .dump-time { color: rgb(var(--color-primary-400)); }
 /* The glimpse: one line that fades out gradually from left to right (a mask,
-   so it works on any background). Hovering removes the fade: the mask is
-   stretched so far that only its solid start covers the line. */
+   so it works on any background). On hover the fade turns darker; the two
+   strengths are registered properties so the change animates. */
+@property --dump-mid { syntax: "<number>"; inherits: true; initial-value: 0.42; }
+@property --dump-end { syntax: "<number>"; inherits: true; initial-value: 0; }
 .dump-peek {
   display: block; min-width: 0; line-height: var(--dump-line); white-space: nowrap; overflow: hidden;
   color: rgb(var(--color-neutral-700));
-  --dump-mask: linear-gradient(to right, #000 var(--dump-fade-from), rgba(0, 0, 0, var(--dump-fade-mid)) 50%, transparent 100%);
+  --dump-mid: var(--dump-fade-mid); --dump-end: var(--dump-fade-end);
+  --dump-mask: linear-gradient(to right, #000 var(--dump-fade-from), rgba(0, 0, 0, var(--dump-mid)) 50%, rgba(0, 0, 0, var(--dump-end)) 100%);
   -webkit-mask-image: var(--dump-mask); mask-image: var(--dump-mask);
-  -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-  transition: opacity 0.2s ease, -webkit-mask-size 0.3s ease, mask-size 0.3s ease;
+  transition: opacity 0.2s ease, --dump-mid 0.3s ease, --dump-end 0.3s ease;
 }
 .dark .dump-peek { color: rgb(var(--color-neutral-300)); }
-.dump-row:hover .dump-peek, .dump-row:focus-visible .dump-peek { -webkit-mask-size: 4000% 100%; mask-size: 4000% 100%; }
+.dump-row:hover .dump-peek, .dump-row:focus-visible .dump-peek { --dump-mid: var(--dump-hover-mid); --dump-end: var(--dump-hover-end); }
 
 .dump-body { grid-column: 2; grid-row: 1; min-width: 0; padding: var(--dump-entry-gap) 0; position: relative; }
 .dump-js .dump-body { cursor: pointer; }   /* a click anywhere in an open entry folds it */
@@ -645,16 +651,13 @@ html.dark {
 .dump-body .prose { font-size: 1em; line-height: var(--dump-line); max-width: none; }
 .dump-body .prose > :first-child { margin-top: 0; }
 .dump-body .prose > :last-child { margin-bottom: 0; }
-.dump-fold {
-  display: flex; margin: 0.5rem 0 0.3rem auto; padding: 0.25rem; background: none; border: 0; cursor: pointer;
-  border-radius: 0.4rem; color: rgb(var(--color-neutral-400)); transition: color 0.15s ease, background-color 0.15s ease;
-}
-.dump-fold:hover { color: rgb(var(--color-primary-600)); background: rgba(var(--color-primary-500), 0.1); }
-.dark .dump-fold:hover { color: rgb(var(--color-primary-400)); }
+/* ...including a list's last item, whose margin would otherwise leak below the text */
+.dump-body .prose > :first-child :first-child { margin-top: 0; }
+.dump-body .prose > :last-child :last-child { margin-bottom: 0; }
 
 /* Folding (only once the script is running; without it everything is shown).
    The height animates through grid rows 0fr -> 1fr, no measuring needed. */
-.dump:not(.dump-js) .dump-peek, .dump:not(.dump-js) .dump-fold { display: none; }
+.dump:not(.dump-js) .dump-peek { display: none; }
 .dump-js .dump-body {
   display: grid; grid-template-rows: 0fr; padding-top: 0; padding-bottom: 0; opacity: 0; visibility: hidden; pointer-events: none;
   transition: grid-template-rows 0.38s cubic-bezier(0.32, 0.72, 0.24, 1), padding 0.38s cubic-bezier(0.32, 0.72, 0.24, 1),
