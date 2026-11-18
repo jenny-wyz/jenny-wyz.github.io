@@ -116,6 +116,9 @@ def join_blocks(parts: list[str]) -> str:
     return out
 
 
+BLANK = '<div class="gap" aria-hidden="true"></div>'
+
+
 class Converter:
     """Turns a page's block tree into Markdown, collecting image downloads."""
 
@@ -123,6 +126,10 @@ class Converter:
         self.client = client
         self.images: list[tuple[str, str]] = []   # (url, local filename)
         self.count = 0
+        # An empty paragraph (pressing Enter twice in Notion) is dropped unless
+        # this is set; then it becomes a marker the page can style as a
+        # larger gap (used by the Brain dump).
+        self.keep_blank = False
 
     def children(self, block_id: str):
         if self.client is None:
@@ -167,6 +174,8 @@ class Converter:
 
         # Everything below is a top-level block; indentation only applies to lists.
         if t == "paragraph":
+            if not text and self.keep_blank and not kids:
+                return [BLANK]
             return ([text.replace("\n", "\\\n")] if text else []) + nested(0)
         if t in ("heading_1", "heading_2", "heading_3"):
             level = int(t[-1]) + 1          # Notion h1 -> ## so the page title stays the only h1

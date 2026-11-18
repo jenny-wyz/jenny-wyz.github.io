@@ -55,6 +55,16 @@ class DumpTests(unittest.TestCase):
         for t in ("20261116-0659", "20261116 01:20", "don't", ""):
             self.assertFalse(sb.is_hidden(t), t)
 
+    def test_empty_paragraph_becomes_a_gap_marker(self):
+        def para(t, i):
+            rt = [{"type": "text", "plain_text": t, "text": {"content": t}, "annotations": {}}] if t else []
+            return {"type": "paragraph", "id": i, "has_children": False, "paragraph": {"rich_text": rt}}
+        blocks = [para("one", "a"), para("", "b"), para("two", "c")]
+        conv = sb.sn.Converter(None)
+        self.assertEqual(conv.convert(blocks), ["one", "two"])          # other sections: dropped, as before
+        conv.keep_blank = True
+        self.assertEqual(conv.convert(blocks), ["one", sb.sn.BLANK, "two"])
+
     def test_display_order(self):
         es = [
             {"id": "old", "date": "2026-11-14", "time": "", "seq": 0, "pos": 0},

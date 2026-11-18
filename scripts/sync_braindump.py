@@ -14,6 +14,10 @@ Entries are named by date in Notion, optionally with a time or a counter:
     20261116-1          a counter, when the day has several (-0, -1, ...)
     20261116 01:20      the time it was thought (also 20261116-0120)
 
+Inside an entry, an empty line (Enter pressed twice in Notion) is kept as a
+`<div class="gap">` marker, so the site can show it as a slightly larger gap
+than a plain new paragraph (styles: `.dump-body .prose` in custom.css).
+
 An entry is published unless its name ends with an apostrophe:
 
     20261116-0659'      hidden: not written to the site, and removed from it
@@ -168,7 +172,13 @@ def main(argv: Optional[list[str]] = None) -> int:
             hidden += 1
             continue
         conv = sn.Converter(client)
-        body = "\n\n".join(conv.convert(conv.children(block["id"])))
+        conv.keep_blank = True   # two Enters in Notion = a slightly larger gap on the site
+        parts = conv.convert(conv.children(block["id"]))
+        while parts and parts[0] == sn.BLANK:
+            parts.pop(0)
+        while parts and parts[-1] == sn.BLANK:
+            parts.pop()
+        body = "\n\n".join(parts)
         body = re.sub(r"\n\n(?=(?:\s*(?:-|\d+\.) ))", "\n", body)
         body = TRAILING_BREAK.sub("", body)
         slug = sn.slugify(title)

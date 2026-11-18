@@ -645,10 +645,23 @@ html.dark {
 .dark .dump-peek { color: rgb(var(--color-neutral-300)); }
 .dump-row:hover .dump-peek, .dump-row:focus-visible .dump-peek { --dump-mid: var(--dump-hover-mid); --dump-end: var(--dump-hover-end); }
 
-.dump-body { grid-column: 2; grid-row: 1; min-width: 0; padding: var(--dump-entry-gap) 0; position: relative; }
+/* Text inside an open entry. Knobs: */
+.dump {
+  --dump-text-lh: 1.62;      /* line height in an open entry = a line break without Enter (Shift+Enter) (was 1.75) */
+  --dump-para: 0.7em;        /* space between paragraphs = one Enter in Notion (was 1.25em) */
+  --dump-para-blank: 1.45em; /* space for an empty line = two Enters in Notion (was 1.25em, the same as one) */
+  --dump-text-line: calc(var(--dump-size) * var(--dump-text-lh));
+  /* the open text's first line must sit exactly where the one-line glimpse was */
+  --dump-body-pad: calc(var(--dump-entry-gap) - (var(--dump-text-line) - var(--dump-line)) / 2);
+}
+.dump-body { grid-column: 2; grid-row: 1; min-width: 0; padding: var(--dump-body-pad) 0; position: relative; }
 .dump-js .dump-body { cursor: pointer; }   /* a click anywhere in an open entry folds it */
 .dump-body-inner { min-width: 0; }
-.dump-body .prose { font-size: 1em; line-height: var(--dump-line); max-width: none; }
+.dump-body .prose { font-size: 1em; line-height: var(--dump-text-line); max-width: none; }
+.dump-body .prose p { margin-top: var(--dump-para); margin-bottom: var(--dump-para); }
+/* An empty line from Notion (sync_braindump.py writes <div class="gap">): what follows it starts further down. */
+.dump-body .prose .gap { display: none; }
+.dump-body .prose .gap + * { margin-top: var(--dump-para-blank); }
 .dump-body .prose > :first-child { margin-top: 0; }
 .dump-body .prose > :last-child { margin-bottom: 0; }
 /* ...including a list's last item, whose margin would otherwise leak below the text */
@@ -665,7 +678,7 @@ html.dark {
 }
 .dump-js .dump-body-inner { overflow: hidden; min-height: 0; }
 .dump-js .dump-entry.is-open .dump-body {
-  grid-template-rows: 1fr; padding-top: var(--dump-entry-gap); padding-bottom: var(--dump-entry-gap); opacity: 1; visibility: visible; pointer-events: auto;
+  grid-template-rows: 1fr; padding-top: var(--dump-body-pad); padding-bottom: var(--dump-body-pad); opacity: 1; visibility: visible; pointer-events: auto;
   transition: grid-template-rows 0.38s cubic-bezier(0.32, 0.72, 0.24, 1), padding 0.38s cubic-bezier(0.32, 0.72, 0.24, 1),
               opacity 0.3s ease 0.08s, visibility 0s;
 }
