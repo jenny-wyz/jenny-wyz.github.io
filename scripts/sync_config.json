@@ -73,7 +73,7 @@
     "output_dir": "content/essays"
   },
   "braindump": {
-    "_comment": "The Notion page \"Absolute dump\". Every subpage is published; the heading it sits under (Recyclable, Not recyclable) becomes its group.",
+    "_comment": "The Notion page \"Absolute dump\". Every subpage is an entry, also inside toggles (one per year); the level 1-3 heading it sits under (Recycling, Waste) becomes its group. A name ending in an apostrophe keeps an entry off the site.",
     "page_id": "418ef088fb8b80b7946cd9262e288008",
     "output_dir": "content/braindump"
   }

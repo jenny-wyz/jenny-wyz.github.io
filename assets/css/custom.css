@@ -785,3 +785,8 @@ html.dark {
 .section-intro p { margin: 0 0 0.5rem; font-size: 1.125rem; line-height: 1.75rem; color: rgb(var(--color-neutral-500)); }
 .dark .section-intro p { color: rgb(105, 114, 130); }   /* same as the description colour set further down (.dark .text-neutral-500.dark\:text-neutral-400) */
 .section-intro p:first-of-type { margin-top: 0 !important; }
+
+/* The theme's "to top" arrow stays clickable while invisible. Switch that off,
+   so it cannot swallow clicks meant for the Brain dump's "to newest" arrow,
+   which sits in the same corner while the page is near its top. */
+#scroll-to-top.opacity-0, #scroll-to-top.opacity-0 a { pointer-events: none; }

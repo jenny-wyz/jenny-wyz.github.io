@@ -31,6 +31,31 @@ class DumpTests(unittest.TestCase):
         got = sb.collect([{"type": "child_page", "id": "x", "child_page": {"title": "t"}}] + BLOCKS)
         self.assertEqual(got[0][1:], ("", 0))
 
+    def test_pages_inside_year_toggles_are_found_and_years_are_not_groups(self):
+        tree = {
+            "y23": [{"type": "child_page", "id": "p1", "child_page": {"title": "20231117-0130"}}],
+            "y24": [{"type": "child_page", "id": "p2", "child_page": {"title": "20240101"}},
+                    {"type": "toggle", "id": "t", "has_children": True, "toggle": {"rich_text": rt("more")}}],
+            "t": [{"type": "child_page", "id": "p3", "child_page": {"title": "20240102"}}],
+        }
+        blocks = [
+            {"type": "heading_2", "id": "h", "heading_2": {"rich_text": rt("Recycling")}},
+            {"type": "heading_4", "id": "y23", "has_children": True, "heading_4": {"rich_text": rt("2023"), "is_toggleable": True}},
+            {"type": "heading_3", "id": "y24", "has_children": True, "heading_3": {"rich_text": rt("2024"), "is_toggleable": True}},
+            {"type": "heading_4", "id": "y27", "heading_4": {"rich_text": rt("2027")}},
+            {"type": "heading_2", "id": "w", "heading_2": {"rich_text": rt("Waste")}},
+            {"type": "child_page", "id": "p4", "child_page": {"title": "20261110'"}},
+        ]
+        got = [(b["id"], g, o) for b, g, o in sb.collect(blocks, lambda i: tree.get(i, []))]
+        self.assertEqual(got, [("p1", "Recycling", 1), ("p2", "Recycling", 1), ("p3", "Recycling", 1), ("p4", "Waste", 2)])
+        # without a way to look inside, only the top level is seen (old behaviour)
+        self.assertEqual([b["id"] for b, _, _ in sb.collect(blocks)], ["p4"])
+
+    def test_safety_stop(self):
+        self.assertTrue(sb.too_few(4, 136))
+        self.assertFalse(sb.too_few(130, 136))
+        self.assertFalse(sb.too_few(0, 3))      # a small section may empty out
+
     def test_front_matter(self):
         fm = sb.front_matter({"title": "0", "date": "2026-11-14", "weight": 1, "group": "Recyclable", "group_weight": 1, "id": "abc"})
         self.assertIn('title: "0"', fm)
@@ -74,7 +99,7 @@ class DumpTests(unittest.TestCase):
             {"id": "n0", "date": "2026-11-16", "time": "", "seq": 0, "pos": 4},
         ]
         sb.display_order(es)
-        self.assertEqual([e["id"] for e in sorted(es, key=lambda e: e["weight"])], ["n0", "n1", "early", "late", "old"])
+        self.assertEqual([e["id"] for e in sorted(es, key=lambda e: e["weight"])], ["old", "n0", "n1", "early", "late"])
 
     def test_trailing_line_break_is_dropped(self):
         self.assertEqual(sb.TRAILING_BREAK.sub("", "a\\\nb\\\n\nc\\"), "a\\\nb\n\nc")

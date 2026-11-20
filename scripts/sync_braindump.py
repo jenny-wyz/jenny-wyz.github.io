@@ -2,11 +2,15 @@
 """
 Sync the Brain dump section from Notion.
 
-Source: the page "Absolute dump". It has headed sections (Recyclable,
-Not recyclable); every subpage under a heading becomes one entry, and the
-heading becomes the entry's `group`, in the order the headings appear.
-Subpages above the first heading have no group. Loose text on the page is
-ignored.
+Source: the page "Absolute dump". It has headed sections (Recycling, Waste);
+every subpage under a heading becomes one entry, and the heading becomes the
+entry's `group`, in the order the headings appear. Subpages above the first
+heading have no group. Loose text on the page is ignored.
+
+Entries may sit inside toggles, toggle headings or columns (for instance one
+toggle per year): the sync looks inside every block that can hold others. A
+heading that is just a year ("2026") only organizes the Notion page; it is
+never a group, and neither is a level-4 heading.
 
 Entries are named by date in Notion, optionally with a time or a counter:
 
@@ -29,9 +33,13 @@ title: the entry's `title` becomes the written-out date ("Monday, 16 November
 2026 · 01:20"), `date` the day and `time` the time, if given. A title that
 is not a date is kept as it is and dated by the page's creation date.
 
-`weight` is the display order of layouts/braindump/list.html: newest day
-first; within a day, entries without a time (by counter, then by their order
-in Notion), then the timed ones from early to late.
+`weight` is the display order of layouts/braindump/list.html: oldest day
+first, newest last; within a day, entries without a time (by counter, then
+by their order in Notion), then the timed ones from early to late.
+
+Safety: if a run would publish fewer than half the entries the site has now
+(a reorganized Notion page the sync cannot read, say), it stops and changes
+nothing. `--force` overrides that when the drop is intended.
 
 Each entry becomes content/braindump/<slug>.md. Reuses the block converter
 and file writer from sync_notes.py: only files with a `notion_id` are
@@ -102,12 +110,12 @@ def parse_title(title: str) -> Optional[dict]:
 
 
 def display_order(entries: list[dict]) -> None:
-    """Set each entry's weight: newest day first; inside a day the untimed
+    """Set each entry's weight: oldest day first; inside a day the untimed
     entries (by counter, then Notion order), then the timed ones, early to late."""
     def key(e: dict):
         y, m, d = (int(x) for x in (e["date"] or "1970-01-01").split("-"))
         seq = e.get("seq")
-        return (-date(y, m, d).toordinal(), e.get("time") or "", 999 if seq is None else seq, e["pos"])
+        return (date(y, m, d).toordinal(), e.get("time") or "", 999 if seq is None else seq, e["pos"])
     for w, e in enumerate(sorted(entries, key=key), start=1):
         e["weight"] = w
 
@@ -123,16 +131,39 @@ def front_matter(e: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def collect(blocks: list[dict]) -> list[tuple[dict, str, int]]:
-    """Every child_page block with the heading above it: (block, group, group order)."""
-    out, group, order = [], "", 0
-    for b in blocks:
-        t = b.get("type")
-        if t in HEADINGS:
-            group = plain(b[t].get("rich_text")); order += 1
-        elif t == "child_page":
-            out.append((b, group, order))
+YEAR = re.compile(r"(?:19|20)\d{2}")
+
+
+def collect(blocks: list[dict], children=None) -> list[tuple[dict, str, int]]:
+    """Every child_page block with its group: (block, group, group order).
+
+    `children(block_id)` returns the blocks inside a block; with it, pages
+    inside toggles, toggle headings and columns are found too, in page order.
+    A level 1-3 heading sets the group, unless its text is just a year."""
+    out: list[tuple[dict, str, int]] = []
+    state = {"group": "", "order": 0}
+
+    def walk(bs: list[dict], depth: int) -> None:
+        for b in bs:
+            t = b.get("type") or ""
+            if t == "child_page":
+                out.append((b, state["group"], state["order"]))
+                continue
+            if t in HEADINGS:
+                text = plain(b[t].get("rich_text"))
+                if text and not YEAR.fullmatch(text):
+                    state["group"] = text
+                    state["order"] += 1
+            if children and b.get("has_children") and t != "child_database" and depth < 6:
+                walk(children(b["id"]), depth + 1)
+
+    walk(blocks, 0)
     return out
+
+
+def too_few(new_count: int, old_count: int) -> bool:
+    """True when a run would shrink a well-filled section to under half."""
+    return old_count >= 10 and new_count * 2 < old_count
 
 
 def main(argv: Optional[list[str]] = None) -> int:
@@ -140,6 +171,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--config", default="scripts/sync_config.json")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--verbose", "-v", action="store_true")
+    ap.add_argument("--force", action="store_true", help="write even if most entries would disappear")
     args = ap.parse_args(argv)
 
     token = os.environ.get("NOTION_TOKEN", "").strip()
@@ -166,7 +198,15 @@ def main(argv: Optional[list[str]] = None) -> int:
     entries: list[dict] = []
     taken: dict[str, int] = {}
     hidden = 0
-    for pos, (block, group, order) in enumerate(collect(top)):
+    def inside(block_id: str) -> list[dict]:
+        return list(client.paginate("GET", f"/blocks/{block_id}/children"))
+
+    try:
+        found = collect(top, inside)
+    except NotionError as e:
+        print(f"error: could not read inside the page: {e}", file=sys.stderr)
+        return 1
+    for pos, (block, group, order) in enumerate(found):
         title = block["child_page"]["title"].strip() or "Untitled"
         if is_hidden(title):   # never fetched, never written
             hidden += 1
@@ -204,6 +244,13 @@ def main(argv: Optional[list[str]] = None) -> int:
         })
     print(f"  {len(entries)} entr(y/ies), {hidden} hidden", file=sys.stderr)
     display_order(entries)
+
+    on_site = len(sn.managed_files(root))
+    if too_few(len(entries), on_site) and not args.force:
+        print(f"error: only {len(entries)} entr(y/ies) found, but the site has {on_site}. "
+              "Nothing was changed. If the Notion page was reorganized in a way the sync "
+              "cannot read, fix that; if the drop is intended, run with --force.", file=sys.stderr)
+        return 1
 
     sn.front_matter = front_matter
     written, removed = sn.write_notes(entries, root, args.dry_run, log)

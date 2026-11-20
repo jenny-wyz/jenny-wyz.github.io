@@ -1,6 +1,8 @@
 {{ define "main" }}
   {{/*
-    Brain dump: a stream of thoughts by day, newest day first. The date is
+    Brain dump: a stream of thoughts by day, oldest at the top, newest at the
+    bottom. A round arrow in the corner (where the theme's "to top" arrow
+    appears further down) jumps to the newest entry. The date is
     shown once per day (a small stamp on the left); each entry is one line,
     its opening words followed by a dimmer glimpse of what comes next, and
     unfolds in place when clicked (one open at a time; a click on the open
@@ -10,7 +12,10 @@
     The headings on the Notion page (`group`) are the small filter on top.
     Styles: .dump-* in assets/css/custom.css. Script: end of this file.
   */}}
-  {{ $pages := .RegularPages.ByWeight }}
+  {{/* Oldest day first. Sorting by day on top of the stored order keeps the
+       order inside a day (no time first, then early to late) whichever way
+       the stored weights happen to run. */}}
+  {{ $pages := sort .RegularPages.ByWeight "Date" }}
   {{ $groups := slice }}
   {{ range sort $pages "Params.group_weight" }}
     {{ with .Params.group }}{{ if not (in $groups .) }}{{ $groups = $groups | append . }}{{ end }}{{ end }}
@@ -82,6 +87,14 @@
       </article>
     {{ end }}
     {{ if $day }}</div></section>{{ end }}
+  </div>
+
+  {{/* Down to the newest entry. Shown near the top of the page, exactly while
+       the theme's up arrow is hidden; the two swap in the same corner. */}}
+  <div id="dump-to-newest" class="fixed bottom-6 end-6 z-50 transform translate-y-4 opacity-0 duration-200 print:hidden" hidden>
+    <button type="button"
+      class="pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full bg-neutral/50 text-xl text-neutral-700 hover:text-primary-600 dark:bg-neutral-800/50 dark:text-neutral dark:hover:text-primary-400"
+      aria-label="Jump to the newest entry" title="Jump to the newest entry">&darr;</button>
   </div>
 
   <script>
@@ -164,6 +177,32 @@
         m.hidden = !any;
       });
     });
+
+    // The down arrow: visible while the page is near its top (the theme shows
+    // its up arrow from half a screen down), and only if there is somewhere to go.
+    var down = document.getElementById("dump-to-newest");
+    if (down) {
+      down.hidden = false;
+      var showDown = function () {
+        var room = document.documentElement.scrollHeight - window.innerHeight > window.innerHeight * 0.6;
+        var on = room && window.scrollY <= window.innerHeight * 0.5;
+        down.classList.toggle("translate-y-4", !on); down.classList.toggle("opacity-0", !on);
+        down.classList.toggle("translate-y-0", on); down.classList.toggle("opacity-100", on);
+        down.style.pointerEvents = on ? "" : "none";
+      };
+      window.addEventListener("scroll", showDown, { passive: true });
+      window.addEventListener("resize", showDown);
+      showDown();
+      down.querySelector("button").addEventListener("click", function () {
+        var entries = root.querySelectorAll(".dump-entry:not([hidden])");
+        var lastEntry = entries[entries.length - 1];
+        if (!lastEntry) return;
+        // land with the newest entry near the bottom of the screen, the days before it above
+        var bottom = window.scrollY + lastEntry.getBoundingClientRect().bottom;
+        var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: Math.max(0, bottom - window.innerHeight + 96), behavior: reduce ? "auto" : "smooth" });
+      });
+    }
 
     // A link to one entry (…/braindump/#d-20261116-1) opens it.
     var target = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));
