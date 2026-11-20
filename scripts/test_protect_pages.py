@@ -57,6 +57,16 @@ class ProtectTests(unittest.TestCase):
             vault = json.loads(re.search(r'id="jw-vault">(.*?)</script>', out, re.S).group(1))
             self.assertIn("data:image/png;base64,", pp.decrypt("hunter22", vault))
 
+    def test_search_entry_is_plain_text_of_the_page(self):
+        page = PAGE.replace("<p>top secret body</p>", '<p>顶级机密 body</p><script>var x = "noise";</script><aside>rail</aside>')
+        e = pp.page_entry(page, os.path.join("journal", "2026-09-06", "index.html"), {"journal": "Journal"})
+        self.assertEqual(e["title"], "Secret")
+        self.assertEqual(e["permalink"], "/journal/2026-09-06/")
+        self.assertEqual(e["section"], "Journal")
+        self.assertIn("顶级机密 body", e["content"])
+        self.assertNotIn("noise", e["content"])
+        self.assertNotIn("rail", e["content"])
+
     def test_find_marker(self):
         self.assertTrue(pp.MARKER_RE.search(PAGE))
         self.assertTrue(pp.MARKER_RE.search('<meta name=jw-protected content="1">'))

@@ -16,6 +16,11 @@ does not leak through link previews, and it folds the page's own images
 (files next to the page, e.g. notebook photos) into the encrypted payload
 as data: URIs and deletes the loose files, so they cannot be fetched by URL.
 
+It also writes search-private.json: an encrypted search index of the locked
+pages (title, link, section, text), built from the pages themselves just
+before they are locked. The site search (assets/js/search.js) decrypts and
+uses it once the visitor has unlocked a protected page in this visit.
+
 Visitor-side rules (in the embedded script):
   * 3 wrong tries lock protected pages for 24 hours in that browser and send
     the visitor to the decoy page. This lives in localStorage, so it deters
@@ -31,6 +36,8 @@ from __future__ import annotations
 
 import argparse
 import base64
+import html as htmllib
+from html.parser import HTMLParser
 import json
 import os
 import re
@@ -251,6 +258,69 @@ def lock_html(html: str, password: str, decoy: str, page_dir: str = "", site_roo
     return html, used
 
 
+class _Text(HTMLParser):
+    """Plain text of a page's <main>, without scripts, styles and page furniture."""
+
+    SKIP = {"script", "style", "nav", "aside", "header", "footer", "noscript", "svg", "button", "form", "ol"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.in_main = 0
+        self.skip = 0
+        self.h1 = None
+        self.in_h1 = False
+        self.parts: list[str] = []
+        self.time = ""
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "main":
+            self.in_main += 1
+        if not self.in_main:
+            return
+        if tag == "h1" and self.h1 is None:
+            self.in_h1 = True; self.h1 = ""
+        if tag == "time" and not self.time:
+            self.time = dict(attrs).get("datetime", "")[:10]
+        if tag in self.SKIP and tag != "header":
+            self.skip += 1
+
+    def handle_endtag(self, tag):
+        if tag == "main" and self.in_main:
+            self.in_main -= 1
+        if not self.in_main and tag != "main":
+            return
+        if tag == "h1":
+            self.in_h1 = False
+        if tag in self.SKIP and tag != "header" and self.skip:
+            self.skip -= 1
+        if tag in ("p", "li", "tr", "h2", "h3", "h4", "blockquote", "div", "br"):
+            self.parts.append(" ")
+
+    def handle_data(self, data):
+        if not self.in_main:
+            return
+        if self.in_h1:
+            self.h1 += data
+        elif not self.skip:
+            self.parts.append(data)
+
+
+def page_entry(html: str, rel_path: str, sections: dict) -> dict:
+    """One search entry for a page about to be locked."""
+    html = re.sub(r'<p class="?journal-week"?>.*?</p>', "", html, flags=re.S)   # a hidden duplicate of the title
+    t = _Text(); t.feed(html)
+    text = re.sub(r"\s+", " ", "".join(t.parts)).strip()
+    title = re.sub(r"\s+", " ", (t.h1 or "")).strip()
+    url = "/" + rel_path.replace(os.sep, "/")
+    url = url[: -len("index.html")] if url.endswith("index.html") else url
+    section = url.strip("/").split("/")[0]
+    entry = {"title": title, "section": sections.get(section, section.title()),
+             "summary": text[:140], "content": text, "permalink": url, "type": section}
+    if t.time:
+        entry["date"] = t.time
+    return entry
+
+
 def find_protected(root: str) -> list[str]:
     found = []
     for dirpath, _, files in os.walk(root):
@@ -279,6 +349,33 @@ def main(argv=None) -> int:
         print(f"error: {len(pages)} protected page(s) but PAGE_PASSWORD is not set "
               "(repository secret: Settings > Secrets and variables > Actions)", file=sys.stderr)
         return 2
+    # Section titles (from the section pages) and the search entries, read
+    # from the pages while they are still readable.
+    sections: dict[str, str] = {}
+    entries: list[dict] = []
+    for path in pages:
+        rel = os.path.relpath(path, args.site)
+        parts = rel.replace(os.sep, "/").split("/")
+        with open(path, encoding="utf-8") as fh:
+            src = fh.read()
+        if len(parts) == 2 and parts[1] == "index.html":          # a section's own page
+            t = _Text(); t.feed(src)
+            if t.h1:
+                sections[parts[0]] = re.sub(r"\s+", " ", t.h1).strip()
+    for path in pages:
+        rel = os.path.relpath(path, args.site)
+        parts = rel.replace(os.sep, "/").split("/")
+        if len(parts) == 2 and parts[1] == "index.html":
+            continue                                               # lists add nothing to the search
+        with open(path, encoding="utf-8") as fh:
+            entry = page_entry(fh.read(), rel, sections)
+        if entry["title"] or entry["content"]:
+            entries.append(entry)
+    vault = encrypt(password, json.dumps(entries, ensure_ascii=False))
+    with open(os.path.join(args.site, "search-private.json"), "w", encoding="utf-8") as fh:
+        json.dump(vault, fh)
+    print(f"  search-private.json: {len(entries)} locked page(s) indexed", file=sys.stderr)
+
     removed: set[str] = set()
     for path in pages:
         with open(path, encoding="utf-8") as fh:

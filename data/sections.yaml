@@ -32,7 +32,7 @@ journal:
   dark_bg: "32, 29, 24"
   dark_deep: "24, 19, 12"
   dark_edge: "66, 56, 38"
-  light_bg: "250, 249, 245"
+  light_bg: "252, 251, 247"
 
 reading:
   tagline: "jernier's library"
@@ -84,7 +84,7 @@ essays:
     500: "214, 161, 184"   # L&D: / ; entry_underline.       L: callout outline
     600: "207, 136, 164"   # L: contents_underlines; hover
     700: "180, 80, 118"    # L: 
-    800: "148, 82, 105"     # D: bang
+    800: "148, 82, 105"    # D: bang
     900: "117, 50, 77"
   dark_bg: "41, 32, 37"
   dark_deep: "27, 18, 22"
@@ -95,20 +95,20 @@ braindump:
   tagline: "unsorted thoughts"
   icon: "lightbulb"
   primary:
-    50: "236, 253, 245"
-    100: "209, 250, 229"
-    200: "167, 243, 208"
-    300: "110, 231, 183"
-    400: "52, 211, 153"
-    500: "16, 185, 129"
-    600: "5, 150, 105"
-    700: "4, 120, 87"
-    800: "6, 95, 70"
-    900: "6, 78, 59"
-  dark_bg: "16, 32, 30"
-  dark_deep: "9, 22, 20"
-  dark_edge: "36, 62, 58"
-  light_bg: "249, 252, 251"
+    50: "255, 245, 248"
+    100: "254, 236, 242"
+    200: "252, 218, 229"   # L: bang
+    300: "249, 196, 214"   # D: 
+    400: "199, 155, 173"   # D: timestamp; hover
+    500: "214, 161, 184"   # L&D:
+    600: "207, 136, 164"   # L: timestamp; hover
+    700: "180, 80, 118"    # L: 
+    800: "148, 82, 105"    # D: bang
+    900: "117, 50, 77"
+  dark_bg: "41, 32, 37"
+  dark_deep: "27, 18, 22"
+  dark_edge: "72, 52, 60"
+  light_bg: "255, 252, 253"
 
 recipes:
   tagline: "jernier's kitchen"
