@@ -657,6 +657,15 @@ html.dark {
 .dark .dump-filter button.is-on { color: rgb(var(--color-primary-400)); }
 
 /* ---- Knobs: tune the Brain dump page here ---- */
+/* Brain dump type sizes. Tune each one here; em = relative to the page text.
+   Was: month 0.72em, day number 1.9em (1.5em on phones), weekday 0.74em, time 0.74em. */
+.dump {
+  --dump-month-size: 0.77em;      /* "NOVEMBER 2023" */
+  --dump-num-size: 2.0em;        /* the day number, "17" */
+  --dump-num-size-phone: 1.6em;  /* the day number on phones */
+  --dump-wd-size: 0.78em;        /* the weekday, "Fri" */
+  --dump-time-size: 0.78em;       /* the time, "01:30" */
+}
 .dump {
   --dump-size: 1.12rem;      /* text size of the whole stream; month, day, weekday and time scale with it (was 1rem) */
   --dump-time-w: 3.7rem;     /* width of the time column = space between a time and the start of its entry (was 3rem) */
@@ -674,7 +683,7 @@ html.dark {
   margin-top: 2.5rem; font-size: var(--dump-size);
 }
 .dump-month {
-  margin: 2.2rem 0 0.7rem; font-size: 0.72em; letter-spacing: 0.16em; text-transform: uppercase;
+  margin: 2.2rem 0 0.7rem; font-size: var(--dump-month-size); letter-spacing: 0.16em; text-transform: uppercase;
   color: rgb(var(--color-neutral-500));
 }
 .dark .dump-month { color: rgb(var(--color-neutral-500)); }
@@ -684,9 +693,9 @@ html.dark {
   padding: var(--dump-day-pad) 0; border-top: 1px solid rgba(var(--color-neutral-500), var(--dump-day-line));
 }
 .dump-stamp time { display: flex; flex-direction: column; position: sticky; top: 5.5rem; }
-.dump-num { font-size: 1.9em; line-height: 1.15; font-weight: 300; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-800)); }
+.dump-num { font-size: var(--dump-num-size); line-height: 1.15; font-weight: 300; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-800)); }
 .dark .dump-num { color: rgb(var(--color-neutral-200)); }
-.dump-wd { margin-top: 0.15rem; font-size: 0.74em; letter-spacing: 0.04em; color: rgb(var(--color-neutral-400)); }
+.dump-wd { margin-top: 0.15rem; font-size: var(--dump-wd-size); letter-spacing: 0.04em; color: rgb(var(--color-neutral-400)); }
 .dark .dump-wd { color: rgb(var(--color-neutral-500)); }
 
 /* One entry: the row (time + glimpse) and the full text share one grid cell,
@@ -700,7 +709,7 @@ html.dark {
   color: inherit; cursor: pointer; border-radius: 0.4rem; min-width: 0;
 }
 .dump-row:focus-visible { outline: 2px solid rgba(var(--color-primary-500), 0.6); outline-offset: 2px; }
-.dump-time { font-size: 0.74em; line-height: var(--dump-line); font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-400)); transition: color 0.2s ease; }
+.dump-time { font-size: var(--dump-time-size); line-height: var(--dump-line); font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-400)); transition: color 0.2s ease; }
 .dark .dump-time { color: rgb(var(--color-neutral-500)); }
 .dump-dot { display: inline-block; width: 0.7rem; height: 1px; vertical-align: middle; background: currentColor; opacity: 0.7; }
 .dump-row:hover .dump-time, .dump-entry.is-open .dump-time { color: rgb(var(--color-primary-600)); }
@@ -770,7 +779,7 @@ html.dark {
 }
 @media (max-width: 640px) {
   .dump-day { grid-template-columns: 2.3rem minmax(0, 1fr); column-gap: 0.7rem; }
-  .dump-num { font-size: 1.5em; }
+  .dump-num { font-size: var(--dump-num-size-phone); }
   .dump { --dump-time-w: 2.9rem; }
 }
 .dump-empty { margin-top: 2rem; color: rgb(var(--color-neutral-500)); }
