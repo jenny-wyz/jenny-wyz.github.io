@@ -513,7 +513,9 @@
 @media (prefers-reduced-motion: reduce) { .jnav-btn { transition: none; } }
 
 /* Journal: month calendar in the right column (desktop) */
-.jcal { width: 15.5rem; font-size: 0.78rem; user-select: none; }
+/* Sticks below the header bar: --jcal-header is the bar's measured height (set by the
+   script in partials/journal-calendar.html); the extra rem is the gap under it. */
+.jcal { top: calc(var(--jcal-header, 4.5rem) + 1.75rem); width: 15.5rem; font-size: 0.78rem; user-select: none; }
 .jcal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
 .jcal-title { font-weight: 600; font-size: 0.84rem; color: rgb(var(--color-neutral-800)); }
 .dark .jcal-title { color: rgb(var(--color-neutral-100)); }
@@ -660,8 +662,8 @@ html.dark {
 /* Brain dump type sizes. Tune each one here; em = relative to the page text.
    Was: month 0.72em, day number 1.9em (1.5em on phones), weekday 0.74em, time 0.74em. */
 .dump {
-  --dump-month-size: 0.77em;      /* "NOVEMBER 2023" */
-  --dump-num-size: 2.0em;        /* the day number, "17" */
+  --dump-month-size: 0.78em;      /* "NOVEMBER 2023" */
+  --dump-num-size: 1.93em;        /* the day number, "17" */
   --dump-num-size-phone: 1.6em;  /* the day number on phones */
   --dump-wd-size: 0.78em;        /* the weekday, "Fri" */
   --dump-time-size: 0.78em;       /* the time, "01:30" */
@@ -675,7 +677,7 @@ html.dark {
    --dump-fade-end: 0.05;        /* ... and at the right end */
   --dump-hover-mid: 0.7;    /* the same two, while the mouse is on the line: a darker fade */
   --dump-hover-end: 0.25;
-  --dump-day-line: 0.3;     /* strength of the line between days (0 = invisible, 1 = solid; was 0.18) */
+  --dump-day-line: 0.18;     /* strength of the line between days (0 = invisible, 1 = solid; was 0.18) */
   --dump-entry-line: 0.17;   /* strength of the thin line between entries of one day (0 = no line) */
   --dump-day-pad: 0.5rem;   /* extra space on each side of the line between days (was 1.1rem) */
   --dump-others: 0.45;       /* while an entry is open, how visible the other entries' lines stay (1 = no dimming) */
@@ -684,9 +686,9 @@ html.dark {
 }
 .dump-month {
   margin: 2.2rem 0 0.7rem; font-size: var(--dump-month-size); letter-spacing: 0.16em; text-transform: uppercase;
-  color: rgb(var(--color-neutral-500));
+  color: rgb(var(--color-neutral-600));
 }
-.dark .dump-month { color: rgb(var(--color-neutral-500)); }
+.dark .dump-month { color: rgb(var(--color-neutral-400)); }
 .dump-month:first-child { margin-top: 0; }
 .dump-day {
   display: grid; grid-template-columns: 3.4rem minmax(0, 1fr); column-gap: 1.25rem;
@@ -799,3 +801,46 @@ html.dark {
    so it cannot swallow clicks meant for the Brain dump's "to newest" arrow,
    which sits in the same corner while the page is near its top. */
 #scroll-to-top.opacity-0, #scroll-to-top.opacity-0 a { pointer-events: none; }
+
+/* Brain dump: years and months, sticky beside the stream (wide screens only) */
+.dump-layout {
+  --dump-toc-gap: 5.0rem;         /* space between the entries and the index (was 3rem); more = narrower entries */
+  --dump-toc-shift: 1.99rem;      /* moves the index this far right, out into the page margin; the entries keep their width */
+  --dump-toc-w: 8.5rem;           /* width of the index column */
+  --dump-toc-year-pad: 0.3rem;    /* space above and below each year (was 0.42rem) */
+  --dump-toc-month-pad: 0.04rem;  /* space above and below each month (was 0.2rem) */
+}
+.dump-toc { display: none; }
+@media (min-width: 1024px) {
+  .dump-layout { display: grid; grid-template-columns: minmax(0, 1fr) var(--dump-toc-w); column-gap: var(--dump-toc-gap); align-items: start; }
+
+  .dump-toc:not([hidden]) {
+    display: block; position: sticky; top: var(--dump-toc-top, 5.5rem);
+    max-height: calc(100vh - var(--dump-toc-top, 5.5rem) - 5.5rem); overflow-y: auto;
+    padding-top: 2.2rem;                 /* level with the first month label */
+    scrollbar-width: none;
+  }
+  .dump-toc::-webkit-scrollbar { display: none; }
+}
+@media (min-width: 1200px) {          /* only where the page has margin to spare */
+  .dump-layout { column-gap: calc(var(--dump-toc-gap) + var(--dump-toc-shift)); margin-right: calc(-1 * var(--dump-toc-shift)); }
+}
+.dump-toc ul { list-style: none; margin: 0; padding: 0; }
+.dump-toc button { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; transition: color 0.15s ease; }
+.dump-toc-year > button {
+  display: block; padding: var(--dump-toc-year-pad) 0; font-size: 1rem; font-weight: 600; letter-spacing: 0.01em;
+  color: rgb(var(--color-neutral-400));                                       /* was neutral-700 */
+}
+.dark .dump-toc-year > button { color: rgb(var(--color-neutral-500)); }      /* was neutral-300 */
+.dump-toc-year > button.is-current { color: rgb(var(--color-neutral-600)); } /* the year you are in: was neutral-900 */
+.dark .dump-toc-year > button.is-current { color: rgb(var(--color-neutral-300)); } /* was neutral-50 */
+/* the months of a year fold away unless that year is open */
+.dump-toc-year > ul { overflow: hidden; padding-left: 0.85rem; max-height: 0; transition: max-height 0.3s ease, padding-bottom 0.3s ease; }
+.dump-toc-year.is-open > ul { max-height: 22rem; padding-bottom: 0.5rem; }
+.dump-toc-year li button { display: block; padding: var(--dump-toc-month-pad) 0; font-size: 0.9rem; color: rgb(var(--color-neutral-400)); }
+.dark .dump-toc-year li button { color: rgb(var(--color-neutral-500)); }
+.dump-toc button:hover { color: rgb(var(--color-primary-600)); }
+.dark .dump-toc button:hover { color: rgb(var(--color-primary-400)); }
+.dump-toc-year li button.is-current { color: rgb(var(--color-primary-600)); }
+.dark .dump-toc-year li button.is-current { color: rgb(var(--color-primary-400)); }
+@media (prefers-reduced-motion: reduce) { .dump-toc-year > ul { transition: none; } }

@@ -10,6 +10,7 @@
     by date, and scripts/sync_braindump.py turns that name into `date`,
     `time` and `weight` (the display order).
     The headings on the Notion page (`group`) are the small filter on top.
+    On wide screens a sticky index of years and months sits beside the stream.
     Styles: .dump-* in assets/css/custom.css. Script: end of this file.
   */}}
   {{/* Oldest day first. Sorting by day on top of the stored order keeps the
@@ -38,6 +39,7 @@
     <p class="dump-empty">Nothing here yet.</p>
   {{ end }}
 
+  <div class="dump-layout">
   <div class="dump" data-dump>
     {{ $month := "" }}
     {{ $day := "" }}
@@ -46,7 +48,7 @@
       {{ if ne $d $day }}
         {{ if $day }}</div></section>{{ end }}
         {{ $m := .Date.Format "January 2006" }}
-        {{ if ne $m $month }}<p class="dump-month">{{ $m }}</p>{{ $month = $m }}{{ end }}
+        {{ if ne $m $month }}<p class="dump-month" id="m-{{ .Date.Format "2006-01" }}" data-year="{{ .Date.Format "2006" }}" data-month="{{ .Date.Format "January" }}">{{ $m }}</p>{{ $month = $m }}{{ end }}
         <section class="dump-day">
           <div class="dump-stamp">
             <time datetime="{{ $d }}"><span class="dump-num">{{ .Date.Format "2" }}</span><span class="dump-wd">{{ .Date.Format "Mon" }}</span></time>
@@ -87,6 +89,10 @@
       </article>
     {{ end }}
     {{ if $day }}</div></section>{{ end }}
+  </div>
+  {{/* Years and months, sticky beside the stream on wide screens. Built by
+       the script below from the month labels in the stream. */}}
+  <nav class="dump-toc print:hidden" aria-label="Years and months" hidden></nav>
   </div>
 
   {{/* Down to the newest entry. Shown near the top of the page, exactly while
@@ -203,6 +209,93 @@
         window.scrollTo({ top: Math.max(0, bottom - window.innerHeight + 96), behavior: reduce ? "auto" : "smooth" });
       });
     }
+
+    // ---- Years and months: the sticky index beside the stream ----
+    // One line per year; the year you are in (or clicked) shows its months.
+    // Clicking scrolls there; scrolling moves the highlight and opens the
+    // year you have reached. Follows the filter: hidden months are left out.
+    var toc = document.querySelector(".dump-toc");
+    if (toc) (function () {
+      var months = Array.prototype.slice.call(root.querySelectorAll(".dump-month"));
+      if (months.length < 2) return;
+      var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var openYear = null, pinnedUntil = 0, items = [];
+
+      function build() {
+        var html = "", year = null;
+        items = [];
+        months.forEach(function (m) {
+          if (m.hidden) return;
+          var y = m.getAttribute("data-year");
+          if (y !== year) {
+            if (year !== null) html += "</ul></li>";
+            html += '<li class="dump-toc-year" data-year="' + y + '"><button type="button" data-toc-year="' + y + '">' + y + '</button><ul>';
+            year = y;
+          }
+          html += '<li><button type="button" data-toc-month="' + m.id + '">' + m.getAttribute("data-month") + "</button></li>";
+          items.push(m);
+        });
+        if (year !== null) html += "</ul></li>";
+        toc.innerHTML = "<ul>" + html + "</ul>";
+        toc.hidden = !items.length;
+        spy(true);
+      }
+      function setOpenYear(y) {
+        openYear = y;
+        Array.prototype.forEach.call(toc.querySelectorAll(".dump-toc-year"), function (li) {
+          li.classList.toggle("is-open", li.getAttribute("data-year") === y);
+        });
+      }
+      function go(el) {
+        pinnedUntil = performance.now() + 1200;          // let the scroll finish before the highlight follows it again
+        window.scrollTo({ top: Math.max(0, window.scrollY + el.getBoundingClientRect().top - headerOffset() - 8), behavior: reduceMotion ? "auto" : "smooth" });
+      }
+      // Which month is at the top of the screen right now?
+      function spy(force) {
+        if (!items.length) return;
+        var line = headerOffset() + 40, cur = items[0];
+        for (var i = 0; i < items.length; i++) { if (items[i].getBoundingClientRect().top <= line) cur = items[i]; else break; }
+        // at the very end of the page the last month may never reach the top
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = items[items.length - 1];
+        Array.prototype.forEach.call(toc.querySelectorAll("[data-toc-month]"), function (b) {
+          b.classList.toggle("is-current", b.getAttribute("data-toc-month") === cur.id);
+        });
+        var y = cur.getAttribute("data-year");
+        Array.prototype.forEach.call(toc.querySelectorAll("[data-toc-year]"), function (b) {
+          b.classList.toggle("is-current", b.getAttribute("data-toc-year") === y);
+        });
+        if (force || performance.now() > pinnedUntil) { if (y !== openYear) setOpenYear(y); }
+      }
+      toc.addEventListener("click", function (ev) {
+        var yb = ev.target.closest("[data-toc-year]"), mb = ev.target.closest("[data-toc-month]");
+        if (yb) {
+          var y = yb.getAttribute("data-toc-year");
+          setOpenYear(y);
+          var first = items.filter(function (m) { return m.getAttribute("data-year") === y; })[0];
+          if (first) go(first);
+        } else if (mb) {
+          var m = document.getElementById(mb.getAttribute("data-toc-month"));
+          if (m) go(m);
+        }
+      });
+      var ticking = false;
+      window.addEventListener("scroll", function () {
+        if (ticking) return; ticking = true;
+        requestAnimationFrame(function () { ticking = false; spy(false); });
+      }, { passive: true });
+      // stick below the header bar, whatever its height
+      function place() {
+        var bar = 0;                                     // the fixed bar inside <header>
+        Array.prototype.forEach.call(document.querySelectorAll("header, header > div, .main-menu"), function (h) {
+          var cs = getComputedStyle(h), r = h.getBoundingClientRect();
+          if ((cs.position === "fixed" || cs.position === "sticky") && r.top <= 1 && r.height < 200 && r.width > window.innerWidth * 0.5) bar = Math.max(bar, r.bottom);
+        });
+        toc.style.setProperty("--dump-toc-top", (bar || 56) + "px");
+      }
+      window.addEventListener("resize", function () { place(); spy(false); });
+      if (filter) filter.addEventListener("click", function () { setTimeout(build, 0); });
+      place(); build();
+    })();
 
     // A link to one entry (…/braindump/#d-20261116-1) opens it.
     var target = location.hash.length > 1 && document.getElementById(decodeURIComponent(location.hash.slice(1)));

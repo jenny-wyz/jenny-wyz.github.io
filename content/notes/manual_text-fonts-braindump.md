@@ -165,6 +165,17 @@ Section “Knobs: tune the Brain dump page here”. Values as of this note.
 
 On phones the time column is narrower: `.dump { --dump-time-w: 2.9rem; }` inside `@media (max-width: 640px)` at the end of the Brain dump section.
 
+Also, can tune here:
+```
+.dump {
+  --dump-month-size: 0.77em;      /* "NOVEMBER 2023" */
+  --dump-num-size: 2.0em;        /* the day number, "17" */
+  --dump-num-size-phone: 1.6em;  /* the day number on phones */
+  --dump-wd-size: 0.78em;        /* the weekday, "Fri" */
+  --dump-time-size: 0.78em;       /* the time, "01:30" */
+}
+```
+
 ## Brain dump: text inside an open entry
 
 Section “Text inside an open entry. Knobs:”.

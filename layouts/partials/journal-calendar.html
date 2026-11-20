@@ -8,13 +8,30 @@
   {{- $entries = $entries | append (dict "s" (.Date | time.Format "2006-01-02") "e" (.Params.week_end | default (.Date | time.Format "2006-01-02")) "u" .RelPermalink "t" .Title) -}}
 {{- end }}
 <div class="hidden lg:block lg:order-last lg:ms-auto lg:ps-8 print:hidden">
-  <aside class="jcal lg:sticky lg:top-10" data-entries='{{ $entries | jsonify }}' data-current="{{ .RelPermalink }}" data-month="{{ .Date | time.Format "2006-01" }}" aria-label="Kalender">
+  <aside class="jcal lg:sticky" data-entries='{{ $entries | jsonify }}' data-current="{{ .RelPermalink }}" data-month="{{ .Date | time.Format "2006-01" }}" aria-label="Kalender">
   </aside>
 </div>
 <script>
 (function () {
   var el = document.querySelector(".jcal");
   if (!el) return;
+
+  // Stick below the site's header bar, whatever its height: measure it and
+  // hand it to the CSS (.jcal top = header height + a small gap).
+  function headerHeight() {
+    var best = 0;
+    // the bar is a fixed element inside <header> (Blowfish's "fixed-fill" header)
+    Array.prototype.forEach.call(document.querySelectorAll("header, header > div, .main-menu"), function (h) {
+      var cs = getComputedStyle(h), r = h.getBoundingClientRect();
+      if ((cs.position === "fixed" || cs.position === "sticky") && r.top <= 1 && r.height < 200 &&
+          r.width > window.innerWidth * 0.5) best = Math.max(best, r.bottom);
+    });
+    return best;
+  }
+  function placeCalendar() { el.style.setProperty("--jcal-header", headerHeight() + "px"); }
+  placeCalendar();
+  window.addEventListener("resize", placeCalendar);
+  window.addEventListener("scroll", function once() { placeCalendar(); window.removeEventListener("scroll", once); }, { passive: true });
   var entries = JSON.parse(el.getAttribute("data-entries")), current = el.getAttribute("data-current");
   var MONTHS = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
   var DAYS = ["So","Mo","Di","Mi","Do","Fr","Sa"];
