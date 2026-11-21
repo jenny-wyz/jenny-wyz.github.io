@@ -223,7 +223,9 @@ class Converter:
             return ""
         width = max(len(r) for r in cells)
         cells = [r + [""] * (width - len(r)) for r in cells]
-        esc = lambda s: s.replace("|", "\\|")
+        # A cell is one line of a Markdown table: a line break inside it
+        # (shift+enter in Notion) must become <br>, or it splits the row.
+        esc = lambda s: s.replace("|", "\\|").replace("\\\n", "<br>").replace("\n", "<br>")
         if not header:
             cells.insert(0, [""] * width)
         out = ["| " + " | ".join(esc(c) for c in cells[0]) + " |",
@@ -241,7 +243,30 @@ class Converter:
             ext = ".jpg"
         name = f"img-{n}{ext}"
         self.images.append((url, name))
-        return f"![{inline(p.get('caption'))}]({name})"
+        caption, size = image_size(inline(p.get("caption")))
+        md = f"![{caption}]({name})"
+        # The size, if the caption gave one, goes on the image's paragraph as a
+        # CSS variable (a Goldmark block attribute); custom.css reads it.
+        return md + (f'\n{{style="--img-w: {size}"}}' if size else "")
+
+
+SIZE_RE = re.compile(r"\[?\s*(\d{1,3}(?:\.\d+)?)\s*(%|px|rem)\s*\]?")
+
+
+def image_size(caption: str) -> tuple[str, str]:
+    """Split a size off an image caption: "60%", "[60%]", "Sein und Zeit [80%]",
+    "320px" or "20rem" sets how wide the image is shown; the rest stays the
+    caption. Percent is of the text width. No size: the image's default."""
+    m = None
+    for m in SIZE_RE.finditer(caption or ""):
+        pass                                     # the last size mentioned wins
+    if not m:
+        return caption, ""
+    num, unit = m.group(1), m.group(2)
+    if unit == "%" and float(num) > 100:
+        num = "100"
+    rest = (caption[: m.start()] + caption[m.end():]).strip(" ·,-–")
+    return rest, f"{num}{unit}"
 
 
 # --------------------------------------------------------------------------- #

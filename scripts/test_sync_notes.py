@@ -166,5 +166,27 @@ class NoteTests(unittest.TestCase):
             self.assertEqual(sorted(os.listdir(root)), ["hand.md", "rock-music.md"])
 
 
+
+class TableCellTests(unittest.TestCase):
+    def test_line_break_in_a_cell_stays_in_its_row(self):
+        cell = lambda t: [{"type": "text", "plain_text": t, "text": {"content": t}, "annotations": {}}]
+        rows = [{"type": "table_row", "table_row": {"cells": [cell("Deutsch"), cell("Englisch")]}},
+                {"type": "table_row", "table_row": {"cells": [cell("die Folge\n(Folgen davon, dass …)"), cell("consequence\n(consequences of …)")]}}]
+        conv = sn.Converter.__new__(sn.Converter)
+        out = sn.Converter.table(conv, rows, True).splitlines()
+        self.assertEqual(len(out), 3)
+        self.assertEqual(out[2], "| die Folge<br>(Folgen davon, dass …) | consequence<br>(consequences of …) |")
+
+
+class ImageSizeTests(unittest.TestCase):
+    def test_sizes_from_the_caption(self):
+        self.assertEqual(sn.image_size("60%"), ("", "60%"))
+        self.assertEqual(sn.image_size("[45 %]"), ("", "45%"))
+        self.assertEqual(sn.image_size("Sein und Zeit [80%]"), ("Sein und Zeit", "80%"))
+        self.assertEqual(sn.image_size("320px"), ("", "320px"))
+        self.assertEqual(sn.image_size("20rem"), ("", "20rem"))
+        self.assertEqual(sn.image_size("a swing on a cliff"), ("a swing on a cliff", ""))
+        self.assertEqual(sn.image_size("150%"), ("", "100%"))
+
 if __name__ == "__main__":
     unittest.main()

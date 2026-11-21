@@ -66,3 +66,7 @@ Sections: Journal (weekly entries in German, synced from the Notion database "Je
 - Keep `public/` and `resources/` out of git (see `.gitignore`).
 - Keep changes small and explain them; ask before large redesigns or deleting content.
 - Do not add Co-Authored-By or Claude-Session trailers to commit messages.
+
+## Image sizes from Notion
+
+An image in a Notion page (any synced section) can set its display width in its caption: `60%` (of the text width), `320px` or `20rem`, alone or after a real caption (`Sein und Zeit [80%]`). `scripts/sync_notes.py` (`image_size`) strips it from the caption and writes it as a Goldmark block attribute, `{style="--img-w: 60%"}`, under the image; `.journal-entry img` reads `--img-w` (default 100%). Without a size, journal images fill the text width.

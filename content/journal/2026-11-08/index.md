@@ -28,6 +28,7 @@ I got off the bus, transformed into a lion, kicked a racist little lion across t
 I’m on a big swing at a cliff.
 
 ![](img-1.png)
+{style="--img-w: 50%"}
 {{< /callout >}}
 
 Kann kaum laufen. Die Folgen davon, dass ich das Gym geschwänzt habe.
@@ -70,7 +71,5 @@ Es ist so schwer, ein Gleichgewicht zu finden.
 | sich verlieren | to lose oneself |
 | teilweise | partly, partially |
 | schwänzen | to skip (school, classes) |
-| die Folge
-(Folgen davon, dass …) | consequence
-(consequences of …) |
+| die Folge<br>(Folgen davon, dass …) | consequence<br>(consequences of …) |
 | kaum | barely, hardly |
