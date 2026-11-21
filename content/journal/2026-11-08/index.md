@@ -14,7 +14,7 @@ Es wird trockener. Trink mehr Wasser.
 
 Was für eine friedliche Nacht. Bäume gefallen mir.
 
-~~~\
+{{< callout >}}
 10.11.2026 Dreams
 1. (longest) \
 Went for a swim in the lake in this weather. Somewhat crowded deck. It was quite warm. Went to somewhere else with a group, then went to someone’s WG. Very cute, tastefully decorated small garden (w some toys?). Cozy interior. I have been here once before. Lied on the bed with my friend and fell asleep.
@@ -28,8 +28,7 @@ I got off the bus, transformed into a lion, kicked a racist little lion across t
 I’m on a big swing at a cliff.
 
 ![](img-1.png)
-
-~~~
+{{< /callout >}}
 
 Kann kaum laufen. Die Folgen davon, dass ich das Gym geschwänzt habe.
 
