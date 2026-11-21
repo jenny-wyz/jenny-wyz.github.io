@@ -22,13 +22,13 @@ Went for a swim in the lake in this weather. Somewhat crowded deck. It was quite
 (Was happy yesterday but) am depressed again today. \
 Symbol: ▼
 3. (shortest) \
-I got off the bus, transformed into a lion, kicked a racist little lion across the valley. (And told his parents.)
+I got off the bus, transformed into a lion, kicked a racist little lion over across the valley. (And told his parents.)
 
 3.5. \
 I’m on a big swing at a cliff.
 
 ![](img-1.png)
-{style="--img-w: 50%"}
+{style="--img-w: 40%"}
 {{< /callout >}}
 
 Kann kaum laufen. Die Folgen davon, dass ich das Gym geschwänzt habe.
