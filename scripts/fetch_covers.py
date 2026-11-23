@@ -21,6 +21,17 @@ Matching is deliberately conservative: a wrong cover is worse than no cover.
 A hit requires the normalised Open Library title to match the book title and,
 when an author is known, the author's surname to appear in the result's authors.
 Collections (several books under one entry) are skipped.
+
+Your own covers: put an image (jpg, png or webp) in assets/covers/ and it wins
+over Open Library, for any book, collections included. Name it after the book,
+
+    assets/covers/The Power of Now.jpg      the title as it is in Notion
+    assets/covers/<32-character id>.jpg     or the page id from the Notion link
+
+and the next run renames it to <id>.jpg, shrinks it, and marks the book
+"manual" in data/covers.json so it is never looked up or replaced. To change a
+cover later, overwrite <id>.jpg. A file that matches no book is left alone and
+reported. `--manual-only` does just this part, without Open Library.
 """
 
 from __future__ import annotations
@@ -176,6 +187,64 @@ def shrink(data: bytes) -> bytes:
     return out.getvalue()
 
 
+ID_RE = re.compile(r"[0-9a-f]{32}")
+IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp")
+
+
+def adopt_manual(books: list[dict], cache: dict, dest: str, today: str, dry_run: bool = False, verbose: bool = False) -> int:
+    """Take over the images someone put into `dest` by hand. Returns how many."""
+    ids = {b["id"]: b for b in books}
+    by_title: dict[str, list[dict]] = {}
+    for b in books:
+        by_title.setdefault(norm(b["title"]), []).append(b)
+
+    adopted = 0
+    for name in sorted(os.listdir(dest)):
+        stem, ext = os.path.splitext(name)
+        ext = ext.lower()
+        if ext not in IMAGE_EXTS:
+            continue
+        path = os.path.join(dest, name)
+        if ID_RE.fullmatch(stem) and ext == ".jpg":
+            # Already in place. Ours unless Open Library put it there.
+            if stem in ids and (cache.get(stem) or {}).get("status") != "ok":
+                if (cache.get(stem) or {}).get("status") != "manual":
+                    cache[stem] = {"status": "manual", "checked": today, "title": ids[stem]["title"]}
+                    adopted += 1
+                    log(verbose, f"manual: {ids[stem]['title']}")
+            elif stem not in ids and stem not in cache:
+                print(f"cover {name}: no book with this id (yet); left alone", file=sys.stderr)
+            continue
+        # A name to resolve: an id with another extension, "...-<id>", or a title.
+        tail = re.search(r"([0-9a-f]{32}|[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12})$", stem.lower())
+        book = ids.get(tail.group(1).replace("-", "")) if tail else None
+        if book is None:
+            found = by_title.get(norm(stem), [])
+            if len(found) == 1:
+                book = found[0]
+            else:
+                why = "several books have this title; use the id" if found else "no book with this title or id (yet)"
+                print(f"cover {name}: {why}; left alone", file=sys.stderr)
+                continue
+        with open(path, "rb") as f:
+            data = f.read()
+        try:
+            from PIL import Image  # type: ignore  # noqa: F401
+        except ImportError:
+            if ext not in (".jpg", ".jpeg"):
+                print(f"cover {name}: needs Pillow to convert to jpg; left alone", file=sys.stderr)
+                continue
+        if not dry_run:
+            with open(os.path.join(dest, f"{book['id']}.jpg"), "wb") as f:
+                f.write(shrink(data))
+            if name != f"{book['id']}.jpg":
+                os.remove(path)
+        cache[book["id"]] = {"status": "manual", "checked": today, "title": book["title"]}
+        adopted += 1
+        log(verbose, f"manual: {book['title']}  ({name})")
+    return adopted
+
+
 def main(argv: Optional[list[str]] = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--books", default="data/books.json")
@@ -184,6 +253,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--limit", type=int, default=0, help="look up at most N books this run (0 = all)")
     ap.add_argument("--recheck-days", type=int, default=90)
     ap.add_argument("--delay", type=float, default=1.0, help="seconds between Open Library requests")
+    ap.add_argument("--manual-only", action="store_true", help="only take over covers put into --dest by hand; no Open Library")
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--verbose", "-v", action="store_true")
     args = ap.parse_args(argv)
@@ -197,11 +267,18 @@ def main(argv: Optional[list[str]] = None) -> int:
     os.makedirs(args.dest, exist_ok=True)
 
     today = dt.date.today()
+    manual = adopt_manual(books, cache, args.dest, today.isoformat(), args.dry_run, args.verbose)
     todo = []
     for b in books:
-        if b.get("collection"):
+        if args.manual_only or b.get("collection"):
             continue
         entry = cache.get(b["id"])
+        if entry:
+            if entry.get("status") == "manual":
+                if os.path.exists(os.path.join(args.dest, f"{b['id']}.jpg")):
+                    continue
+                entry = None          # the hand-made cover is gone: look it up again
+                cache.pop(b["id"], None)
         if entry:
             if entry.get("status") == "ok" and os.path.exists(os.path.join(args.dest, f"{b['id']}.jpg")):
                 continue
@@ -235,11 +312,12 @@ def main(argv: Optional[list[str]] = None) -> int:
         hits += 1
         log(args.verbose, f"ok: {b['title']} (cover {cid})")
 
-    # Remove covers for books that no longer exist.
+    # Remove covers for books that no longer exist (only ones this script
+    # knows from an earlier run; a file it has never seen is left alone).
     ids = {b["id"] for b in books}
     for name in os.listdir(args.dest):
         stem, ext = os.path.splitext(name)
-        if ext == ".jpg" and stem not in ids and not args.dry_run:
+        if ext == ".jpg" and stem in cache and stem not in ids and not args.dry_run:
             os.remove(os.path.join(args.dest, name))
             cache.pop(stem, None)
 
@@ -247,7 +325,8 @@ def main(argv: Optional[list[str]] = None) -> int:
         with open(args.cache, "w", encoding="utf-8") as f:
             json.dump(dict(sorted(cache.items())), f, ensure_ascii=False, indent=2)
             f.write("\n")
-    print(f"done: {hits} new covers, {sum(1 for v in cache.values() if v.get('status') == 'ok')} total", file=sys.stderr)
+    count = lambda st: sum(1 for v in cache.values() if v.get("status") == st)  # noqa: E731
+    print(f"done: {hits} new from Open Library ({count('ok')} total), {manual} new by hand ({count('manual')} total)", file=sys.stderr)
     return 0
 
 

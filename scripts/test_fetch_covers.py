@@ -41,5 +41,76 @@ class MatchTests(unittest.TestCase):
         self.assertIsNone(fc.pick_cover(book, [{"title": "Walden", "author_name": ["Henry David Thoreau"]}]))
 
 
+
+class ManualCoverTests(unittest.TestCase):
+    A, B, C = "a" * 32, "b" * 32, "c" * 32
+
+    def setUp(self):
+        import tempfile
+        self.dir = tempfile.mkdtemp()
+        self._shrink, fc.shrink = fc.shrink, (lambda d: d)      # the test files are not real images
+        self.addCleanup(lambda: setattr(fc, "shrink", self._shrink))
+        self.books = [{"id": self.A, "title": "The Power of Now"}, {"id": self.B, "title": "\u6211\u4e0e\u5730\u575b"},
+                      {"id": self.C, "title": "Twins"}, {"id": "d" * 32, "title": "Twins"}]
+
+    def put(self, name, data=b"\xff\xd8jpegish"):
+        with open(os.path.join(self.dir, name), "wb") as f:
+            f.write(data)
+
+    def files(self):
+        return sorted(os.listdir(self.dir))
+
+    def test_title_and_id_names_are_adopted(self):
+        self.put("the power of now.jpg")                       # title, any case, leading "the" optional
+        self.put("\u6211\u4e0e\u5730\u575b.jpeg")           # Chinese title
+        self.put("Twins-" + self.C + ".jpg")                    # "...-<id>" as in a Notion link
+        cache = {}
+        n = fc.adopt_manual(self.books, cache, self.dir, "2026-11-23")
+        self.assertEqual(n, 3)
+        self.assertEqual(self.files(), [self.A + ".jpg", self.B + ".jpg", self.C + ".jpg"])
+        self.assertEqual({k: v["status"] for k, v in cache.items()}, {self.A: "manual", self.B: "manual", self.C: "manual"})
+
+    def test_unknown_and_ambiguous_names_are_left_alone(self):
+        self.put("Twins.jpg")                                   # two books share the title
+        self.put("Not a book.jpg")
+        self.put("e" * 32 + ".jpg")                             # an id no book has yet
+        cache = {}
+        self.assertEqual(fc.adopt_manual(self.books, cache, self.dir, "2026-11-23"), 0)
+        self.assertEqual(len(self.files()), 3)
+        self.assertEqual(cache, {})
+
+    def test_file_in_place_is_manual_unless_fetched(self):
+        self.put(self.A + ".jpg")
+        self.put(self.B + ".jpg")
+        cache = {self.B: {"status": "ok", "cover_i": 1}}
+        fc.adopt_manual(self.books, cache, self.dir, "2026-11-23")
+        self.assertEqual(cache[self.A]["status"], "manual")
+        self.assertEqual(cache[self.B]["status"], "ok")
+
+    def test_main_keeps_manual_covers_and_strangers(self):
+        import json
+        books = os.path.join(self.dir, "books.json")
+        cachef = os.path.join(self.dir, "covers.json")
+        dest = os.path.join(self.dir, "covers")
+        os.mkdir(dest)
+        with open(books, "w") as f:
+            json.dump({"books": [{"id": self.A, "title": "The Power of Now", "author": "x"}]}, f)
+        with open(cachef, "w") as f:
+            json.dump({self.C: {"status": "ok"}}, f)            # a book that is gone
+        for name in ("The Power of Now.jpg", "e" * 32 + ".jpg", self.C + ".jpg"):
+            with open(os.path.join(dest, name), "wb") as f:
+                f.write(b"\xff\xd8jpegish")
+        orig = fc.shrink
+        fc.shrink = lambda d: d                                # no real image here
+        try:
+            fc.main(["--books", books, "--cache", cachef, "--dest", dest, "--manual-only"])
+        finally:
+            fc.shrink = orig
+        self.assertEqual(sorted(os.listdir(dest)), [self.A + ".jpg", "e" * 32 + ".jpg"])   # adopted; stranger kept; gone book removed
+        with open(cachef) as f:
+            saved = json.load(f)
+        self.assertEqual({k: v["status"] for k, v in saved.items()}, {self.A: "manual"})
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)

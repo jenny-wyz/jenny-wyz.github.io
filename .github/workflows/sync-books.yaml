@@ -72,11 +72,16 @@ jobs:
           echo "enabled=$([ "$v" = "true" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
           echo "covers: $v"
 
-      - name: Fetch covers
-        if: steps.covers.outputs.enabled == 'true'
+      # Covers you put into assets/covers/ yourself are always taken over
+      # (renamed to <id>.jpg, shrunk); Open Library is only asked when enabled.
+      - name: Covers
         run: |
           pip install --quiet pillow
-          python3 scripts/fetch_covers.py --verbose
+          if [ "${{ steps.covers.outputs.enabled }}" = "true" ]; then
+            python3 scripts/fetch_covers.py --verbose
+          else
+            python3 scripts/fetch_covers.py --verbose --manual-only
+          fi
 
       - name: Commit and push changes
         id: commit
