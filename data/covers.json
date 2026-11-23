@@ -1,7 +1,7 @@
 {
   "21def088fb8b80108dfbf0554bcbb7a8": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "我与地坛"
   },
   "21def088fb8b801fb4f4fc5b50ffb5f8": {
@@ -11,9 +11,9 @@
     "title": "The Power of Now"
   },
   "21def088fb8b8036a243c82b1ecd102f": {
-    "status": "miss",
-    "checked": "2026-10-31",
-    "title": "The Portrait of Dorian Gray"
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "The Picture of Dorian Gray"
   },
   "21def088fb8b805c8c8cd7b9e49e1506": {
     "status": "ok",
@@ -22,23 +22,23 @@
     "title": "The Myth of Sisyphus"
   },
   "21def088fb8b807bbcb2f915bb668d43": {
-    "status": "miss",
-    "checked": "2026-10-31",
-    "title": "明朝那些事"
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "明朝那些事儿"
   },
   "21def088fb8b807eb61ed257bd00fefc": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "The Gambler"
   },
   "21def088fb8b80929d82d624a0176139": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "The Outsider"
   },
   "21def088fb8b809fbd8fd705370f6d1c": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "厌女"
   },
   "21def088fb8b80a58f1ddcd7d47289be": {
@@ -54,13 +54,13 @@
     "title": "三体"
   },
   "21def088fb8b80f389e6e1ef3b5d8c76": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "绝叫"
   },
   "21def088fb8b80f58a66edc25f48c382": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "White Nights"
   },
   "21def088fb8b80fe9be4e419fdf20e72": {
@@ -76,8 +76,8 @@
     "title": "The Moon and Sixpence"
   },
   "21def088fb8b81368f53fdbcc82da2a8": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "The Death of Ivan Ilych"
   },
   "21def088fb8b81769353de32a64801b2": {
@@ -93,18 +93,18 @@
     "title": "Narcissus and Goldmund"
   },
   "21def088fb8b81929e4ada4643a0cee9": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "The Brothers Karamazov"
   },
   "21def088fb8b8194a972caba32071106": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "The Idiot"
   },
   "21def088fb8b8197bc5cfe7f6a59ac9e": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "Notes from Underground"
   },
   "21def088fb8b81aea413ddcea0266cac": {
@@ -114,8 +114,8 @@
     "title": "Crime and Punishment"
   },
   "21def088fb8b81b1be51d34898e5d283": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "被讨厌的勇气"
   },
   "21def088fb8b81bd8cd7f4b8403627f0": {
@@ -125,9 +125,9 @@
     "title": "Nonviolent Communication"
   },
   "21def088fb8b81d0a14bd837260e2376": {
-    "status": "miss",
-    "checked": "2026-10-31",
-    "title": "The Devil"
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "The Devils"
   },
   "3ceef088fb8b800684fef965dbc9a3c8": {
     "status": "ok",
@@ -136,8 +136,8 @@
     "title": "Steppenwolf"
   },
   "3ceef088fb8b801f92c8fd9250f5bca2": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "海子的诗"
   },
   "3ceef088fb8b802abfa4da30900d39a0": {
@@ -165,8 +165,8 @@
     "title": "Animal Farm"
   },
   "3ceef088fb8b8038b012e3aa6e407c36": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "白夜行"
   },
   "3ceef088fb8b803ba30dc37f40de9caa": {
@@ -176,8 +176,8 @@
     "title": "Ulysses"
   },
   "3ceef088fb8b8040885af7c264f8d5df": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "嫌疑人X的献身"
   },
   "3ceef088fb8b80528f55fc83a7c80c2c": {
@@ -192,6 +192,11 @@
     "checked": "2026-10-31",
     "title": "The Old Man and the Sea"
   },
+  "3ceef088fb8b805baf5ed974c2446321": {
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "Sherlock Holmes"
+  },
   "3ceef088fb8b805faa68ec0dcbce523d": {
     "status": "ok",
     "cover_i": 7182819,
@@ -199,13 +204,13 @@
     "title": "The Merchant of Venice"
   },
   "3ceef088fb8b80649b1bc9e448948ace": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "阿Q正传"
   },
   "3ceef088fb8b806a9236fb086236b36b": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "苏轼诗集"
   },
   "3ceef088fb8b806bb5f4c03256a262fc": {
@@ -215,8 +220,8 @@
     "title": "The Nightingale and the Rose"
   },
   "3ceef088fb8b807986c9cb368667e17e": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "解忧杂货店"
   },
   "3ceef088fb8b8079a145f25d54623390": {
@@ -232,13 +237,13 @@
     "title": "Romeo and Juliet"
   },
   "3ceef088fb8b807eb148fa9858806e93": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "梦幻花"
   },
   "3ceef088fb8b8084b501dd1f2ac433cd": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "恶意"
   },
   "3ceef088fb8b8085b8e1cefe065d4f54": {
@@ -272,13 +277,13 @@
     "title": "The Almanack of Naval Ravikant"
   },
   "3ceef088fb8b80a198e1f0600bf40bd3": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "狂人日记"
   },
   "3ceef088fb8b80a591e2f5c5f4ab9c46": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "猫武士 - 系列"
   },
   "3ceef088fb8b80a6b315f4c4cb6214aa": {
@@ -288,8 +293,8 @@
     "title": "Dubliners"
   },
   "3ceef088fb8b80abbbfedf4e0f981163": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "The Second Sex"
   },
   "3ceef088fb8b80b2824bcb71d6a778b1": {
@@ -315,6 +320,11 @@
     "cover_i": 872432,
     "checked": "2026-10-31",
     "title": "Macbeth"
+  },
+  "3ceef088fb8b80be9b9bf3450041e364": {
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "沈石溪"
   },
   "3ceef088fb8b80bf841fe7b72625454a": {
     "status": "ok",
@@ -376,6 +386,11 @@
     "checked": "2026-10-31",
     "title": "Existential Psychotherapy"
   },
+  "3ceef088fb8b80f0a27ccb0479f70fdf": {
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "Agatha Christie"
+  },
   "3cfef088fb8b800187defaea2bbcc8f1": {
     "status": "ok",
     "cover_i": 34307,
@@ -425,13 +440,13 @@
     "title": "The Great Gatsby"
   },
   "3cfef088fb8b80918863c18cd1d4e2f1": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "道德经"
   },
   "3cfef088fb8b8091b69dd79e9e19978b": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "The Plague"
   },
   "3cfef088fb8b80c39ffbd4b08cc2f790": {
@@ -441,8 +456,8 @@
     "title": "Oliver Twist"
   },
   "3cfef088fb8b80c8ad05faf0e65cb5ee": {
-    "status": "miss",
-    "checked": "2026-10-31",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "Republic"
   },
   "3cfef088fb8b80d0976edf0cec06b48c": {
@@ -452,9 +467,9 @@
     "title": "Meditations"
   },
   "3cfef088fb8b80d19a0cff608bb11fb3": {
-    "status": "miss",
-    "checked": "2026-10-31",
-    "title": "A Cask of Amontillado"
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "The Cask of Amontillado"
   },
   "3cfef088fb8b80fdbb5ae73dfcb8f8cc": {
     "status": "ok",
@@ -487,13 +502,13 @@
     "title": "Being and Time"
   },
   "40bef088fb8b80039c78e2528bf224fb": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "我自我的田渠归来"
   },
   "40bef088fb8b8003be0aef24c6306d80": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "挪威的森林"
   },
   "40bef088fb8b801ab1faff762de4bf14": {
@@ -503,23 +518,23 @@
     "title": "An Enquiry Concerning Human Understanding"
   },
   "40bef088fb8b80298318f3eda4604e06": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "斗破苍穹"
   },
   "40bef088fb8b8029bad5fdd27e7467ae": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "How to be a Stoic"
   },
   "40bef088fb8b80309f48ffe58da123c2": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "爱丽丝学院"
   },
   "40bef088fb8b8033baa5d5d5ff6990b8": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "绝对不在场证明"
   },
   "40bef088fb8b8038ac1bfe354080b43d": {
@@ -535,43 +550,43 @@
     "title": "The Winter’s Tale"
   },
   "40bef088fb8b804396b1cda35eb16a1c": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "聊斋志异"
   },
   "40bef088fb8b804cbbe0f78573abe307": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "断舍离"
   },
   "40bef088fb8b8054a9a1c6f65e90361d": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "Man’s Search for Meaning"
   },
   "40bef088fb8b806da95fe2999f7ab421": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "哈利·波特"
   },
   "40bef088fb8b80739b14e43809c0ee3d": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "罗生门"
   },
   "40bef088fb8b807a968cdc5e3fbe683e": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "诡计博物馆"
   },
   "40bef088fb8b8085afdbd79d8b0d0274": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "Just Ask Yourself"
   },
   "40bef088fb8b8098a6e3f4015bcf1ff0": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "三个故事"
   },
   "40bef088fb8b80a1b966e2e91a3a1efa": {
@@ -581,18 +596,18 @@
     "title": "Discourse on Method and Meditations"
   },
   "40bef088fb8b80a68984d02c5f951cfc": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "The Sickness unto Death"
   },
   "40bef088fb8b80a98d4bce52d200a0c1": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "斗罗大陆"
   },
   "40bef088fb8b80b3a1c5d79b0dc9d849": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "刺杀骑士团长"
   },
   "40bef088fb8b80bcac7bf8a5fa680e0b": {
@@ -602,8 +617,8 @@
     "title": "A Modest Proposal"
   },
   "40bef088fb8b80fa8701c3ba3b2608da": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "窗边的小豆豆"
   },
   "40bef088fb8b80fda437c6dab94ab338": {
@@ -613,23 +628,23 @@
     "title": "The Adventures of Huckleberry Finn"
   },
   "40bef088fb8b80fdb494da12f103bd24": {
-    "status": "miss",
-    "checked": "2026-11-01",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "封神演义"
   },
   "410ef088fb8b80d9addde8e5fcb91f28": {
-    "status": "miss",
-    "checked": "2026-11-09",
-    "title": "Metamorphosis"
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "Metamorphoses"
   },
   "413ef088fb8b80f3aef3e4f77f5b2e33": {
-    "status": "miss",
-    "checked": "2026-11-13",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "射雕英雄传"
   },
   "414ef088fb8b80b9a627defaa99d5ce7": {
-    "status": "miss",
-    "checked": "2026-11-13",
+    "status": "manual",
+    "checked": "2026-11-23",
     "title": "Getting Lost"
   },
   "418ef088fb8b804fac95cea87b8e5df0": {

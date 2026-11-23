@@ -3,7 +3,8 @@
 Fetch book covers from Open Library for the Reading section.
 
 Reads data/books.json, looks each book up on Open Library, downloads a cover
-when there is a confident match, and stores it as assets/covers/<id>.jpg.
+when there is a confident match, and stores it as
+assets/covers/<title> - <id>.jpg (see cover_name).
 Results (hits and misses) are cached in data/covers.json so each book is
 looked up once; misses are retried after `recheck_days`.
 
@@ -28,10 +29,14 @@ over Open Library, for any book, collections included. Name it after the book,
     assets/covers/The Power of Now.jpg      the title as it is in Notion
     assets/covers/<32-character id>.jpg     or the page id from the Notion link
 
-and the next run renames it to <id>.jpg, shrinks it, and marks the book
-"manual" in data/covers.json so it is never looked up or replaced. To change a
-cover later, overwrite <id>.jpg. A file that matches no book is left alone and
-reported. `--manual-only` does just this part, without Open Library.
+and the next run renames it to "<title> - <id>.jpg", shrinks it, and marks the
+book "manual" in data/covers.json so it is never looked up or replaced. To
+change a cover later, overwrite that file. A file that matches no book is left
+alone and reported. `--manual-only` does just this part, without Open Library.
+
+File names: every cover ends up as "<title> - <id>.jpg", readable in the
+folder; the site finds it by the id at the end (layouts/partials/reading/
+books.html). When a title changes in Notion, the next run renames the file.
 """
 
 from __future__ import annotations
@@ -189,6 +194,34 @@ def shrink(data: bytes) -> bytes:
 
 ID_RE = re.compile(r"[0-9a-f]{32}")
 IMAGE_EXTS = (".jpg", ".jpeg", ".png", ".webp")
+# "<anything> - <id>.jpg", or "<id>.jpg" from before titles were added
+COVER_RE = re.compile(r"^(?:.* - )?([0-9a-f]{32})\.jpg$")
+UNSAFE_RE = re.compile(r'[<>:"/\\|?*\x00-\x1f]+')
+
+
+def safe_title(title: str) -> str:
+    """The title, made safe as a file name on Windows, Mac and Linux."""
+    t = UNSAFE_RE.sub(" ", unicodedata.normalize("NFC", title or ""))
+    t = re.sub(r"\s+", " ", t).strip().rstrip(". ")
+    return t[:80].rstrip(". ") or "untitled"
+
+
+def cover_name(book: dict) -> str:
+    return f"{safe_title(book['title'])} - {book['id']}.jpg"
+
+
+def find_covers(dest: str) -> dict[str, str]:
+    """id -> file name, for every cover file in dest."""
+    found = {}
+    for name in os.listdir(dest):
+        m = COVER_RE.match(name)
+        if m:
+            found[m.group(1)] = name
+    return found
+
+
+def has_cover(dest: str, book_id: str) -> bool:
+    return book_id in find_covers(dest)
 
 
 def adopt_manual(books: list[dict], cache: dict, dest: str, today: str, dry_run: bool = False, verbose: bool = False) -> int:
@@ -205,14 +238,21 @@ def adopt_manual(books: list[dict], cache: dict, dest: str, today: str, dry_run:
         if ext not in IMAGE_EXTS:
             continue
         path = os.path.join(dest, name)
-        if ID_RE.fullmatch(stem) and ext == ".jpg":
+        m = COVER_RE.match(name)
+        if m:
             # Already in place. Ours unless Open Library put it there.
-            if stem in ids and (cache.get(stem) or {}).get("status") != "ok":
-                if (cache.get(stem) or {}).get("status") != "manual":
-                    cache[stem] = {"status": "manual", "checked": today, "title": ids[stem]["title"]}
+            bid = m.group(1)
+            if bid in ids:
+                if (cache.get(bid) or {}).get("status") not in ("ok", "manual"):
+                    cache[bid] = {"status": "manual", "checked": today, "title": ids[bid]["title"]}
                     adopted += 1
-                    log(verbose, f"manual: {ids[stem]['title']}")
-            elif stem not in ids and stem not in cache:
+                    log(verbose, f"manual: {ids[bid]['title']}")
+                want = cover_name(ids[bid])
+                if name != want and not dry_run:
+                    if os.path.exists(os.path.join(dest, want)):
+                        os.remove(os.path.join(dest, want))
+                    os.rename(path, os.path.join(dest, want))
+            elif bid not in cache:
                 print(f"cover {name}: no book with this id (yet); left alone", file=sys.stderr)
             continue
         # A name to resolve: an id with another extension, "...-<id>", or a title.
@@ -235,9 +275,11 @@ def adopt_manual(books: list[dict], cache: dict, dest: str, today: str, dry_run:
                 print(f"cover {name}: needs Pillow to convert to jpg; left alone", file=sys.stderr)
                 continue
         if not dry_run:
-            with open(os.path.join(dest, f"{book['id']}.jpg"), "wb") as f:
+            for old in [n for n in os.listdir(dest) if COVER_RE.match(n) and COVER_RE.match(n).group(1) == book["id"]]:
+                os.remove(os.path.join(dest, old))           # the cover it replaces
+            with open(os.path.join(dest, cover_name(book)), "wb") as f:
                 f.write(shrink(data))
-            if name != f"{book['id']}.jpg":
+            if name != cover_name(book):
                 os.remove(path)
         cache[book["id"]] = {"status": "manual", "checked": today, "title": book["title"]}
         adopted += 1
@@ -275,12 +317,12 @@ def main(argv: Optional[list[str]] = None) -> int:
         entry = cache.get(b["id"])
         if entry:
             if entry.get("status") == "manual":
-                if os.path.exists(os.path.join(args.dest, f"{b['id']}.jpg")):
+                if has_cover(args.dest, b["id"]):
                     continue
                 entry = None          # the hand-made cover is gone: look it up again
                 cache.pop(b["id"], None)
         if entry:
-            if entry.get("status") == "ok" and os.path.exists(os.path.join(args.dest, f"{b['id']}.jpg")):
+            if entry.get("status") == "ok" and has_cover(args.dest, b["id"]):
                 continue
             if entry.get("status") == "miss":
                 checked = dt.date.fromisoformat(entry.get("checked", "1970-01-01"))
@@ -306,7 +348,7 @@ def main(argv: Optional[list[str]] = None) -> int:
             log(args.verbose, f"no image for cover {cid}: {b['title']}")
             continue
         if not args.dry_run:
-            with open(os.path.join(args.dest, f"{b['id']}.jpg"), "wb") as f:
+            with open(os.path.join(args.dest, cover_name(b)), "wb") as f:
                 f.write(shrink(img))
         cache[b["id"]] = {"status": "ok", "cover_i": cid, "checked": today.isoformat(), "title": b["title"]}
         hits += 1
@@ -315,11 +357,10 @@ def main(argv: Optional[list[str]] = None) -> int:
     # Remove covers for books that no longer exist (only ones this script
     # knows from an earlier run; a file it has never seen is left alone).
     ids = {b["id"] for b in books}
-    for name in os.listdir(args.dest):
-        stem, ext = os.path.splitext(name)
-        if ext == ".jpg" and stem in cache and stem not in ids and not args.dry_run:
+    for bid, name in find_covers(args.dest).items():
+        if bid in cache and bid not in ids and not args.dry_run:
             os.remove(os.path.join(args.dest, name))
-            cache.pop(stem, None)
+            cache.pop(bid, None)
 
     if not args.dry_run:
         with open(args.cache, "w", encoding="utf-8") as f:

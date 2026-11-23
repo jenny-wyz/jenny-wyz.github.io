@@ -67,7 +67,8 @@ class ManualCoverTests(unittest.TestCase):
         cache = {}
         n = fc.adopt_manual(self.books, cache, self.dir, "2026-11-23")
         self.assertEqual(n, 3)
-        self.assertEqual(self.files(), [self.A + ".jpg", self.B + ".jpg", self.C + ".jpg"])
+        self.assertEqual(self.files(), sorted(["The Power of Now - " + self.A + ".jpg", "\u6211\u4e0e\u5730\u575b - " + self.B + ".jpg",
+                                               "Twins - " + self.C + ".jpg"]))
         self.assertEqual({k: v["status"] for k, v in cache.items()}, {self.A: "manual", self.B: "manual", self.C: "manual"})
 
     def test_unknown_and_ambiguous_names_are_left_alone(self):
@@ -86,6 +87,26 @@ class ManualCoverTests(unittest.TestCase):
         fc.adopt_manual(self.books, cache, self.dir, "2026-11-23")
         self.assertEqual(cache[self.A]["status"], "manual")
         self.assertEqual(cache[self.B]["status"], "ok")
+
+    def test_id_names_get_the_title_and_follow_title_changes(self):
+        self.put(self.A + ".jpg")                                   # old style: id only
+        self.put("Old title - " + self.B + ".jpg")                  # title changed in Notion since
+        cache = {self.A: {"status": "ok"}, self.B: {"status": "manual"}}
+        fc.adopt_manual(self.books, cache, self.dir, "2026-11-23")
+        self.assertEqual(self.files(), sorted(["The Power of Now - " + self.A + ".jpg", "\u6211\u4e0e\u5730\u575b - " + self.B + ".jpg"]))
+        self.assertEqual(cache[self.A]["status"], "ok")             # still Open Library's, now just readable
+
+    def test_new_cover_replaces_the_old_file(self):
+        self.put("The Power of Now - " + self.A + ".jpg", b"old")
+        self.put("The Power of Now.png", b"new")
+        fc.adopt_manual(self.books, {}, self.dir, "2026-11-23")
+        self.assertEqual(self.files(), ["The Power of Now - " + self.A + ".jpg"])
+        with open(os.path.join(self.dir, self.files()[0]), "rb") as f:
+            self.assertEqual(f.read(), b"new")
+
+    def test_safe_names(self):
+        self.assertEqual(fc.safe_title('Who? What: "this"/that.'), "Who What this that")
+        self.assertEqual(fc.cover_name({"id": self.A, "title": "a/b"}), "a b - " + self.A + ".jpg")
 
     def test_main_keeps_manual_covers_and_strangers(self):
         import json
@@ -106,7 +127,7 @@ class ManualCoverTests(unittest.TestCase):
             fc.main(["--books", books, "--cache", cachef, "--dest", dest, "--manual-only"])
         finally:
             fc.shrink = orig
-        self.assertEqual(sorted(os.listdir(dest)), [self.A + ".jpg", "e" * 32 + ".jpg"])   # adopted; stranger kept; gone book removed
+        self.assertEqual(sorted(os.listdir(dest)), ["The Power of Now - " + self.A + ".jpg", "e" * 32 + ".jpg"])   # adopted; stranger kept; gone book removed
         with open(cachef) as f:
             saved = json.load(f)
         self.assertEqual({k: v["status"] for k, v in saved.items()}, {self.A: "manual"})

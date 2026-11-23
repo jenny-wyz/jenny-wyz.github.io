@@ -20,7 +20,8 @@
   {{- $b := . -}}
   {{- $cover := "" -}}
   {{- if $showCovers -}}
-    {{- with resources.Get (printf "covers/%s.jpg" $b.id) -}}
+    {{- /* the cover file is "<title> - <id>.jpg" (older ones: "<id>.jpg") */ -}}
+    {{- range first 1 (resources.Match (printf "covers/*%s.jpg" $b.id)) -}}
       {{- $cover = (.Fit "320x480 q85").RelPermalink -}}
     {{- end -}}
   {{- end -}}
