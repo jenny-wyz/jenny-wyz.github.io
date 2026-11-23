@@ -698,7 +698,7 @@
       "rating": null,
       "review": "",
       "started": "2026-09-01",
-      "status": "Paused",
+      "status": "Reading",
       "title": "Of Human Bondage"
     },
     {
@@ -1316,6 +1316,23 @@
       "title": "The Time Machine"
     },
     {
+      "added": "2026-11-23",
+      "author": "Milan Kundera",
+      "categories": [
+        "Fiction"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "421ef088fb8b8006bdf3ef906a4c6654",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "The Unbearable Lightness of Being"
+    },
+    {
       "added": "2026-11-01",
       "author": "William Shakespeare",
       "categories": [
@@ -1331,6 +1348,24 @@
       "started": null,
       "status": "Completed",
       "title": "The Winter’s Tale"
+    },
+    {
+      "added": "2026-11-23",
+      "author": "Stefan Zweig",
+      "categories": [
+        "Classic Literature",
+        "Memoir"
+      ],
+      "collection": false,
+      "completed": null,
+      "id": "421ef088fb8b8024a2bcf3326a584a4e",
+      "lang": "en",
+      "notes": [],
+      "rating": null,
+      "review": "",
+      "started": null,
+      "status": "To Read",
+      "title": "The World of Yesterday"
     },
     {
       "added": "2026-09-01",

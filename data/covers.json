@@ -670,5 +670,15 @@
     "cover_i": 12216503,
     "checked": "2026-11-14",
     "title": "Dracula"
+  },
+  "421ef088fb8b8006bdf3ef906a4c6654": {
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "The Unbearable Lightness of Being"
+  },
+  "421ef088fb8b8024a2bcf3326a584a4e": {
+    "status": "manual",
+    "checked": "2026-11-23",
+    "title": "The World of Yesterday"
   }
 }
