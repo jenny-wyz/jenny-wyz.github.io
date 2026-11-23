@@ -703,8 +703,8 @@ html.dark {
   padding: var(--dump-day-pad) 0; border-top: 1px solid rgba(var(--color-neutral-500), var(--dump-day-line));
 }
 .dump-stamp time { display: flex; flex-direction: column; position: sticky; top: 5.5rem; }
-.dump-num { font-size: var(--dump-num-size); line-height: 1.15; font-weight: 300; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-800)); }
-.dark .dump-num { color: rgb(var(--color-neutral-200)); }
+.dump-num { font-size: var(--dump-num-size); line-height: 1.15; font-weight: 300; font-variant-numeric: tabular-nums; color: rgb(var(--color-neutral-700)); }
+.dark .dump-num { color: rgb(var(--color-neutral-300)); }
 .dump-wd { margin-top: 0.15rem; font-size: var(--dump-wd-size); letter-spacing: 0.04em; color: rgb(var(--color-neutral-400)); }
 .dark .dump-wd { color: rgb(var(--color-neutral-500)); }
 
@@ -845,8 +845,8 @@ html.dark {
 /* the months of a year fold away unless that year is open */
 .dump-toc-year > ul { overflow: hidden; padding-left: 0.85rem; max-height: 0; transition: max-height 0.3s ease, padding-bottom 0.3s ease; }
 .dump-toc-year.is-open > ul { max-height: 22rem; padding-bottom: 0.5rem; }
-.dump-toc-year li button { display: block; padding: var(--dump-toc-month-pad) 0; font-size: 0.9rem; color: rgb(var(--color-neutral-400)); }
-.dark .dump-toc-year li button { color: rgb(var(--color-neutral-500)); }
+.dump-toc-year li button { display: block; padding: var(--dump-toc-month-pad) 0; font-size: 0.9rem; color: rgb(var(--color-neutral-400)); }    /* toc month */
+.dark .dump-toc-year li button { color: rgb(var(--color-neutral-500)); }    /* toc month dark */
 .dump-toc button:hover { color: rgb(var(--color-primary-600)); }
 .dark .dump-toc button:hover { color: rgb(var(--color-primary-400)); }
 .dump-toc-year li button.is-current { color: rgb(var(--color-primary-600)); }

@@ -28,7 +28,7 @@ I got off the bus, transformed into a lion, kicked a racist little lion over acr
 I’m on a big swing at a cliff.
 
 ![](img-1.png)
-{style="--img-w: 40%"}
+{style="--img-w: 28%"}
 {{< /callout >}}
 
 Kann kaum laufen. Die Folgen davon, dass ich das Gym geschwänzt habe.
