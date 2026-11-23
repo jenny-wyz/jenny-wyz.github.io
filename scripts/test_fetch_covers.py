@@ -98,11 +98,24 @@ class ManualCoverTests(unittest.TestCase):
 
     def test_new_cover_replaces_the_old_file(self):
         self.put("The Power of Now - " + self.A + ".jpg", b"old")
-        self.put("The Power of Now.png", b"new")
+        self.put("The Power of Now.jpeg", b"new")                  # .jpeg: no Pillow needed, as in CI
         fc.adopt_manual(self.books, {}, self.dir, "2026-11-23")
         self.assertEqual(self.files(), ["The Power of Now - " + self.A + ".jpg"])
         with open(os.path.join(self.dir, self.files()[0]), "rb") as f:
             self.assertEqual(f.read(), b"new")
+
+    def test_png_without_pillow_is_left_alone(self):
+        import builtins
+        real_import = builtins.__import__
+        def no_pil(name, *a, **k):
+            if name == "PIL" or name.startswith("PIL."):
+                raise ImportError(name)
+            return real_import(name, *a, **k)
+        builtins.__import__ = no_pil
+        self.addCleanup(setattr, builtins, "__import__", real_import)
+        self.put("The Power of Now.png")
+        self.assertEqual(fc.adopt_manual(self.books, {}, self.dir, "2026-11-23"), 0)
+        self.assertEqual(self.files(), ["The Power of Now.png"])
 
     def test_safe_names(self):
         self.assertEqual(fc.safe_title('Who? What: "this"/that.'), "Who What this that")
