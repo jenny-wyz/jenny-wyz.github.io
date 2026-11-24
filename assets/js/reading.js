@@ -29,11 +29,16 @@
     return s.replace(/[‘’]/g, "'");
   }
   function slug(s) { return fold(s).replace(/[^a-z0-9一-鿿]+/g, '-').replace(/^-|-$/g, ''); }
+  // n in half steps (3, 3.5, ...): full stars, at most one half star, hollow stars up to 5.
+  // A half star is a hollow star with a full one laid over its left half (.rd-half in reading.css);
+  // layouts/partials/reading/stars.html draws the same for the pages built without script.
   function stars(n, big) {
-    if (!n) return '';
-    var s = '';
-    for (var i = 0; i < 5; i++) s += i < n ? '★' : '☆';
-    return '<span class="rd-stars' + (big ? ' rd-stars-lg' : '') + '" aria-label="' + n + ' of 5 stars">' + s + '</span>';
+    n = Math.round((+n || 0) * 2) / 2;
+    if (n <= 0) return '';
+    if (n > 5) n = 5;
+    var full = Math.floor(n), half = n - full === 0.5, s = '';
+    for (var i = 0; i < 5; i++) s += i < full ? '★' : (i === full && half ? '<span class="rd-half">☆</span>' : '☆');
+    return '<span class="rd-stars' + (big ? ' rd-stars-lg' : '') + '" role="img" aria-label="' + n + ' of 5 stars">' + s + '</span>';
   }
   function monthYear(iso) {
     if (!iso) return '';
@@ -296,7 +301,7 @@
     html += '<div class="rd-panel-card"><h3>Categories</h3>' + bars(byCat, 'cat') + '</div>';
     // ratings
     html += '<div class="rd-panel-card"><h3>Ratings <small style="font-weight:400;text-transform:none;letter-spacing:0">' + rated.length + ' rated</small></h3><div class="rd-bars">' +
-      [5, 4, 3, 2, 1].map(function (r) {
+      [5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1, 0.5].filter(function (r) { return r === Math.floor(r) ? r >= 1 : !!byRating[String(r)]; }).map(function (r) {
         var c = byRating[String(r)] || 0, mx = max(sortedEntries(byRating));
         return '<div class="rd-bar" style="cursor:default">' + stars(r) + '<span class="rd-bar-track"><span class="rd-bar-fill" style="width:' + Math.round(c / mx * 100) + '%"></span></span><span class="rd-bar-n">' + c + '</span></div>';
       }).join('') + '</div>' +

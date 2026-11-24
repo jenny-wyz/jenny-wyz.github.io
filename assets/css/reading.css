@@ -124,6 +124,10 @@
 .rd-card-meta { display: flex; align-items: center; gap: 0.4rem; min-height: 1rem; }
 .rd-stars { color: rgb(var(--rd-star)); font-size: calc(0.7rem * var(--reading-text, 1)); letter-spacing: 0.05em; line-height: 1; }
 .rd-stars.rd-stars-lg { font-size: calc(1rem * var(--reading-text, 1)); }
+/* Half star: a hollow star with a full star laid exactly over its left half.
+   Same character box for both, so they line up in any font and size. */
+.rd-half { position: relative; display: inline-block; letter-spacing: 0; margin-right: 0.05em; }
+.rd-half::before { content: "★"; position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; clip-path: inset(0 50% 0 0); }
 .rd-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
 .rd-status { font-size: calc(0.68rem * var(--reading-text, 1)); letter-spacing: 0.06em; text-transform: uppercase; font-weight: var(--reading-bold, 600); display: inline-flex; align-items: center; gap: 0.35rem; }
 .rd-s-reading { color: rgb(var(--rd-reading)); }

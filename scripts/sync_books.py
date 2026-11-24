@@ -36,7 +36,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
-from typing import Any, Iterable, Optional
+from typing import Any, Iterable, Optional, Union
 
 API = "https://api.notion.com/v1"
 API_VERSION_NEW = "2025-09-03"
@@ -237,14 +237,36 @@ def compact_id(s: str) -> str:
     return compact if len(compact) == 32 else (s or "").strip().lower()
 
 
-def star_count(label: str) -> Optional[int]:
+HALF_RE = re.compile(r"½|\bhalf\b|[.,]5\b", re.I)
+NUMBER_RE = re.compile(r"\d+(?:[.,]\d+)?|½")
+
+
+def star_count(label: str) -> Optional[Union[int, float]]:
+    """The rating in a Notion option, in half-star steps from 0.5 to 5.
+
+    "⭐️⭐️⭐️" -> 3, "⭐️⭐️⭐️½" (or "... half", "... .5") -> 3.5, "4" -> 4,
+    "3.5" / "3,5" / "3½" -> 3.5, "½" -> 0.5. Whole ratings stay int, so they
+    look in data/books.json exactly as before. Anything else -> None.
+    """
     if not label:
         return None
     n = len(STAR_RE.findall(label))
-    if n == 0:
-        m = re.search(r"\d", label)
-        n = int(m.group()) if m else 0
-    return n if 1 <= n <= 5 else None
+    if n:
+        value = n + (0.5 if HALF_RE.search(label) else 0)
+    else:
+        m = NUMBER_RE.search(label)
+        if not m:
+            return None
+        txt = m.group()
+        if txt == "½":
+            value = 0.5
+        else:
+            value = float(txt.replace(",", "."))
+            if "½" in label[m.end():m.end() + 2]:
+                value += 0.5
+    if not 0.5 <= value <= 5 or value * 2 != int(value * 2):
+        return None
+    return int(value) if value == int(value) else value
 
 
 def detect_lang(*texts: str) -> str:

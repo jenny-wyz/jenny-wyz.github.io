@@ -119,7 +119,7 @@
         <thead><tr><th>Title</th><th>Author</th><th>Status</th><th>Rating</th><th>Categories</th></tr></thead>
         <tbody>
         {{ range sort $books "title" }}
-          <tr><td>{{ .title }}</td><td>{{ .author }}</td><td>{{ .status }}</td><td>{{ with .rating }}{{ strings.Repeat . "★" }}{{ end }}</td><td>{{ delimit .categories ", " }}</td></tr>
+          <tr><td>{{ .title }}</td><td>{{ .author }}</td><td>{{ .status }}</td><td>{{ with .rating }}{{ partial "reading/stars.html" (dict "rating" .) }}{{ end }}</td><td>{{ delimit .categories ", " }}</td></tr>
         {{ end }}
         </tbody>
       </table>

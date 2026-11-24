@@ -31,7 +31,7 @@
           <p class="rd-panel-title">{{ .title }}</p>
           {{ with .author }}<p class="rd-panel-author">{{ . }}</p>{{ end }}
           <span class="rd-status rd-s-{{ .status | urlize }}"><span class="rd-dot"></span>{{ .status }}</span>
-          {{ with .rating }}<div class="rd-stars rd-stars-lg" style="margin-top:.4rem">{{ strings.Repeat . "★" }}{{ strings.Repeat (sub 5 .) "☆" }}</div>{{ end }}
+          {{ with .rating }}<div style="margin-top:.4rem">{{ partial "reading/stars.html" (dict "rating" . "big" true) }}</div>{{ end }}
           <dl class="rd-meta">
             {{ with .categories }}<dt>Category</dt><dd><span class="rd-cats">{{ range . }}<span class="rd-cat">{{ . }}</span>{{ end }}</span></dd>{{ end }}
             {{ with .started }}<dt>Started</dt><dd>{{ dateFormat "January 2006" . }}</dd>{{ end }}

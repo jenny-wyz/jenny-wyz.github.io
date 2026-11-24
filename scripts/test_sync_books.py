@@ -187,5 +187,23 @@ def mock_http_error(code, headers):
     return urllib.error.HTTPError("https://api.notion.com/v1/x", code, "err", h, io.BytesIO(b'{"message":"x"}'))
 
 
+
+class StarCountTests(unittest.TestCase):
+    def test_whole_stars_unchanged(self):
+        for label, want in (("⭐️", 1), ("⭐️⭐️⭐️", 3), ("⭐⭐⭐⭐⭐", 5), ("4", 4), ("4 stars", 4)):
+            got = sb.star_count(label)
+            self.assertEqual(got, want, label)
+            self.assertIsInstance(got, int, label)      # stays 4, not 4.0, in books.json
+
+    def test_half_stars(self):
+        for label, want in (("⭐️⭐️⭐️½", 3.5), ("⭐️⭐️⭐️⭐️ ½", 4.5), ("⭐️⭐️ half", 2.5), ("⭐️⭐️⭐️.5", 3.5),
+                            ("3.5", 3.5), ("3,5", 3.5), ("3½", 3.5), ("½", 0.5), ("0.5", 0.5)):
+            self.assertEqual(sb.star_count(label), want, label)
+
+    def test_out_of_range_or_odd(self):
+        for label in ("", None, "nope", "⭐️⭐️⭐️⭐️⭐️½", "5.5", "3.3", "10", "0"):
+            self.assertIsNone(sb.star_count(label), label)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=1)

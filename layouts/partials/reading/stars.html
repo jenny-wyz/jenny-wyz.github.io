@@ -1,0 +1,17 @@
+{{- /* Stars for a rating in half steps (3, 3.5, ...): full, at most one half,
+     hollow up to 5. Same markup as stars() in assets/js/reading.js.
+     Call: partial "reading/stars.html" (dict "rating" .rating "big" true) */ -}}
+{{- $r := float (.rating | default 0) -}}
+{{- $r = div (math.Round (mul $r 2)) 2 -}}
+{{- if gt $r 5.0 }}{{ $r = 5.0 }}{{ end -}}
+{{- if gt $r 0.0 -}}
+  {{- $full := int (math.Floor $r) -}}
+  {{- $half := gt (sub $r (float $full)) 0.25 -}}
+  {{- $empty := sub 5 $full -}}
+  {{- if $half }}{{ $empty = sub $empty 1 }}{{ end -}}
+  <span class="rd-stars{{ if .big }} rd-stars-lg{{ end }}" role="img" aria-label="{{ $r }} of 5 stars">
+    {{- strings.Repeat $full "★" -}}
+    {{- if $half }}<span class="rd-half">☆</span>{{ end -}}
+    {{- strings.Repeat $empty "☆" -}}
+  </span>
+{{- end -}}
